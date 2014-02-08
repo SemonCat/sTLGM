@@ -11,17 +11,5 @@ import android.view.ViewGroup;
  */
 public class BaseFragment extends android.support.v4.app.Fragment{
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    protected void setupView(){
-
-    }
-
-    protected void setupEvent(){
-
-    }
 
 }

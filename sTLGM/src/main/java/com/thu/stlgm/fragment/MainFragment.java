@@ -37,7 +37,7 @@ import java.util.List;
 @EFragment(R.layout.fragment_main)
 public class MainFragment extends BaseFragment implements Session.StatusCallback {
 
-    private static final String TAG = MainFragment.class.getName();
+        private static final String TAG = MainFragment.class.getName();
 
     AsyncHttpClient client = new AsyncHttpClient();
 
@@ -181,28 +181,21 @@ public class MainFragment extends BaseFragment implements Session.StatusCallback
         s.openForPublish(request);
         Session.setActiveSession(s);
         */
-        Bundle bundle = new Bundle();
-        bundle.putString("message", "message");
-        WebDialog localWebDialog = new WebDialog.Builder(getActivity(), getString(R.string.app_id), "oauth", bundle).build();
+        //Bundle bundle = new Bundle();
+        //bundle.putString("message", "message");
+        WebDialog localWebDialog = new WebDialog.Builder(getActivity(), getString(R.string.app_id), "oauth", null).build();
         localWebDialog.setOnCompleteListener(new WebDialog.OnCompleteListener()
         {
             public void onComplete(Bundle bundle, FacebookException facebookException)
             {
+                if (bundle!=null){
+                    Session.getActiveSession();
+                    AccessToken localAccessToken = AccessToken.createFromExistingAccessToken(bundle.getString("access_token"), null, null, AccessTokenSource.WEB_VIEW, null);
+                    Session.openActiveSessionWithAccessToken(getActivity().getApplicationContext(), localAccessToken, MainFragment.this);
+                }else{
+                    Log.d(TAG,"User Cancel Dialog");
+                }
 
-                Session.getActiveSession();
-                AccessToken localAccessToken = AccessToken.createFromExistingAccessToken(bundle.getString("access_token"), null, null, AccessTokenSource.WEB_VIEW, null);
-                Session.openActiveSessionWithAccessToken(getActivity().getApplicationContext(), localAccessToken, new Session.StatusCallback() {
-                    @Override
-                    public void call(final Session session, SessionState sessionState, Exception e) {
-                        if (e!=null)
-                            e.printStackTrace();
-                        Log.d(TAG, "call");
-                        Log.d(TAG, "AccessToken:" + session.getAccessToken().toString());
-                        Log.d(TAG, "getState:" + session.getState());
-                        Session.setActiveSession(session);
-                    }
-
-                });
             }
         });
         localWebDialog.show();
@@ -260,6 +253,7 @@ public class MainFragment extends BaseFragment implements Session.StatusCallback
                         GraphUser mUser = response.getGraphObjectAs(GraphUser.class);
                         //Log.d(TAG,"Respones:"+response.getGraphObject().getInnerJSONObject().toString());
                         mUserNames[currectItem].setText(mUser.getName());
+
                         mPosts[currectItem].setVisibility(View.VISIBLE);
                     }
                 }).executeAsync();
