@@ -1,0 +1,128 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.thu.stlgm.MainActivity$PlaceholderFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/doLogin1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User1 Login"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/UserName1" />
+
+            <Button
+                android:id="@+id/doPost1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post1"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/doLogin2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User2 Login"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/UserName2" />
+
+            <Button
+                android:id="@+id/doPost2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post2"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/doLogin3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User3 Login"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/UserName3" />
+
+            <Button
+                android:id="@+id/doPost3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post3"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/doLogin4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User4 Login"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/UserName4" />
+
+            <Button
+                android:id="@+id/doPost4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post4"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
