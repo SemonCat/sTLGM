@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 
 import com.facebook.Session;
+import com.thu.stlgm.fragment.LoginFragment_;
 import com.thu.stlgm.fragment.MainFragment;
 import com.thu.stlgm.fragment.MainFragment_;
 import com.thu.stlgm.fragment.TestFragment;
@@ -35,7 +36,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TransFragment(new MainFragment_());
+        TransFragment(new LoginFragment_());
 
     }
 

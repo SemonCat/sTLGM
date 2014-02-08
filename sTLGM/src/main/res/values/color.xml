@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="FBLoginButtonCircleBackground">#3053ba93</color>
+    <color name="FBLoginButtonCircleFront">#ff53ba93</color>
+</resources>
