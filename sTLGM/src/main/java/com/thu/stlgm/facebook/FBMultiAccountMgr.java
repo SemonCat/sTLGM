@@ -82,8 +82,11 @@ public class FBMultiAccountMgr{
     public void Login(){
         if (Session.getActiveSession()!=null)
             Session.getActiveSession().closeAndClearTokenInformation();
+        if (Session.openActiveSessionFromCache(mContext)!=null)
+            Session.openActiveSessionFromCache(mContext).closeAndClearTokenInformation();
 
         WebDialog localWebDialog = new WebDialog.Builder(mContext, mContext.getString(R.string.app_id), "oauth", null).build();
+
         localWebDialog.setOnCompleteListener(new WebDialog.OnCompleteListener()
         {
             public void onComplete(Bundle bundle, FacebookException facebookException)

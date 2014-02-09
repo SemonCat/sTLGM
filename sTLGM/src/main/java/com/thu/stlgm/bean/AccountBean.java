@@ -49,12 +49,6 @@ public class AccountBean {
     }
 
     @Override
-    public int hashCode() {
-
-        return this.getAccessToken().hashCode();
-    }
-
-    @Override
     public boolean equals(Object o) {
 
         return ((AccountBean)o).getAccessToken()==this.getAccessToken();
