@@ -20,9 +20,6 @@ import android.os.Build;
 
 import com.facebook.Session;
 import com.thu.stlgm.fragment.LoginFragment_;
-import com.thu.stlgm.fragment.MainFragment;
-import com.thu.stlgm.fragment.MainFragment_;
-import com.thu.stlgm.fragment.TestFragment;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

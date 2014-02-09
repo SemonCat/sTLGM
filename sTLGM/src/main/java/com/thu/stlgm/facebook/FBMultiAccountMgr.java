@@ -37,15 +37,21 @@ public class FBMultiAccountMgr{
     private static final String TAG = FBMultiAccountMgr.class.getName();
 
     private Context mContext;
-    private Set<AccountBean> mAccountList;
+
     private FBEventListener mListener;
 
     public FBMultiAccountMgr(Context Context) {
         this.mContext = Context;
-        mAccountList = new HashSet<AccountBean>();
+
     }
 
 
+    /**
+     * 登入完成以後，索取使用者資料
+     * @param session
+     * @param sessionState
+     * @param e
+     */
     private void SessionStatusCallback(final Session session, SessionState sessionState, Exception e){
         if (e != null)
             e.printStackTrace();
@@ -65,36 +71,47 @@ public class FBMultiAccountMgr{
                             GraphUser mUser = response.getGraphObjectAs(GraphUser.class);
 
                             AccountBean mAccount = new AccountBean(session.getAccessToken());
-                            mAccount.setGraphUser(mUser);
 
-                            mAccountList.add(mAccount);
+                            mAccount.setName(mUser.getName());
+                            mAccount.setId(mUser.getId());
 
+
+                            //登入程序正式完成。
                             if (mListener!=null)
                                 mListener.OnLoginFinish(mAccount);
 
-                            Log.d(TAG,"Current Login User Counter:"+mAccountList.size());
+
                         }
                     }).executeAsync();
 
         }
     }
 
+    /**
+     * 登入程序
+     */
     public void Login(){
+        //先清空所有快取與資料
         if (Session.getActiveSession()!=null)
             Session.getActiveSession().closeAndClearTokenInformation();
         if (Session.openActiveSessionFromCache(mContext)!=null)
             Session.openActiveSessionFromCache(mContext).closeAndClearTokenInformation();
 
+        //準備登入Dialog
         WebDialog localWebDialog = new WebDialog.Builder(mContext, mContext.getString(R.string.app_id), "oauth", null).build();
+        localWebDialog.setCancelable(false);
 
+        //設定登入完成CallBack
         localWebDialog.setOnCompleteListener(new WebDialog.OnCompleteListener()
         {
             public void onComplete(Bundle bundle, FacebookException facebookException)
             {
                 if (bundle!=null){
+                    //登入成功
                     Session.getActiveSession();
                     AccessToken localAccessToken = AccessToken.
                             createFromExistingAccessToken(bundle.getString("access_token"), null, null, AccessTokenSource.WEB_VIEW, null);
+                    //打開Session
                     Session.openActiveSessionWithAccessToken(
                             mContext.getApplicationContext(),
                             localAccessToken,

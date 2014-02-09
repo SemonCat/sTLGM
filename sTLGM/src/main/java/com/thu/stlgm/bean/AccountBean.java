@@ -1,25 +1,31 @@
 package com.thu.stlgm.bean;
 
-import com.facebook.AccessToken;
+import android.text.TextUtils;
+import android.util.Log;
+
 import com.facebook.model.GraphUser;
+
+import java.io.Serializable;
 
 /**
  * Created by SemonCat on 2014/1/29.
  */
-public class AccountBean {
+public class AccountBean implements Serializable {
+
 
     private String id;
     private String AccessToken;
 
     private GraphUser mGraphUser;
 
+    private String Name;
 
     public AccountBean() {
 
     }
 
     public AccountBean(String AccessToken) {
-
+        setAccessToken(AccessToken);
     }
 
 
@@ -39,18 +45,32 @@ public class AccountBean {
         this.AccessToken = accessToken;
     }
 
-
-    public GraphUser getGraphUser() {
-        return mGraphUser;
+    public String getName() {
+        return Name;
     }
 
-    public void setGraphUser(GraphUser mGraphUser) {
-        this.mGraphUser = mGraphUser;
+    public void setName(String name) {
+        Name = name;
+    }
+
+
+    public boolean isLogin() {
+        return !TextUtils.isEmpty(getAccessToken());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return getId().hashCode();
     }
 
     @Override
     public boolean equals(Object o) {
 
-        return ((AccountBean)o).getAccessToken()==this.getAccessToken();
+        String token1 = ((AccountBean) o).getAccessToken();
+        String token2 = this.getAccessToken();
+
+        return !TextUtils.isEmpty(token1) && !TextUtils.isEmpty(token2) && token1.equals(token2);
     }
+
 }
