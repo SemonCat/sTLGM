@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.makeramen.RoundedImageView;
 import com.thu.stlgm.R;
+import com.thu.stlgm.anim.AnimUtils;
 import com.thu.stlgm.bean.AccountBean;
 
 import java.util.ArrayList;
@@ -48,15 +49,6 @@ public class PlayerInfoAdapter extends BaseAdapter{
     //切換狀態TIMEOUT
     private static final int mSwitchTimeout = 5000;
 
-    //動畫
-    private Animation push_right_in;
-    private Animation push_left_in;
-    private Animation push_right_out;
-    private Animation push_left_out;
-
-    private AnimationSet push_right_in_out;
-    private AnimationSet push_left_in_out;
-
     private int AnimPosition = -1;
     private boolean mPlayAnim = false;
 
@@ -64,7 +56,6 @@ public class PlayerInfoAdapter extends BaseAdapter{
         this.mContext = context;
         mData = new ArrayList<AccountBean>();
         mHandler = new Handler();
-        setupAnim();
     }
 
 
@@ -73,25 +64,6 @@ public class PlayerInfoAdapter extends BaseAdapter{
         this.mContext = context;
         this.mData = Data;
         mHandler = new Handler();
-        setupAnim();
-    }
-
-    private void setupAnim(){
-
-        push_right_in= AnimationUtils.loadAnimation(mContext, R.anim.push_right_in);
-        push_left_in = AnimationUtils.loadAnimation(mContext, R.anim.push_left_in);
-        push_right_out = AnimationUtils.loadAnimation(mContext, R.anim.push_right_out);
-        push_left_out = AnimationUtils.loadAnimation(mContext, R.anim.push_left_out);
-
-        push_right_in_out = new AnimationSet(false);
-        push_right_in_out.addAnimation(push_left_out);
-        push_right_in_out.addAnimation(push_right_in);
-
-        push_left_in_out = new AnimationSet(false);
-        push_left_in_out.addAnimation(push_right_out);
-        push_left_in_out.addAnimation(push_left_in);
-
-
     }
 
     public void refreshData(int position,AccountBean mAccount){
@@ -120,14 +92,23 @@ public class PlayerInfoAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
-    public void switchLeader(int position){
+    public void switchLeader(final int position){
         mPlayAnim = true;
         AnimPosition = position;
-        Collections.swap(mData, position, mData.size() - 1);
+
         disableChoisable();
         mHandler.removeCallbacks(disableChoisableCallback);
 
         notifyDataSetChanged();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Collections.swap(mData, position, mData.size() - 1);
+                mPlayAnim = false;
+                AnimPosition = -1;
+                notifyDataSetChanged();
+            }
+        },300);
     }
 
     @Override
@@ -217,23 +198,8 @@ public class PlayerInfoAdapter extends BaseAdapter{
 
 
         if (position==AnimPosition){
-            push_left_in.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    AnimPosition = -1;
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            convertView.startAnimation(push_left_in);
+            Animation animation = AnimUtils.getPushRightOutLeftIn(mContext,convertView,null);
+            convertView.startAnimation(animation);
         }
 
         return convertView;
@@ -353,24 +319,8 @@ public class PlayerInfoAdapter extends BaseAdapter{
 
 
         if (mPlayAnim){
-            push_right_in.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    mPlayAnim = false;
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            convertView.startAnimation(push_right_in);
-
+            Animation animation = AnimUtils.getPushLeftOutRightIn(mContext,convertView,null);
+            convertView.startAnimation(animation);
         }
 
 
