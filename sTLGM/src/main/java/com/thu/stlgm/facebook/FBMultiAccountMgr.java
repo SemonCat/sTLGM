@@ -99,7 +99,7 @@ public class FBMultiAccountMgr{
 
         //準備登入Dialog
         WebDialog localWebDialog = new WebDialog.Builder(mContext, mContext.getString(R.string.app_id), "oauth", null).build();
-        localWebDialog.setCancelable(false);
+
 
         //設定登入完成CallBack
         localWebDialog.setOnCompleteListener(new WebDialog.OnCompleteListener()

@@ -33,18 +33,23 @@ public class GameActivity extends BaseActivity{
 
     private PlayerInfoAdapter mPlayerInfoAdapter;
 
+
     @AfterViews
     void Init(){
-        mFBMultiAccountMgr = new FBMultiAccountMgr(this);
+        if (mFBMultiAccountMgr==null)
+            mFBMultiAccountMgr = new FBMultiAccountMgr(this);
 
         initAdapter();
     }
 
 
     private void initAdapter(){
-        mPlayerInfoAdapter = new PlayerInfoAdapter(this,new AccountFinder().findAllByGroup(getAccount()));
+        if (mPlayerInfoAdapter==null)
+            mPlayerInfoAdapter = new PlayerInfoAdapter(this,
+                    new AccountFinder().findAllByGroup(getAccount()));
 
         ListViewPlayerInfo.setAdapter(mPlayerInfoAdapter);
+
     }
 
     @ItemClick
@@ -57,6 +62,11 @@ public class GameActivity extends BaseActivity{
                 }
             });
             mFBMultiAccountMgr.Login();
+        }else if (mPlayerInfoAdapter.getItemViewType(position)==
+                        PlayerInfoAdapter.TYPE_ITEM_CHOISABLE){
+            mPlayerInfoAdapter.switchLeader(position);
+        }else{
+            mPlayerInfoAdapter.setChoisable(position);
         }
     }
 

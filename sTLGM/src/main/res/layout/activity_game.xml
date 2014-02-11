@@ -7,7 +7,12 @@
     <ListView
         android:id="@+id/ListViewPlayerInfo"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="5dp"
+        android:stackFromBottom="true"
+        android:transcriptMode="normal"
+
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />
 </RelativeLayout>

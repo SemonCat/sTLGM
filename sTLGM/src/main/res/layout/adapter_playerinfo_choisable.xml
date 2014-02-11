@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="right">
+
+
+    <Button
+        android:id="@+id/SwitchLeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="切換"
+        android:layout_marginRight="5dp" />
+
+    <com.makeramen.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/Photo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/default_icon"
+        android:scaleType="centerCrop"
+        app:corner_radius="360dip"
+        app:border_width="2dip"
+        app:border_color="@android:color/darker_gray"
+        app:round_background="true" />
+
+</LinearLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Name"
+            android:id="@+id/Name" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/divider" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginRight="10dp"
+                android:text="HP" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Blood"
+                android:id="@+id/Blood" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <com.makeramen.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/Photo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/default_icon"
+        android:scaleType="centerCrop"
+        app:corner_radius="360dip"
+        app:border_width="2dip"
+        app:border_color="@android:color/darker_gray"
+        app:round_background="true" />
+
+</LinearLayout>

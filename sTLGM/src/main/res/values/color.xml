@@ -3,4 +3,5 @@
 
     <color name="FBLoginButtonCircleBackground">#3053ba93</color>
     <color name="FBLoginButtonCircleFront">#ff53ba93</color>
+    <color name="divider">@android:color/darker_gray</color>
 </resources>
