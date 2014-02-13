@@ -10,13 +10,9 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 
 import com.thu.stlgm.R;
-import com.thu.stlgm.anim.AnimUtils;
 import com.thu.stlgm.anim.BitmapFadeOutFadeInAnim;
-import com.thu.stlgm.fragment.LoginFragment;
 
 /**
  * Created by SemonCat on 2014/2/9.
@@ -39,6 +35,7 @@ public class FacebookLoginButton extends GameTextureView{
     private Bitmap mLoginBitmap;
     private Bitmap mFBLogoBitmap;
     private Bitmap mLightBitmap;
+    private Bitmap mLineBitmap;
 
     /**Color**/
     private int CircleBackground;
@@ -48,8 +45,10 @@ public class FacebookLoginButton extends GameTextureView{
     private int mAngle;
     private boolean mCircleFinish;
     private int mLoginX;
+    private float mLineX;
     private RectF mCircleRectF;
     private boolean mLoginFinish;
+    private boolean mFBLogoFinish;
 
     public FacebookLoginButton(Context context) {
         this(context, null);
@@ -85,6 +84,7 @@ public class FacebookLoginButton extends GameTextureView{
         mCircleFinish = false;
         mLoginX = getWidth()/2-mLoginBitmap.getWidth()/2;
 
+
         float x = (float)3/(float)4;
         mCircleRectF = new RectF(mLoginBitmap.getWidth()*x+mCircleStrokeWidth,
                 mLoginBitmap.getHeight()*x+mCircleStrokeWidth,
@@ -92,6 +92,9 @@ public class FacebookLoginButton extends GameTextureView{
                 getHeight()-mCircleStrokeWidth-(mLoginBitmap.getHeight()*x));
 
         mLoginFinish = false;
+        mFBLogoFinish = false;
+
+        mLineX  = 0;
 
         mBitmapFadeOutFadeInAnim.reset();
     }
@@ -108,6 +111,12 @@ public class FacebookLoginButton extends GameTextureView{
         mLightBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.light);
         int LightHeight = (int)(mLoginBitmap.getHeight()*1.5);
         mLightBitmap = Bitmap.createScaledBitmap(mLightBitmap,LightHeight,LightHeight,false);
+
+        mLineBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.line);
+        float Scale = (float)mLightBitmap.getHeight()/(float)mLineBitmap.getHeight();
+        int LineWidth = (int)(mLineBitmap.getWidth()*Scale*2.5);
+        int LineHeight = (int)(mLineBitmap.getHeight()*Scale*2.5);
+        mLineBitmap = Bitmap.createScaledBitmap(mLineBitmap,LineWidth,LineHeight,false);
     }
 
     @Override
@@ -122,6 +131,10 @@ public class FacebookLoginButton extends GameTextureView{
     @Override
     public void onDrawEvent(Canvas canvas) {
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+        //畫線
+        drawLine(canvas);
+
         //畫圓
         drawCircle(canvas);
 
@@ -131,7 +144,27 @@ public class FacebookLoginButton extends GameTextureView{
         //畫LOGO
         drawFBLogo(canvas);
 
+
     }
+
+    /*
+    @Override
+    public void expandSurfaceDestroyed() {
+        super.expandSurfaceDestroyed();
+
+        if (mLoginBitmap!=null)
+            mLoginBitmap.recycle();
+
+        if (mFBLogoBitmap!=null)
+            mFBLogoBitmap.recycle();
+
+        if (mLightBitmap!=null)
+            mLightBitmap.recycle();
+
+        if (mLineBitmap!=null)
+            mLineBitmap.recycle();
+    }
+    */
 
     private void drawCircle(Canvas canvas){
 
@@ -159,7 +192,7 @@ public class FacebookLoginButton extends GameTextureView{
             canvas.drawPoint(mCircleRectF.centerX(),mCircleRectF.centerY()-((mCircleRectF.top-mCircleRectF.centerY())/2),mPaint);
 
         if( mAngle < mSweepAngle )
-            mAngle+=10;
+            mAngle+=15;
         else{
             //圓畫完了
             mCircleFinish = true;
@@ -180,7 +213,7 @@ public class FacebookLoginButton extends GameTextureView{
         if (mLoginFinish){
             canvas.drawBitmap(mFBLogoBitmap,mCircleRectF.centerX()-mFBLogoBitmap.getWidth()/2,mCircleRectF.centerY()-mFBLogoBitmap.getHeight()/2,null);
 
-
+            //Facebook Logo FadeOutIn
             mPaint.reset();
             int alpha = mBitmapFadeOutFadeInAnim.getAlphaValue();
 
@@ -188,9 +221,29 @@ public class FacebookLoginButton extends GameTextureView{
                 alpha = Math.abs(alpha);
             mPaint.setAlpha(alpha);
             canvas.drawBitmap(mLightBitmap,mCircleRectF.centerX()-mLightBitmap.getWidth()/2,mCircleRectF.centerY()-mLightBitmap.getHeight()/2,mPaint);
-
+            mFBLogoFinish = true;
         }
     }
+
+    private void drawLine(Canvas canvas){
+        if (mFBLogoFinish){
+            float mLineLeft = mCircleRectF.centerX()-mLineBitmap.getWidth()/2-dip2px(85);
+            float mLineTop = mCircleRectF.centerY()-mLineBitmap.getHeight()/2+dip2px(10);
+
+
+            //DrawLine
+            canvas.drawBitmap(mLineBitmap,mLineLeft,mLineTop,null);
+
+            mPaint.reset();
+            mPaint.setColor(Color.BLACK);
+            mPaint.setStyle(Paint.Style.FILL);
+            canvas.drawRect(mLineX, mLineTop, mLineLeft + mLineBitmap.getWidth(), mLineTop + mLineBitmap.getHeight(), mPaint);
+            if (mLineX<mLineBitmap.getWidth())
+                mLineX += 50;
+        }
+    }
+
+
 
     public void reStartAnim(){
         ValueInit();
