@@ -2,6 +2,8 @@ package com.thu.stlgm.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.widget.ImageView;
 
 import com.thu.stlgm.GameActivity;
 import com.thu.stlgm.GameActivity_;
@@ -10,9 +12,11 @@ import com.thu.stlgm.bean.AccountBean;
 import com.thu.stlgm.component.FacebookLoginButton;
 import com.thu.stlgm.facebook.FBMultiAccountMgr;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.AnimationRes;
 
 /**
  * Created by SemonCat on 2014/2/9.
@@ -26,6 +30,12 @@ public class LoginFragment extends BaseFragment implements FBMultiAccountMgr.FBE
 
     @ViewById
     FacebookLoginButton FBLoginButton;
+
+    @ViewById
+    ImageView scanning_light;
+
+    @AnimationRes
+    Animation push_down_to_top;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -47,6 +57,8 @@ public class LoginFragment extends BaseFragment implements FBMultiAccountMgr.FBE
     private void init(){
         mFBMultiAccountMgr = new FBMultiAccountMgr(getActivity());
         mFBMultiAccountMgr.setListener(this);
+
+        scanning_light.startAnimation(push_down_to_top);
     }
 
     @Click(R.id.FBLoginButton)
