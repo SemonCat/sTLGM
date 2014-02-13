@@ -5,7 +5,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -17,14 +19,17 @@ import com.thu.stlgm.fragment.LoginFragment;
 /**
  * Created by SemonCat on 2014/2/9.
  */
-public class FacebookLoginButton extends View{
+public class FacebookLoginButton extends GameView{
     private static final String TAG = FacebookLoginButton.class.getName();
+
 
     private Paint mPaint;
 
+    /**圓滑過之角度**/
     private int mStartAngle = 210;
     private int mSweepAngle = 300;
-    private float mCircleStrokeWidth = 10;
+
+    private float mCircleStrokeWidth = dip2px(5);
 
     /**Bitmap**/
     private Bitmap mLoginBitmap;
@@ -51,10 +56,10 @@ public class FacebookLoginButton extends View{
 
     public FacebookLoginButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        initView();
     }
       
-    private void init(){
+    private void initView(){
         this.setClickable(true);
         mPaint = new Paint();
         ColorInit();
@@ -103,9 +108,9 @@ public class FacebookLoginButton extends View{
 
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
+    public void onDraw(Canvas canvas) {
+        //super.onDraw(canvas);
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         //畫圓
         drawCircle(canvas);
 
@@ -116,7 +121,7 @@ public class FacebookLoginButton extends View{
         drawFBLogo(canvas);
 
         // 重繪, 再一次執行 onDraw 程序
-        postInvalidateDelayed(30);
+        //postInvalidateDelayed(30);
 
 
     }
@@ -168,5 +173,10 @@ public class FacebookLoginButton extends View{
 
     public void reStartAnim(){
         ValueInit();
+    }
+
+    private int dip2px(float dipValue) {
+        final float scale = getContext().getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
     }
 }

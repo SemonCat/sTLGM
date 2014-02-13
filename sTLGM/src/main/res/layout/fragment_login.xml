@@ -7,8 +7,8 @@
 
     <com.thu.stlgm.component.FacebookLoginButton
         android:id="@+id/FBLoginButton"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_centerInParent="true"/>
 
     <Button
