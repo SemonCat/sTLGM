@@ -32,7 +32,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
     private boolean loop = true;
     private boolean pause = true;
     //睡眠的毫秒數
-    private int sleepSpan = 1000/60;
+    private int sleepSpan = 1000/30;
     public GameView(Context context){
         super(context);
         init();
@@ -213,7 +213,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                             }
                         }
                     }catch (Exception e){
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         Thread.currentThread().interrupt();
                         loop = false;
                     }finally {
@@ -234,7 +234,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                     try{
                         Thread.sleep(sleepSpan);  //睡眠指定毫秒數
                     }catch(Exception e){
-                        e.printStackTrace();      //打印堆棧信息
+                        //e.printStackTrace();      //打印堆棧信息
                     }
                 }
             }

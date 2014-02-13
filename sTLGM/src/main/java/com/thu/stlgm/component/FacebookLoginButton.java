@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.thu.stlgm.R;
+import com.thu.stlgm.anim.AnimUtils;
+import com.thu.stlgm.anim.BitmapFadeOutFadeInAnim;
 import com.thu.stlgm.fragment.LoginFragment;
 
 /**
@@ -25,6 +27,8 @@ public class FacebookLoginButton extends GameView{
 
     private Paint mPaint;
 
+    private BitmapFadeOutFadeInAnim mBitmapFadeOutFadeInAnim;
+
     /**圓滑過之角度**/
     private int mStartAngle = 210;
     private int mSweepAngle = 300;
@@ -34,6 +38,7 @@ public class FacebookLoginButton extends GameView{
     /**Bitmap**/
     private Bitmap mLoginBitmap;
     private Bitmap mFBLogoBitmap;
+    private Bitmap mLightBitmap;
 
     /**Color**/
     private int CircleBackground;
@@ -62,6 +67,7 @@ public class FacebookLoginButton extends GameView{
     private void initView(){
         this.setClickable(true);
         mPaint = new Paint();
+        mBitmapFadeOutFadeInAnim = new BitmapFadeOutFadeInAnim();
         ColorInit();
 
     }
@@ -86,6 +92,8 @@ public class FacebookLoginButton extends GameView{
                 getHeight()-mCircleStrokeWidth-(mLoginBitmap.getHeight()*x));
 
         mLoginFinish = false;
+
+        mBitmapFadeOutFadeInAnim.reset();
     }
 
     //Bitmap初始化
@@ -96,6 +104,10 @@ public class FacebookLoginButton extends GameView{
 
         mFBLogoBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fb_logo);
         mFBLogoBitmap = Bitmap.createScaledBitmap(mFBLogoBitmap, mLoginBitmap.getHeight(), mLoginBitmap.getHeight(), false);
+
+        mLightBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.light);
+        int LightHeight = (int)(mLoginBitmap.getHeight()*1.5);
+        mLightBitmap = Bitmap.createScaledBitmap(mLightBitmap,LightHeight,LightHeight,false);
     }
 
     @Override
@@ -109,7 +121,6 @@ public class FacebookLoginButton extends GameView{
 
     @Override
     public void onDraw(Canvas canvas) {
-        //super.onDraw(canvas);
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         //畫圓
         drawCircle(canvas);
@@ -119,10 +130,6 @@ public class FacebookLoginButton extends GameView{
 
         //畫LOGO
         drawFBLogo(canvas);
-
-        // 重繪, 再一次執行 onDraw 程序
-        //postInvalidateDelayed(30);
-
 
     }
 
@@ -143,6 +150,13 @@ public class FacebookLoginButton extends GameView{
         canvas.drawArc(mCircleRectF,
                 mStartAngle, mAngle, false, mPaint );
 
+        //畫三個點
+        if (mAngle>30)
+            canvas.drawPoint(mCircleRectF.centerX(),mCircleRectF.centerY()+((mCircleRectF.top-mCircleRectF.centerY())/2),mPaint);
+        if (mAngle>120)
+            canvas.drawPoint(mCircleRectF.centerX()+((mCircleRectF.right-mCircleRectF.centerX())/2),mCircleRectF.centerY(),mPaint);
+        if (mAngle>210)
+            canvas.drawPoint(mCircleRectF.centerX(),mCircleRectF.centerY()-((mCircleRectF.top-mCircleRectF.centerY())/2),mPaint);
 
         if( mAngle < mSweepAngle )
             mAngle+=10;
@@ -164,10 +178,16 @@ public class FacebookLoginButton extends GameView{
 
     private void drawFBLogo(Canvas canvas){
         if (mLoginFinish){
-            canvas.drawPoint(mCircleRectF.centerX()+((mCircleRectF.right-mCircleRectF.centerX())/2),mCircleRectF.centerY(),mPaint);
-            canvas.drawPoint(mCircleRectF.centerX(),mCircleRectF.centerY()+((mCircleRectF.top-mCircleRectF.centerY())/2),mPaint);
-            canvas.drawPoint(mCircleRectF.centerX(),mCircleRectF.centerY()-((mCircleRectF.top-mCircleRectF.centerY())/2),mPaint);
             canvas.drawBitmap(mFBLogoBitmap,mCircleRectF.centerX()-mFBLogoBitmap.getWidth()/2,mCircleRectF.centerY()-mFBLogoBitmap.getHeight()/2,null);
+
+
+            mPaint.reset();
+            int alpha = mBitmapFadeOutFadeInAnim.getAlphaValue();
+            if (alpha<0)
+                alpha = Math.abs(alpha);
+            mPaint.setAlpha(alpha);
+            canvas.drawBitmap(mLightBitmap,mCircleRectF.centerX()-mLightBitmap.getWidth()/2,mCircleRectF.centerY()-mLightBitmap.getHeight()/2,mPaint);
+
         }
     }
 
@@ -179,4 +199,5 @@ public class FacebookLoginButton extends GameView{
         final float scale = getContext().getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
     }
+
 }
