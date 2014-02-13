@@ -21,7 +21,7 @@ import com.thu.stlgm.fragment.LoginFragment;
 /**
  * Created by SemonCat on 2014/2/9.
  */
-public class FacebookLoginButton extends GameView{
+public class FacebookLoginButton extends GameTextureView{
     private static final String TAG = FacebookLoginButton.class.getName();
 
 
@@ -120,7 +120,7 @@ public class FacebookLoginButton extends GameView{
 
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDrawEvent(Canvas canvas) {
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         //畫圓
         drawCircle(canvas);
@@ -183,6 +183,7 @@ public class FacebookLoginButton extends GameView{
 
             mPaint.reset();
             int alpha = mBitmapFadeOutFadeInAnim.getAlphaValue();
+
             if (alpha<0)
                 alpha = Math.abs(alpha);
             mPaint.setAlpha(alpha);
