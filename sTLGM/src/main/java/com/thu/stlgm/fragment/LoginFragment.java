@@ -1,6 +1,9 @@
 package com.thu.stlgm.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -18,6 +21,8 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.AnimationRes;
 
+import pl.droidsonroids.gif.GifImageView;
+
 /**
  * Created by SemonCat on 2014/2/9.
  */
@@ -30,6 +35,9 @@ public class LoginFragment extends BaseFragment implements FBMultiAccountMgr.FBE
 
     @ViewById
     FacebookLoginButton FBLoginButton;
+
+    @ViewById(R.id.GifImageView)
+    ImageView gifImageView;
 
     @ViewById
     ImageView scanning_light;
@@ -59,6 +67,13 @@ public class LoginFragment extends BaseFragment implements FBMultiAccountMgr.FBE
         mFBMultiAccountMgr.setListener(this);
 
         scanning_light.startAnimation(push_down_to_top);
+
+        gifImageView.setImageResource(R.anim.ironman);
+        AnimationDrawable frameAnimation =    (AnimationDrawable)gifImageView.getDrawable();
+        frameAnimation.setCallback(gifImageView);
+        frameAnimation.setVisible(true, true);
+
+        frameAnimation.start();
     }
 
     @Click(R.id.FBLoginButton)

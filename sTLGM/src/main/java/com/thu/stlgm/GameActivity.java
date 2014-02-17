@@ -10,6 +10,7 @@ import com.thu.stlgm.bean.AccountBean;
 import com.thu.stlgm.facebook.FBMultiAccountMgr;
 import com.thu.stlgm.fragment.LoginFragment;
 import com.thu.stlgm.util.AccountFinder;
+import com.thu.stlgm.util.MusicManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -34,12 +35,15 @@ public class GameActivity extends BaseActivity{
     private PlayerInfoAdapter mPlayerInfoAdapter;
 
 
+
+
     @AfterViews
     void Init(){
         if (mFBMultiAccountMgr==null)
             mFBMultiAccountMgr = new FBMultiAccountMgr(this);
 
         initAdapter();
+
     }
 
 

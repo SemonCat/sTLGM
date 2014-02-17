@@ -75,6 +75,7 @@ public class FBMultiAccountMgr{
                             mAccount.setName(mUser.getName());
                             mAccount.setId(mUser.getId());
 
+                            Log.d(TAG,"Facebook UUID:"+mUser.getId());
 
                             //登入程序正式完成。
                             if (mListener!=null)

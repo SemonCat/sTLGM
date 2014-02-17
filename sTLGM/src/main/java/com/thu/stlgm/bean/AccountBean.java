@@ -67,10 +67,13 @@ public class AccountBean implements Serializable {
     @Override
     public boolean equals(Object o) {
 
+
         String token1 = ((AccountBean) o).getAccessToken();
         String token2 = this.getAccessToken();
 
-        return !TextUtils.isEmpty(token1) && !TextUtils.isEmpty(token2) && token1.equals(token2);
+        if (token1==null || token2==null)
+            return false;
+        return token1.equals(token2);
     }
 
 }
