@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.SurfaceHolder;
 import android.view.TextureView;
 
 /**
@@ -154,7 +155,7 @@ public abstract class GameTextureView extends TextureView implements TextureView
                         if(!Thread.currentThread().isInterrupted()){
                             //锁定整個畫布，在內存要求比較高的情況下，建議参數不要为null
                             canvas = gameView.lockCanvas();
-                            synchronized (GameTextureView.class) {
+                            synchronized (gameView) {
                                 gameView.onDrawEvent(canvas);//繪制
                             }
                         }

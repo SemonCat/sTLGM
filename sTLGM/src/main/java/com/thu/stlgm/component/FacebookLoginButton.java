@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.thu.stlgm.R;
 import com.thu.stlgm.anim.BitmapFadeOutFadeInAnim;
@@ -101,22 +102,33 @@ public class FacebookLoginButton extends GameTextureView{
 
     //Bitmap初始化
     private void BitmapInit(){
+
         mLoginBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.login);
         int LoginHeight = getHeight()/5;
+
+
         mLoginBitmap = Bitmap.createScaledBitmap(mLoginBitmap, 2*LoginHeight, LoginHeight, false);
+
+        //Log.d(TAG, "mLoginBitmap:" + mLoginBitmap.getWidth()+","+mLoginBitmap.getHeight());
 
         mFBLogoBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fb_logo);
         mFBLogoBitmap = Bitmap.createScaledBitmap(mFBLogoBitmap, mLoginBitmap.getHeight(), mLoginBitmap.getHeight(), false);
 
+        //Log.d(TAG, "mFBLogoBitmap:" + mFBLogoBitmap.getWidth()+","+mFBLogoBitmap.getHeight());
+
         mLightBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.light);
         int LightHeight = (int)(mLoginBitmap.getHeight()*1.5);
         mLightBitmap = Bitmap.createScaledBitmap(mLightBitmap,LightHeight,LightHeight,false);
+
+        //Log.d(TAG, "mLightBitmap:" + mLightBitmap.getWidth()+","+mLightBitmap.getHeight());
 
         mLineBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.line);
         float Scale = (float)mLightBitmap.getHeight()/(float)mLineBitmap.getHeight();
         int LineWidth = (int)(mLineBitmap.getWidth()*Scale*2.5);
         int LineHeight = (int)(mLineBitmap.getHeight()*Scale*2.5);
         mLineBitmap = Bitmap.createScaledBitmap(mLineBitmap,LineWidth,LineHeight,false);
+
+        //Log.d(TAG, "mLineBitmap:" + mLineBitmap.getWidth()+","+mLineBitmap.getHeight());
     }
 
     @Override
@@ -147,6 +159,7 @@ public class FacebookLoginButton extends GameTextureView{
 
     }
 
+
     /*
     @Override
     public void expandSurfaceDestroyed() {
@@ -164,7 +177,7 @@ public class FacebookLoginButton extends GameTextureView{
         if (mLineBitmap!=null)
             mLineBitmap.recycle();
     }
-    */
+*/
 
     private void drawCircle(Canvas canvas){
 

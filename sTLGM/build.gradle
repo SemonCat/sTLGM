@@ -54,4 +54,5 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.4@aar'
     compile 'com.makeramen:roundedimageview:1.2.1'
     compile files('libs/androidannotations-3.0.1.jar')
+    compile files('libs/android-gif-drawable-1.0.4.jar')
 }
