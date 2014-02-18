@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.thu.stlgm.GameActivity;
 import com.thu.stlgm.GameActivity_;
 import com.thu.stlgm.R;
+import com.thu.stlgm.api.SQService;
 import com.thu.stlgm.bean.AccountBean;
 import com.thu.stlgm.component.FacebookLoginButton;
 import com.thu.stlgm.facebook.FBMultiAccountMgr;
@@ -54,6 +55,7 @@ public class LoginFragment extends BaseFragment implements FBMultiAccountMgr.FBE
 
     @Override
     public void OnLoginFinish(AccountBean mAccount) {
+        SQService.StudentLogin(mAccount.getId());
         Intent mIntent = new Intent(getActivity(), GameActivity_.class);
         Bundle mBundle = new Bundle();
         mBundle.putSerializable(GameActivity.FIRSTACCOUNT,mAccount);

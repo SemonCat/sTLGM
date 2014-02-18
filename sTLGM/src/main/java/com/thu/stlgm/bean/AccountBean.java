@@ -16,8 +16,6 @@ public class AccountBean implements Serializable {
     private String id;
     private String AccessToken;
 
-    private GraphUser mGraphUser;
-
     private String Name;
 
     public AccountBean() {
