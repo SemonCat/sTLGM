@@ -44,8 +44,6 @@ public class GameActivity extends BaseActivity{
 
     public static final String FIRSTACCOUNT = "FirstAccount";
 
-    private FBMultiAccountMgr mFBMultiAccountMgr;
-
     private PollHandler mPollHandler;
 
     @ViewById
@@ -63,11 +61,8 @@ public class GameActivity extends BaseActivity{
 
     @AfterViews
     void Init(){
-        if (mFBMultiAccountMgr==null)
-            mFBMultiAccountMgr = new FBMultiAccountMgr(this);
 
         initAdapter();
-
 
     }
 
@@ -86,7 +81,7 @@ public class GameActivity extends BaseActivity{
             StudentBean mStudentBean = getStudentBean();
             mPlayerInfoAdapter = new PlayerInfoAdapter(this,mStudentBean);
 
-            if (mStudentBean!=null)
+            if (mStudentBean!=null){
                 //開始Polling
                 setupPollHandler(mStudentBean);
 
@@ -108,7 +103,7 @@ public class GameActivity extends BaseActivity{
                         mPlayerInfoAdapter.setupMemberCounter(5);
                     }
                 });
-
+            }
 
         }
 
@@ -181,8 +176,6 @@ public class GameActivity extends BaseActivity{
         FragmentTransaction transaction =getFragmentManager().beginTransaction();
 
         transaction.replace(R.id.GameContent, mFragment);
-
-        //transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         transaction.commit();
 
