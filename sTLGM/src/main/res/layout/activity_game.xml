@@ -3,7 +3,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
 
 
 
@@ -16,7 +17,32 @@
         android:dividerHeight="5dp"
         android:stackFromBottom="true"
         android:transcriptMode="normal"
-
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />
+
+    <FrameLayout
+        android:id="@+id/GameContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/playBall"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@android:color/transparent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"/>
+
+    <Button
+        android:id="@+id/playMedicine"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
+
 </RelativeLayout>

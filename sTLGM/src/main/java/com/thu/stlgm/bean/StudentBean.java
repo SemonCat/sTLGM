@@ -10,6 +10,9 @@ public class StudentBean extends AccountBean{
     private String Department;
     private int Blood;
 
+
+    private String GroupID;
+
     public String getSID() {
         return SID;
     }
@@ -32,5 +35,32 @@ public class StudentBean extends AccountBean{
 
     public void setBlood(int blood) {
         Blood = blood;
+    }
+
+
+    public String getGroupID() {
+        return GroupID;
+    }
+
+    public void setGroupID(String groupID) {
+        GroupID = groupID;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return getSID().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+
+        String token1 = ((StudentBean) o).getSID();
+        String token2 = this.getSID();
+
+        if (token1==null || token2==null)
+            return false;
+        return token1.equals(token2);
     }
 }

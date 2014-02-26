@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.facebook.Session;
 import com.thu.stlgm.util.MusicManager;
@@ -13,10 +15,25 @@ import com.thu.stlgm.util.MusicManager;
  */
 public class BaseActivity extends FragmentActivity {
 
+    Toast mToast;
+
+    protected void showToast(String Message){
+        if (mToast==null){
+            mToast = Toast.makeText(this,Message,Toast.LENGTH_SHORT);
+        }else{
+            mToast.setText(Message);
+        }
+        mToast.show();
+
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
-        MusicManager.pauseMusic();
+        //MusicManager.pauseMusic();
+
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
@@ -24,8 +41,10 @@ public class BaseActivity extends FragmentActivity {
         super.onResume();
 
 
+        /*
         if (!MusicManager.isInit())
             MusicManager.init(getApplicationContext());
         MusicManager.startMusic();
+        */
     }
 }

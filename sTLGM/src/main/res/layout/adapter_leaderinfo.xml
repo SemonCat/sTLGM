@@ -6,17 +6,33 @@
     android:layout_height="wrap_content">
 
 
-    <com.makeramen.RoundedImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/Photo"
+    <FrameLayout
         android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/default_icon"
-        android:scaleType="centerCrop"
-        app:corner_radius="360dip"
-        app:border_width="2dip"
-        app:border_color="@android:color/darker_gray"
-        app:round_background="true" />
+        android:layout_height="100dp">
+
+        <com.makeramen.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/Photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/default_icon"
+            android:scaleType="centerCrop"
+            app:corner_radius="360dip"
+            app:border_width="2dip"
+            app:border_color="@android:color/darker_gray"
+            app:round_background="true" />
+
+        <TextView
+            android:id="@+id/BloodState"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#00ff00"
+            android:textSize="50dp"
+            android:text="+25"
+            android:visibility="gone"/>
+    </FrameLayout>
+
 
     <LinearLayout
         android:orientation="vertical"
