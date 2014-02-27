@@ -2,11 +2,11 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="50dp"
-    android:layout_marginRight="50dp">
+    android:background="@drawable/ball_background">
 
     <Button
         android:id="@+id/reset"
@@ -22,6 +22,28 @@
         android:scaleType="fitStart"
         android:src="@drawable/question"/>
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <com.thu.stlgm.component.BookLayout
+            android:id="@+id/BookLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:childSize="150dp"/>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ball_booklayoutcenter"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+
+
+    <!--
     <ImageView
         android:id="@+id/book1"
         android:tag="1"
@@ -74,7 +96,7 @@
         android:layout_toLeftOf="@+id/book1"
         android:layout_marginTop="70dp"
         android:layout_marginRight="0dp"/>
-
+    -->
 
 
     <FrameLayout

@@ -20,6 +20,8 @@ import android.widget.RelativeLayout;
 import com.thu.stlgm.R;
 import com.thu.stlgm.anim.AnimUtils;
 import com.thu.stlgm.component.BallView;
+import com.thu.stlgm.component.BookLayout;
+import com.thu.stlgm.component.BookView;
 import com.thu.stlgm.component.MoveImageView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -52,8 +54,11 @@ public class Ball extends Fragment{
     @ViewById
     ImageView Reciprocal;
 
+    //@ViewById
+    //ImageView book1,book2,book3,book4,book5;
+
     @ViewById
-    ImageView book1,book2,book3,book4,book5;
+    BookLayout BookLayout;
 
     private boolean[] answer = new boolean[]{true,true,true,false,false};
     private boolean[] userAnswer = new boolean[5];
@@ -77,27 +82,27 @@ public class Ball extends Fragment{
     void Init(){
         mHandler = new Handler();
 
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
         setupStart();
 
 
         final ViewTreeObserver observer= container.getViewTreeObserver();
 
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                setupBallView();
+        if (observer!=null){
+            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    setupBallView();
 
-                ViewTreeObserver obs = container.getViewTreeObserver();
+                    ViewTreeObserver obs = container.getViewTreeObserver();
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    obs.removeOnGlobalLayoutListener(this);
-                } else {
-                    obs.removeGlobalOnLayoutListener(this);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        obs.removeOnGlobalLayoutListener(this);
+                    } else {
+                        obs.removeGlobalOnLayoutListener(this);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void setupBallView(){
@@ -119,6 +124,20 @@ public class Ball extends Fragment{
 
         frameAnimation.start();
 
+        setupBookLayout();
+
+        mBallView.setListener(new BallView.OnObjectTouchEvent() {
+            @Override
+            public void OnObjectTouchEvent(BookView mView) {
+                mView.setBackgroundColor(Color.GREEN);
+            }
+
+            @Override
+            public void OnObjectOutsideEvent(BookView mView) {
+                mView.setBackgroundColor(Color.TRANSPARENT);
+            }
+        });
+        /*
         mBallView.addViewList(book1);
         mBallView.addViewList(book2);
         mBallView.addViewList(book3);
@@ -154,38 +173,50 @@ public class Ball extends Fragment{
 
             @Override
             public void OnObjectOutsideEvent(View mView) {
-                /*
-                int index = Integer.valueOf((String)mView.getTag());
-                ((ImageView)mView).setImageResource(bookdrawables[index - 1][0]);
-                */
             }
         });
+        */
 
+    }
 
+    private void setupBookLayout(){
+        List<BookView> mBooks = new ArrayList<BookView>();
+
+        for (int i=0;i<6;i++){
+            BookView book = new BookView(getActivity());
+            book.setTag(i);
+            book.setBookCover(bookdrawables[i % bookdrawables.length][0]);
+            mBooks.add(book);
+            BookLayout.addView(book);
+        }
+
+        mBallView.setBookViewList(mBooks);
     }
 
     private void setupStart(){
         Reciprocal.setImageResource(R.anim.reciprocal);
         AnimationDrawable frameAnimation =    (AnimationDrawable)Reciprocal.getDrawable();
 
-        frameAnimation.setCallback(Reciprocal);
-        frameAnimation.setVisible(true, true);
+        if (frameAnimation!=null){
+            frameAnimation.setCallback(Reciprocal);
+            frameAnimation.setVisible(true, true);
 
-        frameAnimation.start();
+            frameAnimation.start();
 
-        int iDuration = 0;
+            int iDuration = 0;
 
-        for (int i = 0; i < frameAnimation.getNumberOfFrames(); i++) {
-            iDuration += frameAnimation.getDuration(i);
-        }
-
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Reciprocal.setVisibility(View.GONE);
-                Start.startAnimation(push_right_to_left);
+            for (int i = 0; i < frameAnimation.getNumberOfFrames(); i++) {
+                iDuration += frameAnimation.getDuration(i);
             }
-        },iDuration);
+
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Reciprocal.setVisibility(View.GONE);
+                    Start.startAnimation(push_right_to_left);
+                }
+            },iDuration);
+        }
 
         push_right_to_left.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -209,6 +240,7 @@ public class Ball extends Fragment{
     private void resetAnswer(){
         userAnswer = new boolean[5];
 
+        /*
         List<ImageView> imageViewList = new ArrayList<ImageView>();
         imageViewList.add(book1);
         imageViewList.add(book2);
@@ -221,6 +253,7 @@ public class Ball extends Fragment{
             view.setImageResource(bookdrawables[counter][0]);
             counter++;
         }
+        */
     }
 
     private void playVictory(){
@@ -238,15 +271,19 @@ public class Ball extends Fragment{
     @Click
     void reset(){
         mBallView.stop();
-        getActivity().findViewById(R.id.Victory).setVisibility(View.GONE);
+        if (getActivity()!=null){
+            getActivity().findViewById(R.id.Victory).setVisibility(View.GONE);
+        }
         Reciprocal.setVisibility(View.VISIBLE);
         setupStart();
         resetAnswer();
 
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mBallView.getLayoutParams();
-        params.leftMargin = container.getWidth()/2-mBallView.getWidth()/2;
-        params.topMargin = container.getHeight()/2-mBallView.getHeight()/2;
-        mBallView.setLayoutParams(params);
+        if (params!=null){
+            params.leftMargin = container.getWidth()/2-mBallView.getWidth()/2;
+            params.topMargin = container.getHeight()/2-mBallView.getHeight()/2;
+            mBallView.setLayoutParams(params);
+        }
     }
 }
 

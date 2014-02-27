@@ -6,8 +6,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
+    <FrameLayout
+        android:id="@+id/GameContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-
+    </FrameLayout>
 
     <ListView
         android:id="@+id/ListViewPlayerInfo"
@@ -19,15 +23,6 @@
         android:transcriptMode="normal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />
-
-    <FrameLayout
-        android:id="@+id/GameContent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="50dp"
-        android:layout_marginLeft="50dp">
-
-    </FrameLayout>
 
     <Button
         android:id="@+id/playBall"

@@ -2,16 +2,20 @@ package com.thu.stlgm.component;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.graphics.Region;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
+import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.thu.stlgm.game.Ball;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +25,8 @@ import java.util.List;
  */
 public class BallView extends ImageView implements SensorEventListener{
     public interface OnObjectTouchEvent{
-        public void OnObjectTouchEvent(View mView);
-        public void OnObjectOutsideEvent(View mView);
+        public void OnObjectTouchEvent(BookView mView);
+        public void OnObjectOutsideEvent(BookView mView);
     }
     /**SensorManager管理器**/
     private SensorManager mSensorMgr = null;
@@ -55,7 +59,11 @@ public class BallView extends ImageView implements SensorEventListener{
 
 
         mSensorMgr = (SensorManager) getContext().getSystemService(Activity.SENSOR_SERVICE);
-        mSensor = mSensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        if (mSensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
+            mSensor = mSensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        }
+
         // 注册listener，第三个参数是检测的精确度
         //SENSOR_DELAY_FASTEST 最灵敏 因为太快了没必要使用
         //SENSOR_DELAY_GAME    游戏开发中使用
@@ -72,15 +80,16 @@ public class BallView extends ImageView implements SensorEventListener{
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (!isRuning) return;
-        float mGX = event.values[SensorManager.DATA_X];
-        float mGY= event.values[SensorManager.DATA_Y];
+
+        float mGX = event.values[0];
+        float mGY= event.values[1];
 
         mGX = 2*mGX;
         mGY = 2*mGY;
 
-        mGX = -mGX;
+        //mGX = -mGX;
 
-        left += mGX;
+        left -= mGX;
         top += mGY;
 
         if (left < 0) {
@@ -123,10 +132,10 @@ public class BallView extends ImageView implements SensorEventListener{
         return outRect.intersect(ViewHitRect);
     }
 
-    private List<View> mViews;
+    private List<BookView> mViews;
     private void checkList(){
         if (mViews!=null){
-            for (View mView:mViews){
+            for (BookView mView:mViews){
                 boolean result = inViewBounds(mView);
                 if (result){
                     if (mListener!=null)
@@ -144,13 +153,17 @@ public class BallView extends ImageView implements SensorEventListener{
         this.mListener = mListener;
     }
 
-    public void setupViewList(List<View> mViews){
+
+    public void setBookViewList(List<BookView> mViews){
         this.mViews = mViews;
     }
 
-    public void addViewList(View mView){
-        if (mViews==null)
-            mViews = new ArrayList<View>();
-        mViews.add(mView);
+    public void addBookView(BookView mBook){
+        if (mViews==null){
+            mViews = new ArrayList<BookView>();
+        }
+        this.mViews.add(mBook);
     }
+
 }
+
