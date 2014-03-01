@@ -10,7 +10,7 @@ import android.widget.Toast;
 /**
  * Created by SemonCat on 2014/1/28.
  */
-public class BaseFragment extends android.support.v4.app.Fragment{
+public class BaseFragment extends Fragment {
 
     Toast mToast;
 
@@ -24,4 +24,10 @@ public class BaseFragment extends android.support.v4.app.Fragment{
 
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+
+    }
 }

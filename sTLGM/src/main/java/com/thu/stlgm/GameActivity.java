@@ -34,11 +34,14 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by SemonCat on 2014/2/9.
  */
 @EActivity(R.layout.activity_game)
-public class GameActivity extends BaseActivity{
+public class GameActivity extends BaseActivity implements PollHandler.OnMessageReceive{
 
     private static final String TAG = GameActivity.class.getName();
 
@@ -68,12 +71,42 @@ public class GameActivity extends BaseActivity{
 
     private void setupPollHandler(StudentBean mStudentBean){
         mPollHandler = new PollHandler(mStudentBean.getGroupID());
-        mPollHandler.setListener(new PollHandler.OnMessageReceive() {
-            @Override
-            public void OnMissionReceive(String quizid, String taskid, String groupid) {
-                Log.d(TAG, "ReceiveMission,QuizID:" + quizid + " TaskID:" + taskid + " GID:" + groupid);
-            }
-        });
+        mPollHandler.setListener(this);
+
+        mPollHandler.addStudent(mStudentBean);
+
+        mPollHandler.start();
+    }
+
+    @Override
+    public void OnMissionReceive(String quizid, String taskid, String groupid) {
+        Log.d(TAG, "ReceiveMission,QuizID:" + quizid + " TaskID:" + taskid + " GID:" + groupid);
+    }
+
+    @Override
+    public void OnMissionSuccess(int GetCoin, int AllCoin) {
+        Log.d(TAG, "Mission Success,GetCoin:" + GetCoin + " AllCoin:" + AllCoin);
+    }
+
+    @Override
+    public void OnHpStart(long Time, int Interval) {
+        Log.d(TAG, "OnHpStart,Time:" + new SimpleDateFormat("HH:mm:ss").format(new Date(Time)) + " Interval:" + Interval);
+    }
+
+    @Override
+    public void OnHpInfo(int blood) {
+        Log.d(TAG, "OnHpInfo,Hp:" + blood);
+    }
+
+    @Override
+    public void OnHpPause() {
+        Log.d(TAG, "OnHpPause");
+    }
+
+
+    @Override
+    public void getAdditional() {
+        Log.d(TAG, "getAdditional");
     }
 
     private void initAdapter(){
