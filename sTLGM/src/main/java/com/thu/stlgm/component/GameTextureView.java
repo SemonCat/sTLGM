@@ -79,6 +79,10 @@ public abstract class GameTextureView extends TextureView implements TextureView
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
         //如果後台重繪線程沒起來,就启動它
 
+        if (thread==null){
+            init();
+        }
+
         if(!this.thread.isAlive()){
             try{
                 //启動刷幀線程

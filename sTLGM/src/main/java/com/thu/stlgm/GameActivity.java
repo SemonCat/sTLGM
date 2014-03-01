@@ -31,6 +31,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
 
@@ -79,40 +80,49 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
     }
 
     @Override
+    @UiThread
     public void OnMissionReceive(String quizid, String taskid, String groupid) {
         Log.d(TAG, "ReceiveMission,QuizID:" + quizid + " TaskID:" + taskid + " GID:" + groupid);
     }
 
     @Override
+    @UiThread
     public void OnMissionSuccess(int GetCoin, int AllCoin) {
         Log.d(TAG, "Mission Success,GetCoin:" + GetCoin + " AllCoin:" + AllCoin);
     }
 
     @Override
-    public void OnHpStart(long Time, int Interval) {
+    @UiThread
+    public void OnHpStart(StudentBean mStudent,long Time, int Interval) {
         Log.d(TAG, "OnHpStart,Time:" + new SimpleDateFormat("HH:mm:ss").format(new Date(Time)) + " Interval:" + Interval);
+
+
+        mPlayerInfoAdapter.startHpService(Interval);
     }
 
     @Override
-    public void OnHpInfo(int blood) {
+    @UiThread
+    public void OnHpInfo(StudentBean mStudent,int blood) {
         Log.d(TAG, "OnHpInfo,Hp:" + blood);
     }
 
     @Override
+    @UiThread
     public void OnHpPause() {
         Log.d(TAG, "OnHpPause");
     }
 
 
     @Override
-    public void getAdditional() {
-        Log.d(TAG, "getAdditional");
+    @UiThread
+    public void getAdditional(int code) {
+        Log.d(TAG, "getAdditional:"+code);
     }
 
     private void initAdapter(){
         if (mPlayerInfoAdapter==null){
             StudentBean mStudentBean = getStudentBean();
-            mPlayerInfoAdapter = new PlayerInfoAdapter(this,mStudentBean);
+            mPlayerInfoAdapter = new PlayerInfoAdapter(ListViewPlayerInfo,mStudentBean);
 
             if (mStudentBean!=null){
                 //開始Polling
@@ -215,11 +225,11 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
     }
 
     public void addBlood(){
-        mPlayerInfoAdapter.setLeaderBloodState();
+        mPlayerInfoAdapter.addLeaderBlood(25);
     }
 
     public void setBlood(int value){
-        mPlayerInfoAdapter.setBlood(value);
+        mPlayerInfoAdapter.setLeaderBlood(value);
     }
 
 

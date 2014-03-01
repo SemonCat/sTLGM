@@ -28,15 +28,44 @@ import java.util.TimerTask;
 public class PollHandler {
 
     public interface OnMessageReceive{
+        /**
+         * 接收到任務事件
+         * @param quizid
+         * @param taskid
+         * @param groupid
+         */
         void OnMissionReceive(String quizid,String taskid,String groupid);
+
+        /**
+         * 任務回答成功
+         * @param GetCoin
+         * @param AllCoin
+         */
         void OnMissionSuccess(int GetCoin,int AllCoin);
 
-        void OnHpStart(long Time,int Interval);
-        void OnHpInfo(int blood);
+        /**
+         * 血量伺服器啟動
+         * @param Time 死亡時間
+         * @param Interval 死亡間隔
+         */
+        void OnHpStart(StudentBean mStudent,long Time,int Interval);
+
+        /**
+         * 血量警示
+         * @param blood 血量數據
+         */
+        void OnHpInfo(StudentBean mStudent,int blood);
+
+        /**
+         * 血量暫停
+         */
         void OnHpPause();
 
-        //獲得金創藥
-        void getAdditional();
+        /**
+         * 獲得金創藥
+         * @param code 回傳的數值
+         */
+        void getAdditional(int code);
 
     }
     private static final String TAG = PollHandler.class.getName();
@@ -56,12 +85,12 @@ public class PollHandler {
     private OnMessageReceive mListener;
 
     //常數
-    private static final String RECEIVE_QUSETION = "$1";
-    private static final String QUSETION_RESULT = "$3";
+    private static final String RECEIVE_QUESTION = "$1";
+    private static final String QUESTION_RESULT = "$3";
 
     private static final String HP_START = "~1";
     private static final String HP_INFO = "~2";
-    private static final String HP_PASUE = "~6";
+    private static final String HP_PAUSE = "~6";
 
 
     public PollHandler(String gid) {
@@ -120,10 +149,10 @@ public class PollHandler {
 
                         String Type = Messages[0];
 
-                        if (Type.equals(RECEIVE_QUSETION)){
+                        if (Type.equals(RECEIVE_QUESTION)){
                             if (mListener!=null)
                                 mListener.OnMissionReceive(Messages[1],Messages[2],Messages[3]);
-                        }else if (Type.equals(QUSETION_RESULT)){
+                        }else if (Type.equals(QUESTION_RESULT)){
                             if (mListener!=null)
                                 mListener.OnMissionSuccess(Integer.parseInt(Messages[1]),Integer.parseInt(Messages[2]));
                         }
@@ -144,7 +173,7 @@ public class PollHandler {
                                         Date date = new SimpleDateFormat("HH:mm:ss").parse(SplitMessage[1]);
 
                                         if (mListener!=null)
-                                            mListener.OnHpStart(date.getTime(),Integer.parseInt(SplitMessage[2]));
+                                            mListener.OnHpStart(mStudent,date.getTime(),Integer.parseInt(SplitMessage[2]));
                                     }catch (ParseException mParseException){
                                         mParseException.printStackTrace();
                                     }
@@ -153,14 +182,13 @@ public class PollHandler {
                                     if (SplitMessage.length==2){
 
                                         if (mListener!=null)
-                                            mListener.OnHpInfo(Integer.parseInt(SplitMessage[1].replace("%","")));
+                                            mListener.OnHpInfo(mStudent,Integer.parseInt(SplitMessage[1].replace("%","")));
                                     }else if (SplitMessage.length==3){
-                                        Log.d(TAG,"additional");
                                         if (mListener!=null)
-                                            mListener.getAdditional();
+                                            mListener.getAdditional(Integer.parseInt(SplitMessage[2].replace("%", "")));
                                     }
 
-                                }else if (Type.equals(HP_PASUE)){
+                                }else if (Type.equals(HP_PAUSE)){
                                     if (mListener!=null)
                                         mListener.OnHpPause();
                                 }

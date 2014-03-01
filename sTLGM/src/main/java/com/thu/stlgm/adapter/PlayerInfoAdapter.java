@@ -24,6 +24,7 @@ import com.thu.stlgm.R;
 import com.thu.stlgm.anim.AnimUtils;
 import com.thu.stlgm.bean.StudentBean;
 import com.thu.stlgm.bean.StudentBean;
+import com.thu.stlgm.component.BloodView;
 
 import org.w3c.dom.Text;
 
@@ -60,17 +61,19 @@ public class PlayerInfoAdapter extends BaseAdapter{
 
     private Animation fade_out_push_top;
 
-    private int blood = 60;
 
+    private ListView mListView;
 
-    public PlayerInfoAdapter(Context context) {
-        this.mContext = context;
+    public PlayerInfoAdapter(ListView listView) {
+        this.mListView = listView;
+        this.mContext = mListView.getContext();
         mData = new ArrayList<StudentBean>();
         initAnim();
     }
 
-    public PlayerInfoAdapter(Context context,StudentBean Data) {
-        this.mContext = context;
+    public PlayerInfoAdapter(ListView listView,StudentBean Data) {
+        this.mListView = listView;
+        this.mContext = mListView.getContext();
         this.mData = new ArrayList<StudentBean>();
         if (Data!=null){
             mData.add(Data);
@@ -82,8 +85,9 @@ public class PlayerInfoAdapter extends BaseAdapter{
         initAnim();
     }
 
-    public PlayerInfoAdapter(Context context,List<StudentBean> Data) {
-        this.mContext = context;
+    public PlayerInfoAdapter(ListView listView,List<StudentBean> Data) {
+        this.mListView = listView;
+        this.mContext = mListView.getContext();
         this.mData = Data;
 
         initAnim();
@@ -232,7 +236,7 @@ public class PlayerInfoAdapter extends BaseAdapter{
         holder.Name.setText(mStudentBean.getName());
 
 
-        holder.Blood.setText("54/100");
+        holder.Blood.setText("54");
 
 
         if (position==AnimPosition){
@@ -356,9 +360,10 @@ public class PlayerInfoAdapter extends BaseAdapter{
         StudentBean mStudentBean = getItem(position);
         holder.Name.setText(mStudentBean.getName());
 
-        holder.Blood.setText(blood+"/100");
+        holder.Blood.setText(String.valueOf(100));
 
 
+        /*
         if (showBloodState){
 
             holder.BloodState.setVisibility(View.VISIBLE);
@@ -384,7 +389,7 @@ public class PlayerInfoAdapter extends BaseAdapter{
             });
 
         }
-
+        */
         if (mPlayAnim){
             Animation animation = AnimUtils.getPushLeftOutRightIn(mContext,convertView,null);
             convertView.startAnimation(animation);
@@ -395,17 +400,88 @@ public class PlayerInfoAdapter extends BaseAdapter{
     }
 
 
-    private boolean showBloodState = false;
-    public void setLeaderBloodState(){
-        showBloodState = true;
-        notifyDataSetChanged();
+    //private boolean showBloodState = false;
+
+
+    private View getViewByPosition(int position){
+        int firstPosition = mListView.getFirstVisiblePosition() - mListView.getHeaderViewsCount(); // This is the same as child #0
+        int wantedChild = position - firstPosition;
+        // Say, first visible position is 8, you want position 10, wantedChild will now be 2
+        // So that means your view is child #2 in the ViewGroup:
+        if (wantedChild < 0 || wantedChild >= mListView.getChildCount()) {
+            Log.w(TAG, "Unable to get view for desired position, because it's not being displayed on screen.");
+            return null;
+        }
+        // Could also check if wantedPosition is between listView.getFirstVisiblePosition() and listView.getLastVisiblePosition() instead.
+        View wantedView = mListView.getChildAt(wantedChild);
+        return wantedView;
     }
 
-    public void setBlood(int value){
-        this.blood = value;
-        notifyDataSetChanged();
+    public void getLeaderBlood(){
+        View convertView = getViewByPosition(getCount()-1);
+        TextView BloodView = (TextView) convertView.findViewById(R.id.Blood);
+        BloodView.setText("test");
+
     }
 
+    public void setLeaderBlood(int blood){
+        View convertView = getViewByPosition(getCount()-1);
+        BloodView BloodView = (BloodView) convertView.findViewById(R.id.Blood);
+
+        BloodView.setBlood(blood);
+    }
+
+    public void addLeaderBlood(final int blood){
+        final int animDuration = 50;
+
+        View convertView = getViewByPosition(getCount()-1);
+        final BloodView BloodView = (BloodView) convertView.findViewById(R.id.Blood);
+
+        final int targetBlood = BloodView.getBlood()+blood;
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                int currentBlood = BloodView.getBlood();
+                if (currentBlood<targetBlood){
+                    BloodView.setBlood(currentBlood + 1);
+                    mHandler.postDelayed(this,animDuration);
+                }
+
+            }
+        }, animDuration);
+
+
+
+
+        showLeaderBloodAnim(blood);
+    }
+
+
+    /**
+     * 顯示HP增加動作
+     */
+    private void showLeaderBloodAnim(int value){
+        View convertView = getViewByPosition(getCount()-1);
+        TextView BloodState = (TextView) convertView.findViewById(R.id.BloodState);
+
+        BloodState.setText("+"+value);
+        BloodState.setVisibility(View.VISIBLE);
+        //延遲一秒後才上移
+        fade_out_push_top.setStartTime(1000);
+        BloodState.startAnimation(fade_out_push_top);
+    }
+
+    public void startHpService(int Interval){
+        View convertView = getViewByPosition(getCount()-1);
+        BloodView BloodView = (BloodView) convertView.findViewById(R.id.Blood);
+
+        BloodView.startHpService(Interval);
+    }
+
+
+    /**ViewHolder**/
 
     class ItemViewHolder{
         RoundedImageView Photo;

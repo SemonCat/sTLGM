@@ -15,7 +15,7 @@
 
     <ListView
         android:id="@+id/ListViewPlayerInfo"
-        android:layout_width="200dp"
+        android:layout_width="210dp"
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="5dp"

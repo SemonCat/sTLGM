@@ -35,7 +35,7 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center">
 
@@ -63,12 +63,18 @@
                 android:layout_marginRight="15dp"
                 android:text="HP" />
 
-            <TextView
+            <com.thu.stlgm.component.BloodView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Blood"
                 android:id="@+id/Blood" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="/100" />
         </LinearLayout>
     </LinearLayout>
 
