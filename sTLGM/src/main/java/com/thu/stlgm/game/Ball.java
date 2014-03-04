@@ -38,7 +38,7 @@ import java.util.List;
  * Created by SemonCat on 2014/2/21.
  */
 @EFragment(R.layout.fragment_ball)
-public class Ball extends Fragment{
+public class Ball extends BaseGame{
 
     private static final String TAG = Ball.class.getName();
 
@@ -117,7 +117,7 @@ public class Ball extends Fragment{
 
         StartFrame.bringToFront();
 
-        mBallView.setImageResource(R.anim.ball);
+        mBallView.setImageResource(R.anim.ball2);
         AnimationDrawable frameAnimation =    (AnimationDrawable)mBallView.getDrawable();
         frameAnimation.setCallback(mBallView);
         frameAnimation.setVisible(true, true);

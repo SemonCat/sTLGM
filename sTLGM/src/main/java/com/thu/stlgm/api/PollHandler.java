@@ -16,7 +16,9 @@ import java.io.ObjectInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -63,9 +65,9 @@ public class PollHandler {
 
         /**
          * 獲得金創藥
-         * @param code 回傳的數值
+         * @param blood 補血量
          */
-        void getAdditional(int code);
+        void getAdditional(StudentBean mTarget,int blood);
 
     }
     private static final String TAG = PollHandler.class.getName();
@@ -135,8 +137,8 @@ public class PollHandler {
                             tmp += myMsg.get(i) + " ";
                         }
 
-                        Log.d(TAG,"Message:"+tmp);
-                        Log.d(TAG,"Key:"+key);
+                        //Log.d(TAG,"Message:"+tmp);
+                        //Log.d(TAG,"Key:"+key);
 
                     }
 
@@ -170,10 +172,16 @@ public class PollHandler {
 
                                 if (Type.equals(HP_START)){
                                     try {
+                                        //轉換日期
                                         Date date = new SimpleDateFormat("HH:mm:ss").parse(SplitMessage[1]);
-
+                                        Calendar mCalender = Calendar.getInstance();
+                                        Calendar nowCalender = Calendar.getInstance();
+                                        mCalender.setTime(date);
+                                        mCalender.set(nowCalender.get(Calendar.YEAR),
+                                                nowCalender.get(Calendar.MONTH),
+                                                nowCalender.get(Calendar.DAY_OF_MONTH));
                                         if (mListener!=null)
-                                            mListener.OnHpStart(mStudent,date.getTime(),Integer.parseInt(SplitMessage[2]));
+                                            mListener.OnHpStart(mStudent,mCalender.getTimeInMillis(),Integer.parseInt(SplitMessage[2]));
                                     }catch (ParseException mParseException){
                                         mParseException.printStackTrace();
                                     }
@@ -185,7 +193,7 @@ public class PollHandler {
                                             mListener.OnHpInfo(mStudent,Integer.parseInt(SplitMessage[1].replace("%","")));
                                     }else if (SplitMessage.length==3){
                                         if (mListener!=null)
-                                            mListener.getAdditional(Integer.parseInt(SplitMessage[2].replace("%", "")));
+                                            mListener.getAdditional(mStudent,Integer.parseInt(SplitMessage[2].replace("%", "")));
                                     }
 
                                 }else if (Type.equals(HP_PAUSE)){

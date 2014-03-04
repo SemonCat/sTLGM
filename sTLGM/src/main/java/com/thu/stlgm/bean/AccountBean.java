@@ -13,10 +13,10 @@ import java.io.Serializable;
 public class AccountBean implements Serializable {
 
 
-    private String id;
-    private String AccessToken;
+    String id;
+    String AccessToken;
 
-    private String Name;
+    String Name;
 
     public AccountBean() {
 

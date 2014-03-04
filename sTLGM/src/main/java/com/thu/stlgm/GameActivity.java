@@ -1,31 +1,23 @@
 package com.thu.stlgm;
 
-import android.accounts.Account;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.thu.stlgm.adapter.PlayerInfoAdapter;
-import com.thu.stlgm.api.BeanTranslate;
 import com.thu.stlgm.api.PollHandler;
 import com.thu.stlgm.api.SQService;
-import com.thu.stlgm.bean.AccountBean;
+import com.thu.stlgm.bean.Blood;
 import com.thu.stlgm.bean.StudentBean;
-import com.thu.stlgm.facebook.FBMultiAccountMgr;
-import com.thu.stlgm.fragment.LoginFragment;
+import com.thu.stlgm.fragment.GameFragmentMgr;
 import com.thu.stlgm.game.Ball;
 import com.thu.stlgm.game.Ball_;
-import com.thu.stlgm.game.Choice;
-import com.thu.stlgm.game.Choice_;
+import com.thu.stlgm.game.BaseGame;
+import com.thu.stlgm.game.Medicine;
 import com.thu.stlgm.game.Medicine_;
-import com.thu.stlgm.util.AccountFinder;
-import com.thu.stlgm.util.MusicManager;
+import com.thu.stlgm.util.MedicineValueUtil;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -37,12 +29,13 @@ import org.apache.http.Header;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by SemonCat on 2014/2/9.
  */
 @EActivity(R.layout.activity_game)
-public class GameActivity extends BaseActivity implements PollHandler.OnMessageReceive{
+public class GameActivity extends BaseActivity implements PollHandler.OnMessageReceive,Medicine.OnMedicineGetListener,PlayerInfoAdapter.OnLeaderChangeListener{
 
     private static final String TAG = GameActivity.class.getName();
 
@@ -55,6 +48,8 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
 
     private PlayerInfoAdapter mPlayerInfoAdapter;
 
+    private GameFragmentMgr mGameFragmentMgr;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +60,7 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
 
     @AfterViews
     void Init(){
-
+        mGameFragmentMgr = new GameFragmentMgr(this,R.id.GameContent);
         initAdapter();
 
     }
@@ -83,6 +78,9 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
     @UiThread
     public void OnMissionReceive(String quizid, String taskid, String groupid) {
         Log.d(TAG, "ReceiveMission,QuizID:" + quizid + " TaskID:" + taskid + " GID:" + groupid);
+        if (quizid.equals("1")){
+            playBall();
+        }
     }
 
     @Override
@@ -94,10 +92,16 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
     @Override
     @UiThread
     public void OnHpStart(StudentBean mStudent,long Time, int Interval) {
-        Log.d(TAG, "OnHpStart,Time:" + new SimpleDateFormat("HH:mm:ss").format(new Date(Time)) + " Interval:" + Interval);
+        Log.d(TAG, "OnHpStart,SID:"+mStudent.getSID()+" Time:" + new SimpleDateFormat("HH:mm:ss").format(new Date(Time)) + " Interval:" + Interval);
 
 
-        mPlayerInfoAdapter.startHpService(Interval);
+        List<StudentBean> mStudents = mPlayerInfoAdapter.getStudents();
+        StudentBean studentBean = mStudents.get(mStudents.indexOf(mStudent));
+        if (studentBean!=null){
+            studentBean.startHpService(Time,Interval);
+        }else{
+            Log.d(TAG,"studentBean==null");
+        }
     }
 
     @Override
@@ -115,14 +119,21 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
 
     @Override
     @UiThread
-    public void getAdditional(int code) {
-        Log.d(TAG, "getAdditional:"+code);
+    public void getAdditional(StudentBean mTarget,int blood) {
+        Log.d(TAG, "getAdditional:"+blood);
+        playMedicine(mTarget.getSID(),blood, this);
+    }
+
+    @Override
+    public void OnLeaderChangeEvent(StudentBean leader) {
+        checkMedicine();
     }
 
     private void initAdapter(){
         if (mPlayerInfoAdapter==null){
             StudentBean mStudentBean = getStudentBean();
             mPlayerInfoAdapter = new PlayerInfoAdapter(ListViewPlayerInfo,mStudentBean);
+            mPlayerInfoAdapter.setOnLeaderChangeListener(this);
 
             if (mStudentBean!=null){
                 //開始Polling
@@ -162,6 +173,7 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
             SQService.StudentLogin(this, new SQService.OnSQLoginFinish() {
                 @Override
                 public void OnSQLoginFinish(StudentBean mData) {
+                    mPollHandler.addStudent(mData);
                     mPlayerInfoAdapter.refreshData(position,mData);
                 }
 
@@ -195,37 +207,48 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
             return null;
     }
 
-    private void playChoice(){
-
-        replaceFragment(new Choice_());
-
+    void playMedicine(String sid,int reward,Medicine.OnMedicineGetListener mListener){
+        Medicine_ medicine_ = new Medicine_();
+        medicine_.setListener(reward,mListener);
+        medicine_.setTargetSid(sid);
+        //replaceFragment(medicine_, Medicine.class.getName());
+        mGameFragmentMgr.addMedicineQueue(medicine_);
+        checkMedicine();
     }
 
-    @Click
-    void playMedicine(){
-
-        replaceFragment(new Medicine_());
-
+    private void checkMedicine(){
+        Fragment fragment = mGameFragmentMgr.getMedicineFromQueue(mPlayerInfoAdapter.getLeaderStudent().getSID());
+        if (fragment!=null){
+            mGameFragmentMgr.replaceFragment(fragment);
+        }
     }
 
     @Click
     void playBall(){
 
-        replaceFragment(new Ball_());
+        replaceFragment(new Ball_(),Ball.class.getName());
     }
 
-    private void replaceFragment(Fragment mFragment){
+    private void replaceFragment(BaseGame mFragment,String mFragmentTag){
 
+        /*
         FragmentTransaction transaction =getFragmentManager().beginTransaction();
-
-        transaction.replace(R.id.GameContent, mFragment);
+        Fragment findFragment = getFragmentManager().findFragmentByTag(mFragmentTag);
+        if (findFragment!=null){
+            return;
+        }
+        transaction.replace(R.id.GameContent, mFragment, mFragmentTag);
 
         transaction.commit();
-
+        */
+        mGameFragmentMgr.addFragmentQueue(mFragment);
     }
 
-    public void addBlood(){
-        mPlayerInfoAdapter.addLeaderBlood(25);
+
+
+    public void addBlood(int blood){
+        mPlayerInfoAdapter.addLeaderBlood(blood);
+
     }
 
     public void setBlood(int value){
@@ -233,4 +256,25 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
     }
 
 
+    @Override
+    public void OnMedicineGetEvent(int reward) {
+
+        StudentBean leader = mPlayerInfoAdapter.getLeaderStudent();
+
+        long rewardMills;
+        Blood bloodBean;
+        if (leader.getBlood()>25){
+            bloodBean = MedicineValueUtil.getSmallMedicine(leader.getBlood(),reward,leader.getInterval(),StudentBean.MAX_BLOOD);
+            rewardMills = bloodBean.getBloodMills();
+        }else{
+            bloodBean = MedicineValueUtil.getBigMedicine(leader.getBlood(),reward, leader.getInterval(), StudentBean.MAX_BLOOD);
+            rewardMills = bloodBean.getBloodMills();
+        }
+
+        int rewardSecond = (int)(rewardMills/1000);
+
+        addBlood(bloodBean.getBlood());
+        SQService.getMedicine(leader.getSID(),rewardSecond);
+
+    }
 }

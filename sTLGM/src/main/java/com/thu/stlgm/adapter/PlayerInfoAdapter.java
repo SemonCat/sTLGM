@@ -1,18 +1,13 @@
 package com.thu.stlgm.adapter;
 
-import android.accounts.Account;
 import android.content.Context;
 import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -23,10 +18,7 @@ import com.makeramen.RoundedImageView;
 import com.thu.stlgm.R;
 import com.thu.stlgm.anim.AnimUtils;
 import com.thu.stlgm.bean.StudentBean;
-import com.thu.stlgm.bean.StudentBean;
 import com.thu.stlgm.component.BloodView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +30,11 @@ import java.util.List;
 public class PlayerInfoAdapter extends BaseAdapter{
 
     private static final String TAG = PlayerInfoAdapter.class.getName();
+
+
+    public interface OnLeaderChangeListener {
+        void OnLeaderChangeEvent(StudentBean leader);
+    }
 
     private static final int TYPE_ITEM = -1;
     private static final int TYPE_LEADER = -2;
@@ -63,6 +60,8 @@ public class PlayerInfoAdapter extends BaseAdapter{
 
 
     private ListView mListView;
+
+    private OnLeaderChangeListener mListener;
 
     public PlayerInfoAdapter(ListView listView) {
         this.mListView = listView;
@@ -149,6 +148,9 @@ public class PlayerInfoAdapter extends BaseAdapter{
                 mPlayAnim = false;
                 AnimPosition = -1;
                 notifyDataSetChanged();
+
+                if (mListener!=null)
+                    mListener.OnLeaderChangeEvent(getItem(getCount()-1));
             }
         },300);
     }
@@ -212,7 +214,7 @@ public class PlayerInfoAdapter extends BaseAdapter{
         }
     }
 
-    private View TypeItemLogin(int position,View convertView, ViewGroup parent){
+    private View TypeItemLogin(final int position,View convertView, ViewGroup parent){
         ItemLoginViewHolder holder;
 
         if (convertView == null) {
@@ -225,7 +227,7 @@ public class PlayerInfoAdapter extends BaseAdapter{
             holder = new ItemLoginViewHolder();
             holder.Name = (TextView) convertView.findViewById(R.id.Name);
             holder.Photo = (RoundedImageView) convertView.findViewById(R.id.Photo);
-            holder.Blood = (TextView) convertView.findViewById(R.id.Blood);
+            holder.Blood = (BloodView) convertView.findViewById(R.id.Blood);
 
             convertView.setTag(holder);
         }else{
@@ -235,8 +237,23 @@ public class PlayerInfoAdapter extends BaseAdapter{
         StudentBean mStudentBean = getItem(position);
         holder.Name.setText(mStudentBean.getName());
 
+        mStudentBean.setBloodChangeListener(new StudentBean.OnBloodChangeListener() {
+            @Override
+            public void OnBloodChangeEvent(final int blood) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        BloodView view = getBloodView(position);
+                        if (view!=null){
+                            view.setBlood(blood);
+                        }
+                    }
+                });
+            }
+        });
 
-        holder.Blood.setText("54");
+
+        holder.Blood.setBlood(mStudentBean.getBlood());
 
 
         if (position==AnimPosition){
@@ -336,8 +353,9 @@ public class PlayerInfoAdapter extends BaseAdapter{
         return convertView;
     }
     
-    private View TypeLeaderLogin(int position,View convertView, ViewGroup parent){
+    private View TypeLeaderLogin(final int position,View convertView, ViewGroup parent){
         LeaderLoginViewHolder holder;
+        StudentBean mStudentBean = getItem(position);
 
         if (convertView == null) {
 
@@ -349,7 +367,7 @@ public class PlayerInfoAdapter extends BaseAdapter{
             holder = new LeaderLoginViewHolder();
             holder.Name = (TextView) convertView.findViewById(R.id.Name);
             holder.Photo = (RoundedImageView) convertView.findViewById(R.id.Photo);
-            holder.Blood = (TextView) convertView.findViewById(R.id.Blood);
+            holder.Blood = (BloodView) convertView.findViewById(R.id.Blood);
             holder.BloodState = (TextView) convertView.findViewById(R.id.BloodState);
 
             convertView.setTag(holder);
@@ -357,39 +375,25 @@ public class PlayerInfoAdapter extends BaseAdapter{
             holder = (LeaderLoginViewHolder) convertView.getTag();
         }
 
-        StudentBean mStudentBean = getItem(position);
+        mStudentBean.setBloodChangeListener(new StudentBean.OnBloodChangeListener() {
+            @Override
+            public void OnBloodChangeEvent(final int blood) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        getBloodView(position).setBlood(blood);
+                    }
+                });
+            }
+        });
+
+
         holder.Name.setText(mStudentBean.getName());
 
-        holder.Blood.setText(String.valueOf(100));
+        holder.Blood.setBlood(mStudentBean.getBlood());
 
 
-        /*
-        if (showBloodState){
 
-            holder.BloodState.setVisibility(View.VISIBLE);
-            holder.BloodState.startAnimation(fade_out_push_top);
-
-            fade_out_push_top.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    showBloodState = false;
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-
-                    blood = 85;
-                    notifyDataSetChanged();
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-
-        }
-        */
         if (mPlayAnim){
             Animation animation = AnimUtils.getPushLeftOutRightIn(mContext,convertView,null);
             convertView.startAnimation(animation);
@@ -400,7 +404,6 @@ public class PlayerInfoAdapter extends BaseAdapter{
     }
 
 
-    //private boolean showBloodState = false;
 
 
     private View getViewByPosition(int position){
@@ -434,19 +437,24 @@ public class PlayerInfoAdapter extends BaseAdapter{
     public void addLeaderBlood(final int blood){
         final int animDuration = 50;
 
+        final StudentBean leader = getItem(getCount()-1);
         View convertView = getViewByPosition(getCount()-1);
         final BloodView BloodView = (BloodView) convertView.findViewById(R.id.Blood);
 
-        final int targetBlood = BloodView.getBlood()+blood;
+        final int currentBlood = leader.getBlood();
 
         mHandler.postDelayed(new Runnable() {
+            int counter = 0;
             @Override
             public void run() {
 
-                int currentBlood = BloodView.getBlood();
-                if (currentBlood<targetBlood){
-                    BloodView.setBlood(currentBlood + 1);
+                if (counter<blood){
+                    counter++;
+                    BloodView.setBlood(currentBlood+counter);
                     mHandler.postDelayed(this,animDuration);
+
+                }else{
+                    BloodView.setBlood(leader.getBlood());
                 }
 
             }
@@ -458,6 +466,10 @@ public class PlayerInfoAdapter extends BaseAdapter{
         showLeaderBloodAnim(blood);
     }
 
+    private BloodView getBloodView(int position){
+        View convertView = getViewByPosition(position);
+        return (BloodView) convertView.findViewById(R.id.Blood);
+    }
 
     /**
      * 顯示HP增加動作
@@ -473,13 +485,18 @@ public class PlayerInfoAdapter extends BaseAdapter{
         BloodState.startAnimation(fade_out_push_top);
     }
 
-    public void startHpService(int Interval){
-        View convertView = getViewByPosition(getCount()-1);
-        BloodView BloodView = (BloodView) convertView.findViewById(R.id.Blood);
 
-        BloodView.startHpService(Interval);
+    public List<StudentBean> getStudents(){
+        return mData;
     }
 
+    public StudentBean getLeaderStudent(){
+        return mData.get(getCount()-1);
+    }
+
+    public void setOnLeaderChangeListener(OnLeaderChangeListener listener){
+        this.mListener = listener;
+    }
 
     /**ViewHolder**/
 
@@ -491,7 +508,7 @@ public class PlayerInfoAdapter extends BaseAdapter{
     class ItemLoginViewHolder{
         RoundedImageView Photo;
         TextView Name;
-        TextView Blood;
+        BloodView Blood;
     }
 
     class ItemChoisableViewHolder{
@@ -509,7 +526,7 @@ public class PlayerInfoAdapter extends BaseAdapter{
     class LeaderLoginViewHolder{
         RoundedImageView Photo;
         TextView Name;
-        TextView Blood;
+        BloodView Blood;
         TextView BloodState;
     }
 }

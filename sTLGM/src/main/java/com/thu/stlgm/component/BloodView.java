@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.thu.stlgm.bean.Blood;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,17 +16,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by SemonCat on 2014/3/2.
  */
-public class BloodView extends TextView implements Runnable{
+public class BloodView extends TextView{
 
     private static final String TAG = BloodView.class.getName();
 
     private int blood;
-    private final static int MAX_BLOOD = 100;
+
     private Handler mHandler;
-
-    private ScheduledExecutorService scheduledThreadPool;
-
-    private boolean pause;
 
     public BloodView(Context context) {
         super(context);
@@ -42,40 +40,40 @@ public class BloodView extends TextView implements Runnable{
     }
 
     private void init(){
-        blood = MAX_BLOOD;
         mHandler = new Handler();
-        pause = false;
-        if (scheduledThreadPool!=null)
-            scheduledThreadPool.shutdown();
-        scheduledThreadPool = Executors.newScheduledThreadPool(5);
-
-        setBlood(MAX_BLOOD);
     }
-
-    public void startHpService(int Interval){
-        int time = (int)(Interval*60/(float)MAX_BLOOD*1000);
-
-        Log.d(TAG,"startHpService:"+time);
-
-
-
-        setBlood(MAX_BLOOD);
-        pause = false;
-        scheduledThreadPool.scheduleAtFixedRate(this, time, time, TimeUnit.MILLISECONDS);
-    }
-
-    public void pasueHpService(){
-        pause = true;
-    }
-
-    public void stopHpService(){
-        pause = true;
-        scheduledThreadPool.shutdown();
-    }
-
 
     public void setBlood(int Value){
-        this.blood = Value;
+        setBlood(Value,false);
+    }
+
+    public void setBlood(int Value,boolean anim){
+
+        final int addValue = Value- this.blood;
+
+        Log.d(TAG,"AddValue:"+addValue);
+
+        if (addValue >1 && anim){
+            final int animDuration = 50;
+            mHandler.postDelayed(new Runnable() {
+                int counter = 0;
+                @Override
+                public void run() {
+
+                    if (counter<=addValue){
+                        counter++;
+                        setBlood(blood+1);
+                        mHandler.postDelayed(this,animDuration);
+
+                    }
+
+                }
+            }, animDuration);
+        }else{
+            this.blood = Value;
+        }
+
+
         setText(String.valueOf(blood));
     }
 
@@ -83,18 +81,4 @@ public class BloodView extends TextView implements Runnable{
         return blood;
     }
 
-    @Override
-    public void run() {
-        Log.d(TAG,"run");
-        if (!scheduledThreadPool.isShutdown() && !pause && blood!=0){
-            Log.d(TAG,"扣血:"+blood);
-            blood --;
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    setBlood(blood);
-                }
-            });
-        }
-    }
 }

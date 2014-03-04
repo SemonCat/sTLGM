@@ -85,7 +85,7 @@ public class MoveImageView extends ImageView implements Runnable{
             try {
                 Thread.sleep(2);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+
             }
         }
 

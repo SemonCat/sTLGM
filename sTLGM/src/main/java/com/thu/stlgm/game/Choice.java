@@ -23,7 +23,7 @@ import java.util.List;
  * Created by SemonCat on 2014/2/19.
  */
 @EFragment(R.layout.fragment_choice)
-public class Choice extends Fragment {
+public class Choice extends BaseGame {
 
     @ViewById
     GridView Question;

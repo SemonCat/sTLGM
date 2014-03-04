@@ -23,7 +23,10 @@ import org.androidannotations.annotations.res.AnimationRes;
  * Created by SemonCat on 2014/2/20.
  */
 @EFragment(R.layout.fragment_medicine)
-public class Medicine extends Fragment{
+public class Medicine extends BaseGame{
+    public interface OnMedicineGetListener{
+        void OnMedicineGetEvent(int reward);
+    }
 
     @ViewById
     RelativeLayout container;
@@ -31,10 +34,32 @@ public class Medicine extends Fragment{
     @AnimationRes
     Animation fade_out_scale_big;
 
+    private int mReward;
+
     private MoveImageView mMoveImageView;
+
+    private OnMedicineGetListener mListener;
+
+    private Handler mHandler;
+
+    private long timeout = 20*1000;
+
+    private String mTargetSid;
 
     @AfterViews
     void Init(){
+        mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    finishFragment();
+                }catch (Exception mException){
+
+                }
+            }
+        },timeout);
+
         setupMoveImageView();
     }
 
@@ -46,20 +71,22 @@ public class Medicine extends Fragment{
 
         final ViewTreeObserver observer= container.getViewTreeObserver();
 
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mMoveImageView.start();
+        if (observer!=null){
+            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    mMoveImageView.start();
 
-                ViewTreeObserver obs = container.getViewTreeObserver();
+                    ViewTreeObserver obs = container.getViewTreeObserver();
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    obs.removeOnGlobalLayoutListener(this);
-                } else {
-                    obs.removeGlobalOnLayoutListener(this);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        obs.removeOnGlobalLayoutListener(this);
+                    } else {
+                        obs.removeGlobalOnLayoutListener(this);
+                    }
                 }
-            }
-        });
+            });
+        }
 
         mMoveImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,15 +94,25 @@ public class Medicine extends Fragment{
                 mMoveImageView.stop();
                 mMoveImageView.setVisibility(View.GONE);
                 mMoveImageView.startAnimation(fade_out_scale_big);
-                ((GameActivity)getActivity()).addBlood();
+
+                if (mListener!=null)
+                    mListener.OnMedicineGetEvent(mReward);
+
+                finishFragment();
             }
         });
     }
 
-    @Click
-    void Reset(){
-        mMoveImageView.setVisibility(View.VISIBLE);
-        mMoveImageView.start();
-        ((GameActivity)getActivity()).setBlood(60);
+    public void setListener(int reward,OnMedicineGetListener mListener) {
+        this.mReward = reward;
+        this.mListener = mListener;
+    }
+
+    public void setTargetSid(String sid){
+        this.mTargetSid = sid;
+    }
+
+    public String getTargetSid(){
+        return mTargetSid;
     }
 }

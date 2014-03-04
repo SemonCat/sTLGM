@@ -32,12 +32,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"/>
 
-    <Button
-        android:id="@+id/playMedicine"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@android:color/transparent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

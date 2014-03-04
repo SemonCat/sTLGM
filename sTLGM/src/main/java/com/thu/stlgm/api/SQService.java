@@ -30,6 +30,9 @@ public class SQService {
         public void OnSQLoginNetworkError(int statusCode, Header[] headers, byte[] responseBody, Throwable error);
     }
 
+    public interface OnMedicineGetSuccess{
+        void OnMedicineGetSuccess(int reward);
+    }
 
     /**
      * 直接登入SQ Server
@@ -111,6 +114,30 @@ public class SQService {
                 Log.d(TAG,"Error Result:"+error.toString());
                 if (mListener!=null)
                     mListener.OnSQLoginNetworkError(statusCode, headers, responseBody,error);
+            }
+        });
+    }
+
+    public static void getMedicine(String sid,int reward){
+
+        String URL = ServerIP+"/HpEvent?service=8&sid="+sid+"&reward="+reward;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(URL,new AsyncHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String message = new String(responseBody);
+                if (message.equals("success")){
+                    Log.d(TAG,"金創藥取得成功！");
+                }else{
+                    Log.d(TAG,"金創藥取得失敗！");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                Log.d(TAG,"Error Result:"+error.toString());
+
             }
         });
     }
