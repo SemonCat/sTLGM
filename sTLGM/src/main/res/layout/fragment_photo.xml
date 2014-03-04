@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.thu.stlgm.PhotoActivity">
+
+
+    <ImageView
+        android:id="@+id/Photo"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上傳"
+        android:id="@+id/Upload"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="重拍！"
+        android:id="@+id/startCamera"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/Upload" />
+
+    <ProgressBar
+
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/PhotoProgressbar"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/Upload" />
+
+</RelativeLayout>

@@ -1,22 +1,28 @@
 package com.thu.stlgm;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.facebook.Request;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.thu.stlgm.adapter.PlayerInfoAdapter;
 import com.thu.stlgm.api.PollHandler;
 import com.thu.stlgm.api.SQService;
 import com.thu.stlgm.bean.Blood;
 import com.thu.stlgm.bean.StudentBean;
+import com.thu.stlgm.facebook.FBMultiAccountMgr;
 import com.thu.stlgm.fragment.GameFragmentMgr;
+import com.thu.stlgm.fragment.PhotoFragment;
+import com.thu.stlgm.fragment.PhotoFragment_;
 import com.thu.stlgm.game.Ball;
 import com.thu.stlgm.game.Ball_;
 import com.thu.stlgm.game.BaseGame;
 import com.thu.stlgm.game.Medicine;
 import com.thu.stlgm.game.Medicine_;
+import com.thu.stlgm.util.ConstantUtil;
 import com.thu.stlgm.util.MedicineValueUtil;
 
 import org.androidannotations.annotations.AfterViews;
@@ -173,7 +179,9 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
             SQService.StudentLogin(this, new SQService.OnSQLoginFinish() {
                 @Override
                 public void OnSQLoginFinish(StudentBean mData) {
-                    mPollHandler.addStudent(mData);
+                    if (mPollHandler!=null){
+                        mPollHandler.addStudent(mData);
+                    }
                     mPlayerInfoAdapter.refreshData(position,mData);
                 }
 
@@ -229,6 +237,15 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
         replaceFragment(new Ball_(),Ball.class.getName());
     }
 
+    @Click
+    void playPhoto(){
+        FragmentTransaction transaction =getFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.GameContent, new PhotoFragment_());
+
+        transaction.commit();
+    }
+
     private void replaceFragment(BaseGame mFragment,String mFragmentTag){
 
         /*
@@ -276,5 +293,10 @@ public class GameActivity extends BaseActivity implements PollHandler.OnMessageR
         addBlood(bloodBean.getBlood());
         SQService.getMedicine(leader.getSID(),rewardSecond);
 
+    }
+
+    public void postPhoto(byte[] photo,Request.OnProgressCallback mCallback){
+        FBMultiAccountMgr multiAccountMgr = new FBMultiAccountMgr(this);
+        multiAccountMgr.postPhoto(mPlayerInfoAdapter.getLeaderStudent(), ConstantUtil.WeekAlbum,photo,mCallback);
     }
 }

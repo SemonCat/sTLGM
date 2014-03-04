@@ -32,5 +32,13 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"/>
 
+    <Button
+        android:id="@+id/playPhoto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"/>
+
 
 </RelativeLayout>

@@ -3,5 +3,8 @@
 
     <string name="app_name">sTLGM</string>
     <string name="app_id">1417907878451151</string>
+    <string name="title_activity_photo">photo</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

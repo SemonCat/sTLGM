@@ -14,11 +14,17 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.FacebookError;
+import com.facebook.android.Util;
+import com.facebook.internal.Utility;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.WebDialog;
 import com.thu.stlgm.R;
 import com.thu.stlgm.bean.AccountBean;
 import com.thu.stlgm.fragment.MainFragment;
+import com.thu.stlgm.util.ConstantUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,9 +83,43 @@ public class FBMultiAccountMgr{
 
                             Log.d(TAG,"Facebook UUID:"+mUser.getId());
 
+                            //joinGroup(session,mUser.getId());
+
                             //登入程序正式完成。
+
                             if (mListener!=null)
                                 mListener.OnLoginFinish(mAccount);
+
+
+
+                        }
+                    }).executeAsync();
+
+        }
+    }
+
+    private void joinGroup(final Session session,String UID){
+        if (session.isOpened()) {
+            Log.d(TAG, "AccessToken:" + session.getAccessToken());
+
+            Bundle mBundle = new Bundle();
+            mBundle.putString("access_token",ConstantUtil.App_Access_Token);
+            mBundle.putString("from", ConstantUtil.TeacherId);
+
+            String Action = "/"+ ConstantUtil.GroupId+"/members/"+UID;
+
+            Log.d(TAG,"Action:"+Action);
+
+            new Request(session,
+                    Action,
+                    mBundle,
+                    HttpMethod.POST,
+                    new Request.Callback() {
+                        @Override
+                        public void onCompleted(Response response) {
+
+                            Log.d(TAG, response.toString());
+
 
 
                         }
@@ -129,19 +169,22 @@ public class FBMultiAccountMgr{
             }
         });
         localWebDialog.show();
+
+
     }
 
-    public void SwitchAccount(AccountBean mAccount){
-        openSessionByToken(mAccount.getAccessToken());
+    public Session SwitchAccount(AccountBean mAccount){
+        Session mSession = openSessionByToken(mAccount.getAccessToken());
+        return mSession;
     }
 
-    private void openSessionByToken(String token) {
+    private Session openSessionByToken(String token) {
         if (Session.getActiveSession()!=null)
             Session.getActiveSession().closeAndClearTokenInformation();
 
         AccessToken mAccessToken = AccessToken.createFromExistingAccessToken(token,
                 null, null, AccessTokenSource.WEB_VIEW, null);
-        Session.openActiveSessionWithAccessToken(mContext, mAccessToken, new Session.StatusCallback() {
+        Session mSession = Session.openActiveSessionWithAccessToken(mContext, mAccessToken, new Session.StatusCallback() {
             @Override
             public void call(Session session, SessionState sessionState, Exception e) {
                 Log.d(TAG,"openSessionByToken");
@@ -149,6 +192,41 @@ public class FBMultiAccountMgr{
                 Log.d(TAG, "getPermissions:" + session.getPermissions());
             }
         });
+        return mSession;
+    }
+
+    public void postPhoto(AccountBean mAccount,String GroupId,byte[] photo,final Request.OnProgressCallback mCallback) {
+        Session mSession = SwitchAccount(mAccount);
+        if (mSession != null && mSession.isOpened()) {
+
+            Bundle mBundle = new Bundle();
+            mBundle.putString("message", "測試");
+            mBundle.putByteArray("source",photo);
+
+
+            new Request(mSession,
+                    "/"+GroupId+"/photos",
+                    mBundle,
+                    HttpMethod.POST,
+                    new Request.OnProgressCallback() {
+                        @Override
+                        public void onProgress(long current, long max) {
+                            if (mCallback!=null)
+                                mCallback.onProgress(current,max);
+                        }
+
+                        @Override
+                        public void onCompleted(Response response) {
+                            if (mCallback!=null)
+                                mCallback.onCompleted(response);
+                            Log.d(TAG, response.toString());
+                        }
+                    }
+            ).executeAsync();
+        } else {
+            Log.d(TAG, "mSessionIsNull:" + String.valueOf(mSession == null));
+        }
+
     }
 
     public void setListener(FBEventListener mListener) {

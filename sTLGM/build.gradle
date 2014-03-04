@@ -49,8 +49,8 @@ android {
 
 dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
-    compile 'com.android.support:support-v4:19.0.0'
-    compile 'fr.avianey:facebook-android-api:3.6.0@aar'
+    compile 'com.android.support:support-v4:19.0.1'
+    compile 'com.facebook:facebook-android-sdk:3.7@aar'
     compile 'com.loopj.android:android-async-http:1.4.4@aar'
     compile 'com.makeramen:roundedimageview:1.2.1'
     compile files('libs/androidannotations-3.0.1.jar')

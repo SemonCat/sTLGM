@@ -10,6 +10,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.thu.stlgm.bean.AccountBean;
 import com.thu.stlgm.bean.StudentBean;
 import com.thu.stlgm.facebook.FBMultiAccountMgr;
+import com.thu.stlgm.util.ConstantUtil;
 
 import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
@@ -20,7 +21,7 @@ import org.apache.http.client.HttpClient;
 public class SQService {
     private static final String TAG = SQService.class.getName();
 
-    private static final String ServerIP = "http://54.214.24.26:8080/StudentSquare_server";
+    private static final String ServerIP = ConstantUtil.ServerIP;
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
