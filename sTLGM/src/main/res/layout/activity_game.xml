@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black">
@@ -16,13 +15,14 @@
     <ListView
         android:id="@+id/ListViewPlayerInfo"
         android:layout_width="210dp"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:divider="@null"
         android:dividerHeight="5dp"
         android:stackFromBottom="true"
         android:transcriptMode="normal"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"/>
+
 
     <Button
         android:id="@+id/playBall"
@@ -30,15 +30,73 @@
         android:layout_height="100dp"
         android:background="@android:color/transparent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:visibility="gone"/>
 
-    <Button
-        android:id="@+id/playPhoto"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@android:color/transparent"
+
+    <LinearLayout
+        android:id="@+id/MoneyInfo"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentRight="true"
+        android:gravity="right">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="150dp"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="30dp"
+            android:padding="10dp"
+            android:gravity="right">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/Money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="35dp"
+                    android:text="0"/>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:background="@android:color/white"/>
+
+            </LinearLayout>
 
 
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/camera"
+            android:layout_margin="10dp"
+            android:clickable="true"/>
+
+        <ImageView
+            android:id="@+id/facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/upload"
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/GameOverAnim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
 </RelativeLayout>

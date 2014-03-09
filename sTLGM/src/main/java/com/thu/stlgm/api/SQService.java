@@ -112,7 +112,9 @@ public class SQService {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-                Log.d(TAG,"Error Result:"+error.toString());
+                if (error!=null){
+                    Log.d(TAG,"Error Result:"+error.toString());
+                }
                 if (mListener!=null)
                     mListener.OnSQLoginNetworkError(statusCode, headers, responseBody,error);
             }
@@ -147,6 +149,13 @@ public class SQService {
         String URL = ServerIP+"/ExtendService?service=memberNumber&groupid=" + gid;
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(URL,responseHandler);
+
+    }
+
+    public static void addMoney(String gid){
+        String URL = ServerIP+"/CoinInterface?service=3&groupId=" + gid+"&coin=500";
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(URL,new AsyncHttpResponseHandler());
 
     }
 }

@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 
 public class BookView extends ImageView {
@@ -18,12 +20,19 @@ public class BookView extends ImageView {
     private Drawable NormalBackground;
     private Drawable AnsweredBackground;
 
+    DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .cacheInMemory(true)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .build();
+
     public BookView(Context context) {
         super(context);
     }
 
     public void setBookCover(int resourceId){
-        setImageBitmap(BitmapFactory.decodeResource(getResources(), resourceId));
+        //setImageBitmap(BitmapFactory.decodeResource(getResources(), resourceId));
+        String imageUri = "drawable://" + resourceId;
+        ImageLoader.getInstance().displayImage(imageUri, this,options);
     }
 
     public void setBookCover(Bitmap BookCover){

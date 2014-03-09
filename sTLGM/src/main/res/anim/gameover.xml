@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list   android:id="@+id/my_animation" android:oneshot="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/gameover1" android:duration="75" />
+    <item android:drawable="@drawable/gameover2" android:duration="75" />
+    <item android:drawable="@drawable/gameover3" android:duration="75" />
+    <item android:drawable="@drawable/gameover4" android:duration="75" />
+    <item android:drawable="@drawable/gameover5" android:duration="75" />
+    <item android:drawable="@drawable/gameover6" android:duration="75" />
+    <item android:drawable="@drawable/gameover7" android:duration="75" />
+    <item android:drawable="@drawable/gameover8" android:duration="75" />
+    <item android:drawable="@drawable/gameover9" android:duration="75" />
+    <item android:drawable="@drawable/gameover10" android:duration="75" />
+    <item android:drawable="@drawable/gameover11" android:duration="75" />
+    <item android:drawable="@drawable/gameover12" android:duration="1500" />
+    
+
+</animation-list>

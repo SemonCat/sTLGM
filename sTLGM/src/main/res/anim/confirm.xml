@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list   android:id="@+id/my_animation" android:oneshot="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/confirm1" android:duration="75" />
+    <item android:drawable="@drawable/confirm2" android:duration="75" />
+    <item android:drawable="@drawable/confirm3" android:duration="75" />
+    <item android:drawable="@drawable/confirm4" android:duration="75" />
+    <item android:drawable="@drawable/confirm5" android:duration="75" />
+    <item android:drawable="@drawable/confirm6" android:duration="75" />
+    <item android:drawable="@drawable/confirm7" android:duration="75" />
+    <item android:drawable="@drawable/confirm8" android:duration="75" />
+    <item android:drawable="@drawable/confirm9" android:duration="75" />
+    
+</animation-list>

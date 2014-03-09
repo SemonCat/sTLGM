@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.makeramen.RoundedImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.thu.stlgm.R;
 import com.thu.stlgm.anim.AnimUtils;
 import com.thu.stlgm.bean.StudentBean;
@@ -63,6 +65,10 @@ public class PlayerInfoAdapter extends BaseAdapter{
 
     private OnLeaderChangeListener mListener;
 
+    DisplayImageOptions options;
+
+    private ImageLoader imageLoader = ImageLoader.getInstance();
+
     public PlayerInfoAdapter(ListView listView) {
         this.mListView = listView;
         this.mContext = mListView.getContext();
@@ -93,6 +99,10 @@ public class PlayerInfoAdapter extends BaseAdapter{
     }
 
     private void initAnim(){
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .build();
         fade_out_push_top = AnimationUtils.loadAnimation(mContext,R.anim.fade_out_push_top);
     }
 
@@ -252,6 +262,10 @@ public class PlayerInfoAdapter extends BaseAdapter{
             }
         });
 
+        String URL = mStudentBean.getImgUrl();
+        if (URL.startsWith("http")){
+            imageLoader.displayImage(URL, holder.Photo, options);
+        }
 
         holder.Blood.setBlood(mStudentBean.getBlood());
 
@@ -291,6 +305,11 @@ public class PlayerInfoAdapter extends BaseAdapter{
                 switchLeader(position);
             }
         });
+
+        String URL = mStudentBean.getImgUrl();
+        if (URL.startsWith("http")){
+            imageLoader.displayImage(URL, holder.Photo, options);
+        }
         
         return convertView;
     }
@@ -316,6 +335,8 @@ public class PlayerInfoAdapter extends BaseAdapter{
         }
 
         holder.LoginState.setText("未登入");
+
+
 
         return convertView;
     }
@@ -346,7 +367,10 @@ public class PlayerInfoAdapter extends BaseAdapter{
 
         holder.LoginState.setText("登入失敗");
 
-
+        String URL = mStudentBean.getImgUrl();
+        if (URL.startsWith("http")){
+            imageLoader.displayImage(URL, holder.Photo, options);
+        }
 
 
 
@@ -391,6 +415,11 @@ public class PlayerInfoAdapter extends BaseAdapter{
         holder.Name.setText(mStudentBean.getName());
 
         holder.Blood.setBlood(mStudentBean.getBlood());
+
+        String URL = mStudentBean.getImgUrl();
+        if (URL.startsWith("http")){
+            imageLoader.displayImage(URL, holder.Photo, options);
+        }
 
 
 

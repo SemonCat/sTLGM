@@ -23,6 +23,7 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.WebDialog;
 import com.thu.stlgm.R;
 import com.thu.stlgm.bean.AccountBean;
+import com.thu.stlgm.bean.StudentBean;
 import com.thu.stlgm.fragment.MainFragment;
 import com.thu.stlgm.util.ConstantUtil;
 
@@ -195,13 +196,13 @@ public class FBMultiAccountMgr{
         return mSession;
     }
 
-    public void postPhoto(AccountBean mAccount,String GroupId,byte[] photo,final Request.OnProgressCallback mCallback) {
+    public void postPhoto(StudentBean mAccount,String GroupId,byte[] photo,final Request.OnProgressCallback mCallback) {
         Session mSession = SwitchAccount(mAccount);
         if (mSession != null && mSession.isOpened()) {
 
             Bundle mBundle = new Bundle();
-            mBundle.putString("message", "測試");
-            mBundle.putByteArray("source",photo);
+            mBundle.putString("message", "第 "+mAccount.getGroupID()+" 組。");
+            mBundle.putByteArray("source", photo);
 
 
             new Request(mSession,

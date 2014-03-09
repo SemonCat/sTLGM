@@ -32,6 +32,7 @@ public class StudentBean extends AccountBean implements Runnable, Parcelable {
     private String Department;
     private int Blood;
     private String GroupID;
+    private String ImgUrl = "";
 
     public final static int MAX_BLOOD = 100;
 
@@ -206,6 +207,14 @@ public class StudentBean extends AccountBean implements Runnable, Parcelable {
     }
 
 
+    public String getImgUrl() {
+        return ImgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        ImgUrl = imgUrl;
+    }
+
     public void setBloodChangeListener(OnBloodChangeListener mListener) {
         this.mListener = mListener;
     }
@@ -228,6 +237,7 @@ public class StudentBean extends AccountBean implements Runnable, Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.AccessToken);
         dest.writeString(this.Name);
+        dest.writeString(this.ImgUrl);
     }
 
     private StudentBean(Parcel in) {
@@ -239,7 +249,7 @@ public class StudentBean extends AccountBean implements Runnable, Parcelable {
         this.id = in.readString();
         this.AccessToken = in.readString();
         this.Name = in.readString();
-
+        this.ImgUrl = in.readString();
 
         init();
 

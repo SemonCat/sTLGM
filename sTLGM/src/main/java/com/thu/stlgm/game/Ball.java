@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.Image;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -60,7 +61,10 @@ public class Ball extends BaseGame{
     @ViewById
     BookLayout BookLayout;
 
-    private boolean[] answer = new boolean[]{true,true,true,false,false};
+    @ViewById
+    ImageView centerIcon;
+
+    private boolean[] answer = new boolean[]{true,true,true,false,false,true};
     private boolean[] userAnswer = new boolean[5];
 
     private int bookdrawables[][] = new int[][]
@@ -70,22 +74,63 @@ public class Ball extends BaseGame{
             {R.drawable.book4,R.drawable.book4_g,R.drawable.book4_r},
             {R.drawable.book5,R.drawable.book5_g,R.drawable.book5_r},};
 
+    private int type1Drawale[][] = new int[][]
+            {{R.drawable.hp,R.drawable.ebay,R.drawable.google,R.drawable.intel,R.drawable.youtube},
+            {R.drawable.amazon,R.drawable.intel,R.drawable.hp,R.drawable.apple,R.drawable.youtube},
+            {R.drawable.google,R.drawable.apple,R.drawable.amazon,R.drawable.microsoft,R.drawable.youtube},
+            {R.drawable.ebay,R.drawable.hp,R.drawable.fb,R.drawable.intel,R.drawable.youtube},};
+
+    private int type1Logo[] = new int[]{
+            R.drawable.larryandsergey,R.drawable.jobs,R.drawable.bill,R.drawable.mark};
+
+    private boolean type1answer[][] = new boolean[][]
+            {{false,false,true,false,false},
+            {false,false,false,true,false},
+            {false,false,false,true,false},
+            {true,false,false,false,false},};
+
     @ViewById
     FrameLayout StartFrame;
 
     @AnimationRes
     Animation push_right_to_left;
 
-    private Handler mHandler;
+    private int ballview = R.drawable.ball2;
 
-    @AfterViews
+    private int Type;
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        Init();
+    }
+
+    public void setupType(int type){
+        this.Type = type;
+
+        switch (type){
+            case 0:
+
+                ballview = R.drawable.ball2;
+
+                break;
+            case 1:
+
+                ballview = R.drawable.ball3;
+
+                break;
+        }
+    }
+
     void Init(){
         mHandler = new Handler();
 
         setupStart();
 
 
-        final ViewTreeObserver observer= container.getViewTreeObserver();
+        ViewTreeObserver observer= container.getViewTreeObserver();
 
         if (observer!=null){
             observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -107,7 +152,7 @@ public class Ball extends BaseGame{
 
     private void setupBallView(){
         mBallView = new BallView(getActivity());
-        mBallView.setImageResource(R.drawable.ball2);
+        mBallView.setImageResource(ballview);
         int BallWidth = 100;
         int BallHeight = 100;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(BallWidth,BallHeight);
@@ -129,12 +174,17 @@ public class Ball extends BaseGame{
         mBallView.setListener(new BallView.OnObjectTouchEvent() {
             @Override
             public void OnObjectTouchEvent(BookView mView) {
-                mView.setBackgroundColor(Color.GREEN);
+                if (mView.getQuestionAnswer()){
+                    mView.setBackgroundResource(R.drawable.green);
+                    OnGameOver(1);
+                }else{
+                    OnGameOver(0);
+                }
             }
 
             @Override
             public void OnObjectOutsideEvent(BookView mView) {
-                mView.setBackgroundColor(Color.TRANSPARENT);
+
             }
         });
         /*
@@ -179,16 +229,44 @@ public class Ball extends BaseGame{
 
     }
 
+    private void OnGameOver(final int score){
+        GameOver(score);
+
+        /*
+        playVictory();
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                GameOver(score);
+            }
+        },2000);
+        */
+    }
+
+    protected void GameOver(int score){
+
+        mBallView.stop();
+        super.GameOver(score);
+
+    }
+
     private void setupBookLayout(){
         List<BookView> mBooks = new ArrayList<BookView>();
 
-        for (int i=0;i<6;i++){
+        Log.d(TAG,"Round:"+getRound());
+
+        for (int i=0;i<type1Drawale[getRound()].length;i++){
             BookView book = new BookView(getActivity());
             book.setTag(i);
-            book.setBookCover(bookdrawables[i % bookdrawables.length][0]);
+            book.setBookCover(type1Drawale[getRound()][i]);
+            book.setQuestionAnswer(type1answer[getRound()][i]);
             mBooks.add(book);
             BookLayout.addView(book);
         }
+
+
+        centerIcon.setImageResource(type1Logo[getRound()]);
 
         mBallView.setBookViewList(mBooks);
     }

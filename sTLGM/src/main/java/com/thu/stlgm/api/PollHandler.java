@@ -144,7 +144,7 @@ public class PollHandler {
                     }
 
                     //尋找任務
-                    List<String> Mission = msgMap.get("1");
+                    List<String> Mission = msgMap.get("0");
                     if (Mission!=null){
                         String Message = Mission.get(0);
                         Log.d(TAG,"Receive Message:"+Message);

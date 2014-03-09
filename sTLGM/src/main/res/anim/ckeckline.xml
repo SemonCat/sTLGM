@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list   android:id="@+id/my_animation" android:oneshot="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ckeckline1" android:duration="25" />
+    <item android:drawable="@drawable/ckeckline9" android:duration="25" />
+    <item android:drawable="@drawable/ckeckline8" android:duration="25" />
+    <item android:drawable="@drawable/ckeckline7" android:duration="25" />
+    <item android:drawable="@drawable/ckeckline6" android:duration="25" />
+    <item android:drawable="@drawable/ckeckline5" android:duration="25" />
+    <item android:drawable="@drawable/ckeckline4" android:duration="25" />
+    <item android:drawable="@drawable/ckeckline3" android:duration="25" />
+    <item android:drawable="@drawable/ckeckline2" android:duration="25" />
+    <item android:drawable="@drawable/ckeckline1" android:duration="25" />
+   
+
+</animation-list>

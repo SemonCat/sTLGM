@@ -18,7 +18,7 @@ import java.util.Random;
  */
 public class MoveImageView extends ImageView implements Runnable{
 
-    int left = 0, top = 0;
+    int left, top;
     int dx = 1, dy = 1;
     Handler handler = new Handler();
     Boolean isRuning = true;
@@ -28,12 +28,24 @@ public class MoveImageView extends ImageView implements Runnable{
 
     Thread mThread;
 
+    TYPE mTYPE;
+
+    boolean ViewVisible;
+
+    Handler mHandler = new Handler();
+
+    enum TYPE{
+        TYPE1,
+        TYPE2
+    }
+
     private int parentWidth,parentHeight;
 
 
 
     public MoveImageView(Context context) {
         super(context);
+        setVisibility(View.GONE);
     }
 
     public MoveImageView(Context context, AttributeSet attrs) {
@@ -46,6 +58,12 @@ public class MoveImageView extends ImageView implements Runnable{
 
     }
 
+    public void setRandomImage(int... ImageNumber){
+        int randomImage = new Random().nextInt(ImageNumber.length);
+        setImageResource(ImageNumber[randomImage]);
+    }
+
+
     public void start(){
         this.handler = new Handler();
         parentWidth = ((View)getParent()).getWidth();
@@ -53,6 +71,22 @@ public class MoveImageView extends ImageView implements Runnable{
         bitmap = ((BitmapDrawable) getDrawable()).getBitmap();
         layoutParams = (RelativeLayout.LayoutParams) getLayoutParams();
         isRuning = true;
+        ViewVisible = true;
+
+        boolean randomType = new Random().nextBoolean();
+        if(randomType){
+            mTYPE = TYPE.TYPE1;
+        }
+        else {
+            mTYPE = TYPE.TYPE2;
+        }
+
+        int randomLeft =new Random().nextInt(parentWidth)-getWidth();
+        int randomTop =new Random().nextInt(parentHeight)-getHeight();
+        if(randomLeft<0) randomLeft=0;
+        if(randomTop<0) randomTop=0;
+        left=randomLeft;
+        top=randomTop;
         mThread = new Thread(this);
         mThread.start();
     }
@@ -64,13 +98,48 @@ public class MoveImageView extends ImageView implements Runnable{
 
     @Override
     public void run() {
+
         while (isRuning) {
+
+
 
             dx = left < 0 || (left + getWidth()) > parentWidth ? -dx : dx;
             dy = top < 0 || (top + getHeight()) > parentHeight ? -dy : dy;
 
-            left += dx;
-            top += dy;
+            int randomX = new Random().nextInt(7);
+            int randomY = new Random().nextInt(4)+2;
+            int randomSleep = new Random().nextInt(2)+2;
+
+            if (ViewVisible){
+                ViewVisible =false;
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        setVisibility(View.VISIBLE);
+                    }
+                });
+
+
+            }
+
+            boolean array[]=new boolean[]{true,true,true,true,false,false,false};
+
+            switch (mTYPE){
+                case TYPE1:
+                    if(array[randomX]){
+                        left += dx;
+                    };
+                    if(array[randomY]){
+                        top += dy;
+                    };
+
+                    break;
+                case TYPE2:
+                    left += dx;
+                    top += dy;
+
+                    break;
+            }
 
             handler.post(new Runnable() {
 
@@ -83,11 +152,14 @@ public class MoveImageView extends ImageView implements Runnable{
                 }
             });
             try {
-                Thread.sleep(2);
+                Thread.sleep(randomSleep);
             } catch (InterruptedException e) {
 
             }
+
+
         }
+
 
     }
 
