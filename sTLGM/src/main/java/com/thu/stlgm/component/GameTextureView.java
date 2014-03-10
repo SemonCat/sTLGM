@@ -2,7 +2,10 @@ package com.thu.stlgm.component;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.SurfaceTexture;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -11,180 +14,110 @@ import android.view.TextureView;
 /**
  * Created by SemonCat on 2014/2/13.
  */
-public abstract class GameTextureView extends TextureView implements TextureView.SurfaceTextureListener{
+public abstract class GameTextureView extends TextureView implements
+        TextureView.SurfaceTextureListener,Runnable {
+    public static final int GAME_HEART = 1000 / 60; // 每秒刷新30次
 
-    private static final String TAG = GameTextureView.class.getName();
-    public ViewThread thread;   //刷幀的線程
-    public String fps="FPS:N/A";          //用於顯示幀速率的字符串，調試使用
-    private boolean loop = true;
-    private boolean pause = true;
-    //睡眠的毫秒數
-    private int sleepSpan = 1000/30;
+    private Thread thread;
+    //private SurfaceHolder holder;
+
+    protected Paint paint;
+
+    private boolean isRun; // 線程運行標誌
+    private float fps; // 記錄每次刷屏使用的時間
+
 
     public GameTextureView(Context context) {
-        super(context);
-        init();
+        this(context, null);
+
     }
 
     public GameTextureView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
+        this(context, attrs,0);
     }
 
     public GameTextureView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        setSurfaceTextureListener(this);
     }
 
-    public void init(){
-        //Log.d(TAG, "--GameView Created--");
-        this.setSurfaceTextureListener(this);
-        thread = new ViewThread(this);
+    /**
+     * 執行遊戲邏輯方法
+     */
+    public void _update() {
+
+    }
+
+    /**
+     * 執行遊戲繪製
+     */
+    public void _draw(Canvas canvas) {
+        canvas.drawColor(Color.WHITE);
+        onDrawEvent(canvas);
+        //Log.d(VIEW_LOG_TAG, "_draw");
+    }
+
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surface,
+                                          int width, int height) {
+        // TODO Auto-generated method stub
+        Log.d(VIEW_LOG_TAG, "surfaceCreated");
+        thread = new Thread(this);
+        isRun = true;
         thread.start();
     }
 
-    /**
-     * 設置循環標記位
-     * @param loop
-     */
-    public void setLoop(boolean loop) {
-        this.loop = loop;
-    }
-
-    /**
-     * 設置循環暫停標記位
-     * @param pause
-     */
-    public void setPause(boolean pause) {
-        this.pause = pause;
-    }
-
-    /**
-     * 繪圖
-     */
     public abstract void onDrawEvent(Canvas canvas);
 
-    /**
-     * 在surface創建時激發的擴展方法
-     */
-    public void expandSurfaceCreated(){
-    }
-    /**
-     * 在surface創建時激發的擴展方法
-     */
-    public void expandSurfaceDestroyed(){
-    }
-
     @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i2) {
-        //如果後台重繪線程沒起來,就启動它
-
-        if(!this.thread.isAlive()){
-            try{
-                //启動刷幀線程
-                this.setLoop(true);
-                this.setPause(true);
-                this.thread.start();
-                expandSurfaceCreated();
-            }catch(Exception e){
-                e.printStackTrace();
-                this.setLoop(false);
-                this.setPause(false);
-            }
-        }
-        Log.d(TAG, "--surfaceCreated--");
-    }
-
-    @Override
-    public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i2) {
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surface,
+                                            int width, int height) {
 
     }
 
     @Override
-    public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-        releaseViewThread();
-        expandSurfaceDestroyed();
-        Log.d(TAG, "--surfaceDestroyed--");
-        return true;
-    }
-
-    @Override
-    public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-
-    }
-
-    /**
-     * 釋放view類線程
-     */
-    public void releaseViewThread(){
-        if(thread != null && thread.isAlive()){
-            this.setPause(false);
-            this.setLoop(false);
-            try {
-                thread.interrupt();
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+        // TODO Auto-generated method stub
+        isRun = false;
         thread = null;
+        Log.d(VIEW_LOG_TAG, "surfaceDestroyed");
+        return false;
     }
 
-    /**
-     * 刷幀線程
-     */
-    class ViewThread extends Thread{
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+        // TODO Auto-generated method stub
 
-        private GameTextureView gameView;
-        private int count = 0;              //記錄幀數，該變量用於計算幀速率
-        private long start = System.nanoTime(); //記錄起始時間，該變量用於計算幀速率
-        /**
-         * 構造方法
-         * @param gameView
-         */
-        public ViewThread(GameTextureView gameView) {
-            this.gameView = gameView;
-        }
+    }
 
-        @Override
-        public void run() {
-            Canvas canvas;
-            while (loop) {
-                while (pause) {
-                    canvas = null;
-                    try {
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        long start, end, useTime;
 
-                        if(!Thread.currentThread().isInterrupted()){
-                            //锁定整個畫布，在內存要求比較高的情況下，建議参數不要为null
-                            canvas = gameView.lockCanvas();
-                            synchronized (gameView) {
-                                gameView.onDrawEvent(canvas);//繪制
-                            }
-                        }
-                    }catch (Exception e){
-                        Thread.currentThread().interrupt();
-                        loop = false;
-                    }finally {
-                        if (canvas != null) {
-                            //更新屏幕顯示內容
-                            gameView.unlockCanvasAndPost(canvas);
-                        }
-                    }
-                    this.count++;
-                    if(count == 20){ //如果計滿20幀
-                        count = 0;  //清空計數器
-                        long tempStamp = System.nanoTime(); //獲取當前時間
-                        long span = tempStamp - start;  //獲取時間間隔
-                        start = tempStamp;     //为start重新賦值
-                        double fps = Math.round(100000000000.0/span*20)/100.0;//計算幀速率
-                        gameView.fps = "FPS:"+fps;//將計算出的幀速率設置到gameView的相應字符串對象中
-                    }
-                    try{
-                        Thread.sleep(sleepSpan);  //睡眠指定毫秒數
-                    }catch(Exception e){
+        while (isRun) {
+            start = System.currentTimeMillis();
+            {
+                Canvas canvas = this.lockCanvas();
+                if (canvas==null) return;
+                _update(); // 刷新界面上所有元素
+                _draw(canvas); // 繪製界面元素
+                unlockCanvasAndPost(canvas);
+            }
+            end = System.currentTimeMillis();
+            useTime = (int) (end - start);
+            fps = 1000 / Math.max(System.currentTimeMillis() - start, 1);
 
-                    }
+            if (useTime < GAME_HEART) { // 保證每次刷屏時間間隔相同
+                try {
+                    Thread.sleep(GAME_HEART - useTime);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
             }
         }
     }
+
+
 }

@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
+
+
     <ImageView
         android:id="@+id/GifImageView"
         android:layout_width="100dp"
@@ -26,7 +28,8 @@
         android:id="@+id/Reset"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@android:color/transparent"/>
+        android:background="@android:color/transparent"
+        android:visibility="gone"/>
 
     <ImageView
 
@@ -37,4 +40,35 @@
         android:src="@drawable/scanning_light"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:autoLink="all"
+        android:text="@string/new_account"
+        android:onClick="newAccount"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/packageVersionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/State"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="50dp"
+        android:text=""/>
+
+
 </RelativeLayout>

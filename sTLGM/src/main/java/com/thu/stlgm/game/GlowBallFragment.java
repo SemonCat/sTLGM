@@ -8,6 +8,8 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -413,6 +415,16 @@ public class GlowBallFragment extends BaseGame {
 
         gotScoreText.startAnimation(animation);
 
+
+    }
+
+    @Override
+    protected void RestartFragment(int quizid,int counter, int container, FragmentManager manager, OnGameOverListener onGameOverListener) {
+
+        GlowBallFragment glowBallFragment = new GlowBallFragment(quizid);
+        glowBallFragment.setOnGameOverListener(onGameOverListener);
+
+        addFragment(glowBallFragment,counter,container,manager,onGameOverListener);
 
     }
 }

@@ -1,6 +1,7 @@
 package com.thu.stlgm.game;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -87,7 +88,7 @@ public class Ball extends BaseGame{
             {{false,false,true,false,false},
             {false,false,false,true,false},
             {false,false,false,true,false},
-            {true,false,false,false,false},};
+            {false,false,true,false,false},};
 
     @ViewById
     FrameLayout StartFrame;
@@ -105,6 +106,7 @@ public class Ball extends BaseGame{
         super.onActivityCreated(savedInstanceState);
 
         Init();
+
     }
 
     public void setupType(int type){
@@ -169,7 +171,7 @@ public class Ball extends BaseGame{
 
         frameAnimation.start();
 
-        setupBookLayout();
+
 
         mBallView.setListener(new BallView.OnObjectTouchEvent() {
             @Override
@@ -187,6 +189,8 @@ public class Ball extends BaseGame{
 
             }
         });
+
+        setupBookLayout();
         /*
         mBallView.addViewList(book1);
         mBallView.addViewList(book2);
@@ -255,6 +259,7 @@ public class Ball extends BaseGame{
         List<BookView> mBooks = new ArrayList<BookView>();
 
         Log.d(TAG,"Round:"+getRound());
+
 
         for (int i=0;i<type1Drawale[getRound()].length;i++){
             BookView book = new BookView(getActivity());
@@ -362,6 +367,15 @@ public class Ball extends BaseGame{
             params.topMargin = container.getHeight()/2-mBallView.getHeight()/2;
             mBallView.setLayoutParams(params);
         }
+    }
+
+    @Override
+    protected void RestartFragment(int quizid,int counter, int container, FragmentManager manager, OnGameOverListener onGameOverListener) {
+
+        Ball_ ball_ = new Ball_();
+        ball_.setupType(quizid);
+
+        addFragment(ball_,counter,container,manager,onGameOverListener);
     }
 }
 

@@ -30,8 +30,7 @@
         android:layout_height="100dp"
         android:background="@android:color/transparent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:visibility="gone"/>
+        android:layout_alignParentLeft="true"/>
 
 
     <LinearLayout

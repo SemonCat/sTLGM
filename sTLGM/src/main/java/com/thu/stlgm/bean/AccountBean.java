@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class AccountBean implements Serializable {
 
 
+    /**FB UUID**/
     String id;
     String AccessToken;
 

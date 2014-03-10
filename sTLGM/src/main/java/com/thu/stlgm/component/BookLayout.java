@@ -117,7 +117,7 @@ public class BookLayout extends ViewGroup {
         final int radius =  mRadius;
 
         final int childCount = getChildCount();
-        final float perDegrees = (mToDegrees - mFromDegrees) / (childCount - 1);
+        final float perDegrees = (mToDegrees - mFromDegrees) / (childCount);
 
         float degrees = mFromDegrees;
         for (int i = 0; i < childCount; i++) {

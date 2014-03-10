@@ -7,4 +7,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="login"><a href="com.thu.stlgm://www.sq.com.tw/login">點錯了，我要登入！</a></string>
+    <string name="new_account"><a href="com.thu.stlgm://www.sq.com.tw/new_account">沒有帳號？</a></string>
+
+    <string name="fb_login"><a href="com.thu.stlgm://www.sq.com.tw/fb_login">Facebook 授權</a></string>
 </resources>

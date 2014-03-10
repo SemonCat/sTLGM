@@ -287,12 +287,12 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     void playBall() {
 
 
-        //playBall(0);
-        playGlowBall(0);
+        playBall(0);
+        //playGlowBall(0);
+        //playFlappy(0);
     }
 
     void playBall(int quizid){
-        mGameMgr.resetCounter();
         Ball_ ball_ = new Ball_();
         ball_.setupType(quizid);
 

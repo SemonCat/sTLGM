@@ -5,6 +5,8 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -64,13 +66,6 @@ public class FlippyBookFragment extends BaseGame {
     private long lastTime = System.currentTimeMillis();
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.flippybook, container, false);
@@ -114,6 +109,12 @@ public class FlippyBookFragment extends BaseGame {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+    }
 
     private void movePillar(final ImageView v) {//this view must have been added to the RelativeLayout(Container)
         final RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) v.getLayoutParams();
@@ -464,4 +465,14 @@ public class FlippyBookFragment extends BaseGame {
 
     }
 
+    @Override
+    public void RestartFragment(int quizid,int counter,int container,FragmentManager manager,OnGameOverListener onGameOverListener) {
+
+        FlippyBookFragment flippyBookFragment = new FlippyBookFragment();
+        flippyBookFragment.setOnGameOverListener(onGameOverListener);
+
+
+        addFragment(flippyBookFragment,counter,container,manager,onGameOverListener);
+
+    }
 }

@@ -23,8 +23,7 @@
             android:id="@+id/BookLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            app:childSize="150dp"/>
+            app:childSize="100dp"/>
 
         <ImageView
             android:layout_width="200dp"
@@ -36,7 +35,8 @@
             android:id="@+id/centerIcon"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:scaleType="centerInside"/>
     </FrameLayout>
 
 

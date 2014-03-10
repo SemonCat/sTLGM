@@ -5,6 +5,8 @@ package com.thu.stlgm.util;
  */
 public class ConstantUtil {
 
+    public static final String UpdateURL = "https://dl.dropboxusercontent.com/s/oh93vsbs23l62xv/updateinfo.json";
+
     public static final String clientID = "1417907878451151";
 
     public static final String LoginURL = "https://www.facebook.com/dialog/oauth?client_id=" +

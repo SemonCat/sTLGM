@@ -33,9 +33,11 @@ public class GameMgr {
 
     private int timeout = 5 * 1000;
 
-    private int counter = 1;
+
+    private int counter = 0;
 
     private OnGameFinishListener mListener;
+
 
     public GameMgr(GameActivity activity, int containerId) {
         this.mActivity = activity;
@@ -46,49 +48,62 @@ public class GameMgr {
     public void PlayGame(final int quizId, final BaseGame game, final String tag, final int max_counter) {
 
 
-        final BeforeGameFragment_ baseFragment = new BeforeGameFragment_();
-        checkContentResource(quizId,baseFragment);
+        final BeforeGameFragment_ beforeGameFragment = new BeforeGameFragment_();
+        checkContentResource(quizId,beforeGameFragment);
 
-        baseFragment.setFragmentFinishListener(new BaseGame.OnFragmentFinishListener() {
-            @Override
-            public void OnFragmentFinishEvent(BaseGame fragment) {
-                Log.d(TAG, "OnFragmentFinishEvent");
-
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mListener != null)
-                            mListener.OnGameStartEvent();
-                        replaceFragment(game);
-                    }
-                }, 100);
-
-            }
-        });
-
-        game.setOnGameOverListener(new BaseGame.OnGameOverListener() {
+        final BaseGame.OnGameOverListener onGameOverListener = new BaseGame.OnGameOverListener() {
             @Override
             public void OnGameOverEvent(int score) {
-                game.finishFragment();
 
+                if (counter < max_counter-1) {
 
-                if (counter < max_counter) {
-                    game.setRound(counter);
                     counter++;
 
                     PlayGame(quizId, game, tag, max_counter);
                     if (mListener != null)
                         mListener.OnGameNextEvent();
                 } else {
+                    resetCounter();
                     if (mListener != null)
                         mListener.OnGameOverEvent();
                 }
 
 
             }
+        };
+
+        game.setOnGameOverListener(onGameOverListener);
+
+        beforeGameFragment.setFragmentFinishListener(new BaseGame.OnFragmentFinishListener() {
+            @Override
+            public void OnFragmentFinishEvent(BaseGame fragment) {
+                Log.d(TAG, "OnFragmentFinishEvent");
+
+
+                if (mListener != null){
+                    mListener.OnGameStartEvent();
+                }
+
+
+                /*
+                try{
+                    replaceFragment(game.getClass().newInstance());
+                }catch(InstantiationException mInstantiationException){
+
+                }catch (IllegalAccessException mIllegalAccessException){
+
+                }
+                */
+
+                game.RestartFragment(quizId,counter,mContainer,mActivity.getFragmentManager(),onGameOverListener);
+
+
+            }
         });
 
-        replaceFragment(baseFragment);
+
+
+        replaceFragment(beforeGameFragment);
 
 
     }
@@ -96,12 +111,12 @@ public class GameMgr {
     private void checkContentResource(int quizId, BeforeGameFragment_ baseFragment) {
         Log.d(TAG,"counter:"+counter);
         int resource;
-        if (quizId == 0 && counter == 1) {
+        if (quizId == 0 && counter == 0) {
             resource = MissionContentMgr.getMissionContent(quizId);
             baseFragment.setupMissionContent(resource);
 
 
-        } else if (counter == 1) {
+        } else if (counter == 0) {
             resource = MissionContentMgr.getMissionContent(quizId);
             baseFragment.setupMissionContent(resource);
         } else {
@@ -112,17 +127,24 @@ public class GameMgr {
     }
 
     public void resetCounter() {
-        this.counter = 1;
+        this.counter = 0;
     }
 
 
     private void replaceFragment(Fragment fragment) {
+
+
         mActivity.getFragmentManager().beginTransaction()
                 .replace(mContainer, fragment)
                 .commit();
+        mActivity.getFragmentManager().executePendingTransactions();
+
+        //mActivity.getFragmentManager().beginTransaction().add(mContainer,fragment).commit();
     }
 
     public void replaceFragment(final Fragment mFragment, final String TAG) {
+
+
 
         FragmentTransaction transaction = mActivity.getFragmentManager().beginTransaction();
         Fragment findFragment = mActivity.getFragmentManager().findFragmentByTag(TAG);

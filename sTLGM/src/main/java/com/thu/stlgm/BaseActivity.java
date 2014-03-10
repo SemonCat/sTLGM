@@ -1,10 +1,12 @@
 package com.thu.stlgm;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.facebook.Session;
@@ -46,5 +48,12 @@ public class BaseActivity extends FragmentActivity {
             MusicManager.init(getApplicationContext());
         MusicManager.startMusic();
         */
+    }
+
+    public void HideSoftKeyBoard(){
+        ((InputMethodManager) BaseActivity.this.
+                getSystemService(Context.INPUT_METHOD_SERVICE)).
+                hideSoftInputFromWindow(BaseActivity.this.getCurrentFocus().getWindowToken()
+                        ,InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

@@ -140,7 +140,9 @@ public class FBMultiAccountMgr{
             Session.openActiveSessionFromCache(mContext).closeAndClearTokenInformation();
 
         //準備登入Dialog
-        WebDialog localWebDialog = new WebDialog.Builder(mContext, mContext.getString(R.string.app_id), "oauth", null).build();
+        WebDialog localWebDialog = new WebDialog
+                .Builder(mContext, mContext.getString(R.string.app_id), "oauth", null)
+                .build();
 
 
         //設定登入完成CallBack
@@ -169,6 +171,8 @@ public class FBMultiAccountMgr{
 
             }
         });
+
+
         localWebDialog.show();
 
 

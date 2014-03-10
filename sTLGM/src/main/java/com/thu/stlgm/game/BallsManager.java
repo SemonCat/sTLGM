@@ -96,7 +96,7 @@ public class BallsManager {
             if(Type==0){
                 ball.setBackgroundResource(picArrayFalse[new Random().nextInt(picArrayFalse.length)]);
             }else if(Type==1){
-                ball.setImageResource(picArrayTrue[new Random().nextInt(picArrayTrue.length)]);
+                ball.setImageResource(picArrayFalse[new Random().nextInt(picArrayFalse.length)]);
                 ball.setBackgroundResource(R.drawable.aerolite3);
             }
             //ball.setBackgroundColor(Color.RED);

@@ -15,6 +15,17 @@ import com.thu.stlgm.util.ConstantUtil;
 import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import serializable.StudentInfo;
+import serializable.StudentInfoMap;
+
 /**
  * Created by SemonCat on 2014/2/18.
  */
@@ -29,6 +40,10 @@ public class SQService {
         public void OnSQLoginFinish(StudentBean mData);
         public void OnSQLoginFail(String fid);
         public void OnSQLoginNetworkError(int statusCode, Header[] headers, byte[] responseBody, Throwable error);
+    }
+
+    public interface OnAllStudentGetListener{
+        void OnAllStudentGetEvent(List<StudentBean> mStudentList);
     }
 
     public interface OnMedicineGetSuccess{
@@ -157,5 +172,75 @@ public class SQService {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(URL,new AsyncHttpResponseHandler());
 
+    }
+
+    public static void getAllStudents(final OnAllStudentGetListener mListener){
+        String URL = ServerIP+"/TeacherQuery?service=3";
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(URL,new AsyncHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    ObjectInputStream objIn = new ObjectInputStream(new ByteArrayInputStream(responseBody));
+
+                    StudentInfoMap infoMap = (StudentInfoMap) objIn.readObject();
+
+                    List<StudentBean> mData = transStudentInfoMap2StudentBean(infoMap);
+
+
+                    if (mListener!=null)
+                        mListener.OnAllStudentGetEvent(mData);
+
+                }catch (IOException mIOException){
+                    mIOException.printStackTrace();
+                }catch (ClassNotFoundException mClassNotFoundException){
+                    mClassNotFoundException.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                //Log.d(TAG,"Error:"+new String(responseBody));
+            }
+        });
+
+    }
+
+    public static StudentBean findStudentBySID(List<StudentBean> mStudentList,String SID){
+        for (StudentBean mStudent:mStudentList){
+            if (mStudent.getSID().equals(SID)){
+                return mStudent;
+            }
+        }
+
+        return null;
+    }
+
+    public static void SingUp(String sid,String fb_id,AsyncHttpResponseHandler mHandler){
+
+        String URL = ServerIP+"/InsertStudent?sid="+sid+"&fb="+fb_id;
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(URL,mHandler);
+    }
+
+    public static List<StudentBean> transStudentInfoMap2StudentBean(StudentInfoMap infoMap){
+        List<StudentBean> mData = new ArrayList<StudentBean>();
+        Map<String, StudentInfo> map = infoMap.getStudentMap();
+        for (String key:map.keySet()){
+            StudentInfo mInfo = map.get(key);
+            StudentBean mStudentBean = new StudentBean();
+            mStudentBean.setImgUrl(mInfo.getImgUrl());
+            mStudentBean.setName(mInfo.getName());
+            mStudentBean.setDepartment(mInfo.getDep());
+            mStudentBean.setSID(mInfo.getSid());
+            mStudentBean.setGroupID(mInfo.getGid());
+
+            mData.add(mStudentBean);
+        }
+
+        return mData;
     }
 }
