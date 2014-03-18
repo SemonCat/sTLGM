@@ -50,6 +50,10 @@ public class SQService {
         void OnMedicineGetSuccess(int reward);
     }
 
+    public interface OnGroupCoinGet{
+        void OnGroupCoinGetEvent(int coin);
+    }
+
     /**
      * 直接登入SQ Server
      * @param mContext
@@ -167,8 +171,34 @@ public class SQService {
 
     }
 
+    public static void getGroupCoin(String gid,final OnGroupCoinGet mListener){
+        String URL = ServerIP+"/FindGroupCoin?gid=" + gid;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(URL,new AsyncHttpResponseHandler(){
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String Message = new String(responseBody);
+
+                if (Message!=null){
+                    try {
+
+                        int AllCoin = Integer.valueOf(Message);
+
+                        if (mListener!=null)
+                            mListener.OnGroupCoinGetEvent(AllCoin);
+
+                    }catch (NumberFormatException mNumberFormatException){
+
+                    }
+                }
+            }
+        });
+
+    }
+
     public static void addMoney(String gid){
-        String URL = ServerIP+"/CoinInterface?service=3&groupId=" + gid+"&coin=500";
+        String URL = ServerIP+"/CoinInterface?service=3&groupId=" + gid+"&coin=6";
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(URL,new AsyncHttpResponseHandler());
 

@@ -64,17 +64,27 @@ public class GlowBallFragment extends BaseGame {
 
     private int Type;
 
+    private int maxScore = 5;
+
+    public GlowBallFragment(){
+        init(0);
+    }
+
     public GlowBallFragment(int Type) {
         this.Type = Type;
+        init(Type);
+    }
+
+    private void init(int Type){
         switch (Type){
             case 0:
-                picArrayFalse=new int[]{R.drawable.item5,R.drawable.item6,R.drawable.item7,R.drawable.item8,
-                        R.drawable.item9,R.drawable.item10,R.drawable.item11,R.drawable.item12,R.drawable.item13,
-                        R.drawable.item14,R.drawable.item15,R.drawable.item16,R.drawable.item17};
-                picArrayTrue=new int[]{R.drawable.item1,R.drawable.item2,R.drawable.item3,R.drawable.item4};
+                picArrayFalse=new int[]{R.drawable.opt_m23_f_01,R.drawable.opt_m23_f_02,
+                        R.drawable.opt_m23_f_03,R.drawable.opt_m23_f_04};
+                picArrayTrue=new int[]{R.drawable.opt_m23_t_01,R.drawable.opt_m23_t_02,
+                        R.drawable.opt_m23_t_03};
 
-                containerBackground = R.drawable.bg8;
-                animResource = R.anim.ckeckline;
+                containerBackground = R.drawable.bkg_m_03;
+                animResource = R.anim.obj_m_checkline01;
                 underline2 = -1;
 
                 break;
@@ -93,6 +103,11 @@ public class GlowBallFragment extends BaseGame {
 
                 break;
         }
+    }
+
+    @Override
+    public void StartGame(){
+        onGameStart();
     }
 
     @Override
@@ -178,7 +193,7 @@ public class GlowBallFragment extends BaseGame {
 
 	@Override
 	public void onResume() {
-		onGameStart();
+		//onGameStart();
 		super.onResume();
 	}
 
@@ -239,19 +254,19 @@ public class GlowBallFragment extends BaseGame {
 					if (mBallOBJ.isAnswer()) {// the same color
 
                         if (!closeThread){
-                            onGameOver(score);
+                            onGameOver(score,OverType.Dead);
                         }
                         //對的答案觸控
 					} else {// not the same color
 						//score += 5;
                         //錯的答案觸控
-                        if(score<10) {
+                        if(score<maxScore-1) {
                             score += 1;
                             showScore();
                         }
                         else {
                             if (!closeThread){
-                                onGameOver(score);
+                                onGameOver(score,OverType.Win);
                             }
                         }
 					}
@@ -264,11 +279,16 @@ public class GlowBallFragment extends BaseGame {
 						//score += 1;
                         //錯的答案掉落
                         if (!closeThread){
-                            onGameOver(score);
+                            onGameOver(score,OverType.Dead);
                         }
 					}
 				}
+
+
+
 				scoreTxt.setText("" + score);
+
+
 				ValueAnimator alpha = ObjectAnimator.ofFloat(ball, "alpha",
 						1.0f, 0f);
 				ValueAnimator scaleX = ObjectAnimator.ofFloat(ball, "scaleX",
@@ -318,11 +338,11 @@ public class GlowBallFragment extends BaseGame {
 		closeThread = false;
 		handler.post(ballGenerator);// must be at the bottom of the code
 	}
-    private void onGameOver(int score){
+    private void onGameOver(int score,OverType mType){
         //遊戲結束
         //Log.d("GameOver","GameOver!!!!!!!!!!!!!!!!!!!");
         closeThread = true;
-        GameOver(1);
+        GameOver(mType,1);
 
     }
 	private void onGameRestart() {
@@ -336,43 +356,6 @@ public class GlowBallFragment extends BaseGame {
 				.getColor());
 		scoreTxt.setText("0");
 		//splash start
-//		final ImageView splash = new ImageView(context);
-//		splash.setBackgroundColor(Color.WHITE);
-//		gameMainLay.addView(splash);
-//		RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams)splash.getLayoutParams();
-//		rlp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-//		rlp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-//		splash.setLayoutParams(rlp);
-//		ValueAnimator va = ObjectAnimator.ofFloat(splash, "alpha", 0f,1.0f,0f);
-//		va.setDuration(3600);
-//		va.addListener(new AnimatorListener() {
-//			
-//			@Override
-//			public void onAnimationStart(Animator animation) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void onAnimationRepeat(Animator animation) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void onAnimationEnd(Animator animation) {
-//				// TODO Auto-generated method stub
-//				gameMainLay.removeView(splash);
-//				onGameStart();
-//			}
-//			
-//			@Override
-//			public void onAnimationCancel(Animator animation) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
-//		va.start();
 		
 		onGameStart();
 	}
@@ -421,7 +404,7 @@ public class GlowBallFragment extends BaseGame {
     @Override
     protected void RestartFragment(int quizid,int counter, int container, FragmentManager manager, OnGameOverListener onGameOverListener) {
 
-        GlowBallFragment glowBallFragment = new GlowBallFragment(quizid);
+        GlowBallFragment glowBallFragment = new GlowBallFragment();
         glowBallFragment.setOnGameOverListener(onGameOverListener);
 
         addFragment(glowBallFragment,counter,container,manager,onGameOverListener);

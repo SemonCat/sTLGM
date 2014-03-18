@@ -31,6 +31,7 @@ import com.thu.stlgm.facebook.FBMultiAccountMgr;
 import com.thu.stlgm.fragment.GameFragmentMgr;
 import com.thu.stlgm.fragment.PhotoFragment;
 import com.thu.stlgm.fragment.PhotoFragment_;
+import com.thu.stlgm.fragment.PhotoUploadFragment_;
 import com.thu.stlgm.fragment.WorkFragment;
 import com.thu.stlgm.game.Ball;
 import com.thu.stlgm.game.Ball_;
@@ -40,8 +41,10 @@ import com.thu.stlgm.game.GameMgr;
 import com.thu.stlgm.game.GlowBallFragment;
 import com.thu.stlgm.game.Medicine;
 import com.thu.stlgm.game.Medicine_;
+import com.thu.stlgm.game.PuzzleFragment;
 import com.thu.stlgm.util.ConstantUtil;
 import com.thu.stlgm.util.MedicineValueUtil;
+import com.thu.stlgm.util.PlayStateMgr;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -91,6 +94,12 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
     private GameMgr mGameMgr;
 
+    private int playTime = 0;
+
+    private PlayStateMgr mPlayStateMgr;
+
+    private PlayerInfoAdapter.OnLeaderChangeListener mLeaderChangeListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +115,8 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         mGameMgr.setListener(this);
         initAdapter();
 
+
+
     }
 
     private void setupPollHandler(StudentBean mStudentBean) {
@@ -120,7 +131,10 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     @Override
     @UiThread
     public void OnMissionReceive(String quizid, String taskid, String groupid) {
+        if (mGameMgr.IsRun()) return;
         Log.d(TAG, "ReceiveMission,QuizID:" + quizid + " TaskID:" + taskid + " GID:" + groupid);
+
+        mPlayStateMgr = new PlayStateMgr(mPollHandler.getLoginStudent());
 
         /*
         if (quizid.equals("0")) {
@@ -132,10 +146,14 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         }
         */
 
+
+
         if (quizid.equals("0")) {
-            playBall(0);
-        }else if (quizid.equals("1")){
-            playGlowBall(0);
+            playPuzzle(0);
+        }else if (quizid.equals("1")) {
+            playFlappy(1);
+        }else if (quizid.equals("2")){
+            playGlowBall(2);
         }
 
     }
@@ -171,6 +189,10 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     @Override
     @UiThread
     public void OnHpPause() {
+        for (StudentBean mStudent:mPlayerInfoAdapter.getStudents()){
+            mStudent.pasueHpService();
+        }
+
         Log.d(TAG, "OnHpPause");
     }
 
@@ -184,7 +206,11 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
     @Override
     public void OnLeaderChangeEvent(StudentBean leader) {
+
         checkMedicine();
+
+        if (mLeaderChangeListener!=null)
+            mLeaderChangeListener.OnLeaderChangeEvent(leader);
     }
 
     private void initAdapter() {
@@ -193,34 +219,48 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
             mPlayerInfoAdapter = new PlayerInfoAdapter(ListViewPlayerInfo, mStudentBean);
             mPlayerInfoAdapter.setOnLeaderChangeListener(this);
 
-            if (mStudentBean != null) {
-                //開始Polling
-                setupPollHandler(mStudentBean);
 
-                //查詢組員人數
-                SQService.getGroupMemberCounter(mStudentBean.getGroupID(), new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String counterString = new String(responseBody);
-                        int counter = Integer.valueOf(counterString);
-                        if (counter > 0)
-                            mPlayerInfoAdapter.setupMemberCounter(counter);
-                        else
-                            mPlayerInfoAdapter.setupMemberCounter(5);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        error.printStackTrace();
-                        mPlayerInfoAdapter.setupMemberCounter(5);
-                    }
-                });
-            }
+            initGroupData(mStudentBean);
 
         }
 
         ListViewPlayerInfo.setAdapter(mPlayerInfoAdapter);
 
+    }
+
+    private void initGroupData(StudentBean mStudentBean){
+        if (mStudentBean != null) {
+            //開始Polling
+            setupPollHandler(mStudentBean);
+
+            //查詢組員人數
+            SQService.getGroupMemberCounter(mStudentBean.getGroupID(), new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String counterString = new String(responseBody);
+                    int counter = Integer.valueOf(counterString);
+                    if (counter > 0) {
+                        mPlayerInfoAdapter.setupMemberCounter(counter);
+                    }else{
+                        mPlayerInfoAdapter.setupMemberCounter(5);
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    error.printStackTrace();
+                    mPlayerInfoAdapter.setupMemberCounter(5);
+                }
+            });
+
+            //查詢金錢
+            SQService.getGroupCoin(mStudentBean.getGroupID(),new SQService.OnGroupCoinGet() {
+                @Override
+                public void OnGroupCoinGetEvent(int coin) {
+                    Money.setText(String.valueOf(coin));
+                }
+            });
+        }
     }
 
     @ItemClick
@@ -231,6 +271,13 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
             SQService.StudentLogin(this, new SQService.OnSQLoginFinish() {
                 @Override
                 public void OnSQLoginFinish(StudentBean mData) {
+                    /*
+                    if (mData.getGroupID()!=mPlayerInfoAdapter.getLeaderStudent().getGroupID()) {
+                        showToast("不同組請勿交互登入！");
+                        return;
+                    }
+                    */
+
                     if (mPollHandler != null) {
                         mPollHandler.addStudent(mData);
                     }
@@ -250,7 +297,12 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         } else if (mPlayerInfoAdapter.getItemViewType(position) ==
                 PlayerInfoAdapter.TYPE_ITEM_CHOISABLE) {
             mPlayerInfoAdapter.switchLeader(position);
-        } else {
+        } else if (mPlayerInfoAdapter.getItemViewType(position) ==
+                PlayerInfoAdapter.TYPE_LEADER_LOGIN){
+
+                StudentBean mLeader = mPlayerInfoAdapter.getLeaderStudent();
+                SQService.SingUp(mLeader.getSID(),mLeader.getId(),new AsyncHttpResponseHandler());
+        } else{
             mPlayerInfoAdapter.setChoisable(position);
         }
     }
@@ -268,12 +320,16 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     }
 
     void playMedicine(String sid, int reward, Medicine.OnMedicineGetListener mListener) {
-        Medicine_ medicine_ = new Medicine_();
-        medicine_.setListener(reward, mListener);
-        medicine_.setTargetSid(sid);
-        //replaceFragment(medicine_, Medicine.class.getName());
-        mGameFragmentMgr.addMedicineQueue(medicine_);
-        checkMedicine();
+
+        if (!mGameMgr.IsRun()){
+            Medicine_ medicine_ = new Medicine_();
+            medicine_.setListener(reward, mListener);
+            medicine_.setTargetSid(sid);
+            medicine_.stopStartGameAnim();
+            //replaceFragment(medicine_, Medicine.class.getName());
+            mGameFragmentMgr.addMedicineQueue(medicine_);
+            checkMedicine();
+        }
     }
 
     private void checkMedicine() {
@@ -287,7 +343,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     void playBall() {
 
 
-        playBall(0);
+
         //playGlowBall(0);
         //playFlappy(0);
     }
@@ -296,15 +352,19 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         Ball_ ball_ = new Ball_();
         ball_.setupType(quizid);
 
-        mGameMgr.PlayGame(quizid,ball_, Ball.class.getName(), 4);
+        mGameMgr.PlayGame(quizid,ball_, Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
+    }
+
+    void playPuzzle(int quizid){
+        mGameMgr.PlayGame(quizid,new PuzzleFragment(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
     }
 
     void playFlappy(int quizid){
-        mGameMgr.PlayGame(quizid,new FlippyBookFragment(), Ball.class.getName(), 4);
+        mGameMgr.PlayGame(quizid,new FlippyBookFragment(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
     }
 
     void playGlowBall(int quizid){
-        mGameMgr.PlayGame(quizid,new GlowBallFragment(1), Ball.class.getName(), 4);
+        mGameMgr.PlayGame(quizid,new GlowBallFragment(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
     }
     @Override
     public void OnGameStartEvent() {
@@ -312,14 +372,22 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     }
 
     @Override
-    public void OnGameOverEvent() {
+    public void OnGameOverEvent(boolean IsWin) {
         ShowInfo();
-        SQService.addMoney(mPlayerInfoAdapter.getLeaderStudent().getGroupID());
+        ShowCamera();
 
+        mGameMgr.setIsRun(false);
+
+        if (IsWin) {
+            SQService.addMoney(mPlayerInfoAdapter.getLeaderStudent().getGroupID());
+        }
     }
 
     @Override
-    public void OnGameNextEvent() {
+    public void OnGameNextEvent(int round) {
+        if (round!=1){
+            mPlayStateMgr.setPlayed(mPlayerInfoAdapter.getLeaderStudent().getSID());
+        }
         ShowInfo();
     }
 
@@ -371,14 +439,31 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
     }
 
-    public void postPhoto(byte[] photo, Request.OnProgressCallback mCallback) {
+    public void postPhoto(String albumId,byte[] photo, Request.OnProgressCallback mCallback) {
         FBMultiAccountMgr multiAccountMgr = new FBMultiAccountMgr(this);
-        multiAccountMgr.postPhoto(mPlayerInfoAdapter.getLeaderStudent(), ConstantUtil.WeekAlbum, photo, mCallback);
+        multiAccountMgr.
+                postPhoto(mPlayerInfoAdapter.getLeaderStudent(),
+                        albumId, photo, mCallback);
+    }
+
+    public void postPhoto(byte[] photo, Request.OnProgressCallback mCallback) {
+        postPhoto(ConstantUtil.WeekAlbum,photo,mCallback);
     }
 
     @Click
     void camera() {
-        startCamera();
+
+
+        //startCamera();
+
+        FragmentTransaction transaction =getFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.GameContent, new PhotoUploadFragment_());
+
+        transaction.commit();
+
+        facebook.setVisibility(View.VISIBLE);
+
     }
 
     boolean IsFbShow = false;
@@ -423,7 +508,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
-                Upload();
+                //Upload();
             }
         }
     }
@@ -467,5 +552,23 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     public void ShowInfo(){
         ListViewPlayerInfo.setVisibility(View.VISIBLE);
         MoneyInfo.setVisibility(View.VISIBLE);
+    }
+
+    public void HideCamera(){
+        camera.setVisibility(View.GONE);
+        facebook.setVisibility(View.GONE);
+    }
+
+    public void ShowCamera(){
+        camera.setVisibility(View.VISIBLE);
+        facebook.setVisibility(View.VISIBLE);
+    }
+
+    public boolean getPlayState(){
+        return mPlayStateMgr.getPlayed(mPlayerInfoAdapter.getLeaderStudent().getSID());
+    }
+
+    public void setLeaderChangeListener(PlayerInfoAdapter.OnLeaderChangeListener mLeaderChangeListener) {
+        this.mLeaderChangeListener = mLeaderChangeListener;
     }
 }

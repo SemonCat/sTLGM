@@ -7,12 +7,15 @@ import java.util.Random;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+
+import com.thu.stlgm.R;
 
 public class PillarsManager{
 	private ArrayList<ImageView> restoredViewList;
@@ -60,14 +63,24 @@ public class PillarsManager{
 	//set parameter of Pillar(just like width、height)
 	private ImageView setUpPillar(ImageView pillar){
 		LayoutParams rlp = (LayoutParams) pillar.getLayoutParams();
+
 		if(random.nextBoolean()){
 			rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP,0);// 0 means false
+            pillar.setBackgroundResource(R.anim.obj_m_fflappypost);
+
+            pillar.setScaleType(ImageView.ScaleType.FIT_START);
+
 		}
 		else{
 			rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 			rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,0);// 0 means false
+            pillar.setBackgroundResource(R.anim.obj_m_rflappypost);
+
+            pillar.setScaleType(ImageView.ScaleType.FIT_END);
 		}
+
+        ((AnimationDrawable)pillar.getBackground()).start();
 		
 		rlp.width=120;
 		rlp.height=random.nextInt(heightRandomHeighten)+heightRandomMin;
@@ -80,17 +93,17 @@ public class PillarsManager{
             int randomImage = new Random().nextInt(picArrayFalse.length);
             //Log.d("random1",String.valueOf(randomImage));
             //pillar.setBackgroundColor(Color.BLACK);
-            //pillar.setImageResource(picArrayFalse[randomImage]);
+            pillar.setImageResource(picArrayFalse[randomImage]);
             //pillar.setScaleType();
-            pillar.setBackgroundResource(picArrayFalse[randomImage]);
+            //pillar.setBackgroundResource(picArrayFalse[randomImage]);
 
         }
         else {
             int randomImage2 = new Random().nextInt(picArrayTrue.length);
             //Log.d("random2",String.valueOf(randomImage2));
             //pillar.setBackgroundColor(Color.BLACK);
-            //pillar.setImageResource(picArrayTrue[randomImage2]);
-            pillar.setBackgroundResource(picArrayTrue[randomImage2]);
+            pillar.setImageResource(picArrayTrue[randomImage2]);
+            //pillar.setBackgroundResource(picArrayTrue[randomImage2]);
 
         }
 

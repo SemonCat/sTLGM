@@ -22,9 +22,9 @@ public class GameMgr {
     public interface OnGameFinishListener {
         void OnGameStartEvent();
 
-        void OnGameNextEvent();
+        void OnGameNextEvent(int round);
 
-        void OnGameOverEvent();
+        void OnGameOverEvent(boolean IsWin);
     }
 
     private GameActivity mActivity;
@@ -36,8 +36,12 @@ public class GameMgr {
 
     private int counter = 0;
 
+    private boolean IsRun = false;
+
     private OnGameFinishListener mListener;
 
+
+    private boolean IsWin = false;
 
     public GameMgr(GameActivity activity, int containerId) {
         this.mActivity = activity;
@@ -46,14 +50,17 @@ public class GameMgr {
     }
 
     public void PlayGame(final int quizId, final BaseGame game, final String tag, final int max_counter) {
-
+        IsRun = true;
 
         final BeforeGameFragment_ beforeGameFragment = new BeforeGameFragment_();
+        beforeGameFragment.stopStartGameAnim();
         checkContentResource(quizId,beforeGameFragment);
 
         final BaseGame.OnGameOverListener onGameOverListener = new BaseGame.OnGameOverListener() {
             @Override
-            public void OnGameOverEvent(int score) {
+            public void OnGameOverEvent(BaseGame.OverType mType,int score) {
+
+                if (mType== BaseGame.OverType.Win){ IsWin = true;}
 
                 if (counter < max_counter-1) {
 
@@ -61,11 +68,11 @@ public class GameMgr {
 
                     PlayGame(quizId, game, tag, max_counter);
                     if (mListener != null)
-                        mListener.OnGameNextEvent();
+                        mListener.OnGameNextEvent(counter);
                 } else {
                     resetCounter();
                     if (mListener != null)
-                        mListener.OnGameOverEvent();
+                        mListener.OnGameOverEvent(IsWin);
                 }
 
 
@@ -104,40 +111,36 @@ public class GameMgr {
 
 
         replaceFragment(beforeGameFragment);
-
+        mActivity.HideCamera();
 
     }
 
     private void checkContentResource(int quizId, BeforeGameFragment_ baseFragment) {
         Log.d(TAG,"counter:"+counter);
         int resource;
-        if (quizId == 0 && counter == 0) {
-            resource = MissionContentMgr.getMissionContent(quizId);
-            baseFragment.setupMissionContent(resource);
-
-
-        } else if (counter == 0) {
+        if (counter == 0) {
             resource = MissionContentMgr.getMissionContent(quizId);
             baseFragment.setupMissionContent(resource);
         } else {
             Log.d(TAG, "getNormal");
-            resource = MissionContentMgr.getNormal();
-            baseFragment.setupMissionContent(resource);
+            //resource = MissionContentMgr.getNormal();
+            baseFragment.ShowNormal();
         }
     }
 
     public void resetCounter() {
         this.counter = 0;
+        IsRun = false;
     }
 
 
     private void replaceFragment(Fragment fragment) {
-
-
         mActivity.getFragmentManager().beginTransaction()
                 .replace(mContainer, fragment)
-                .commit();
-        mActivity.getFragmentManager().executePendingTransactions();
+                .commitAllowingStateLoss();
+
+
+        //mActivity.getFragmentManager().
 
         //mActivity.getFragmentManager().beginTransaction().add(mContainer,fragment).commit();
     }
@@ -157,6 +160,14 @@ public class GameMgr {
         transaction.commit();
 
 
+    }
+
+    public void setIsRun(boolean IsRun){
+        this.IsRun = IsRun;
+    }
+
+    public boolean IsRun(){
+        return IsRun;
     }
 
     public void setListener(OnGameFinishListener mListener) {

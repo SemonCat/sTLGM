@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list   android:id="@+id/my_animation" android:oneshot="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/obj_m_fflappypost01" android:duration="75" />
+    <item android:drawable="@drawable/obj_m_fflappypost02" android:duration="75" />
+    <item android:drawable="@drawable/obj_m_fflappypost03" android:duration="75" />
+    <item android:drawable="@drawable/obj_m_fflappypost04" android:duration="75" />
+    <item android:drawable="@drawable/obj_m_fflappypost05" android:duration="75" />
+    
+
+</animation-list>

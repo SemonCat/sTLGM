@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list   android:id="@+id/my_animation" android:oneshot="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/obj_s_winner_01" android:duration="75" />
+    <item android:drawable="@drawable/obj_s_winner_02" android:duration="75" />
+    <item android:drawable="@drawable/obj_s_winner_03" android:duration="75" />
+    <item android:drawable="@drawable/obj_s_winner_04" android:duration="75" />
+    <item android:drawable="@drawable/obj_s_winner_05" android:duration="75" />
+    <item android:drawable="@drawable/obj_s_winner_06" android:duration="75" />
+   
+
+
+</animation-list>

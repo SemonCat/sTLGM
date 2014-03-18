@@ -5,15 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
-    android:gravity="right">
+    android:gravity="right|center">
 
 
-    <Button
+    <ImageView
         android:id="@+id/SwitchLeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="切換"
-        android:layout_marginRight="5dp" />
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginRight="5dp"
+        android:scaleType="centerInside"
+        android:clickable="true"/>
 
     <com.makeramen.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/Photo"

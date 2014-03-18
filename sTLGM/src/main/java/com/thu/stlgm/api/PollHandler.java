@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * Created by SemonCat on 2014/2/20.
@@ -114,6 +115,7 @@ public class PollHandler {
     }
 
     private void RunTask(){
+
         String URL = ServerIP+"/GroupMessageBox?gid=" + gid;
         client.get(URL,new AsyncHttpResponseHandler(){
             @Override
@@ -144,7 +146,7 @@ public class PollHandler {
                     }
 
                     //尋找任務
-                    List<String> Mission = msgMap.get("0");
+                    List<String> Mission = msgMap.get(gid);
                     if (Mission!=null){
                         String Message = Mission.get(0);
                         Log.d(TAG,"Receive Message:"+Message);
@@ -224,10 +226,13 @@ public class PollHandler {
     }
 
     public void start(){
+
         mPollTimer.scheduleAtFixedRate(mTimerTask,time,time);
     }
 
     public void cancel(){
+
+
         mPollTimer.cancel();
     }
 
@@ -238,5 +243,13 @@ public class PollHandler {
 
     public void setListener(OnMessageReceive mListener) {
         this.mListener = mListener;
+    }
+
+    public int getLoginStudentCounter(){
+        return mStudentList.size();
+    }
+
+    public List<StudentBean> getLoginStudent(){
+        return mStudentList;
     }
 }

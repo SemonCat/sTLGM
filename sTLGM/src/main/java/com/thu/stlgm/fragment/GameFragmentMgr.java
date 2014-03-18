@@ -32,7 +32,7 @@ public class GameFragmentMgr implements BaseGame.OnFragmentFinishListener{
     private long timeout = 3000;
 
     //藥物失效時間
-    private long medicineTimeout = 10*1000;
+    private long medicineTimeout = 15*1000;
 
     public GameFragmentMgr(Activity mActivity,int fragmentContent) {
         this.mActivity = mActivity;
@@ -85,6 +85,8 @@ public class GameFragmentMgr implements BaseGame.OnFragmentFinishListener{
 
     public void replaceFragment(Fragment fragment){
 
+        if (mActivity==null) return;
+
         FragmentTransaction transaction =mActivity.getFragmentManager().beginTransaction();
         Fragment findFragment = mActivity.getFragmentManager().findFragmentByTag(fragment.getClass().getName());
         if (findFragment!=null){
@@ -92,7 +94,7 @@ public class GameFragmentMgr implements BaseGame.OnFragmentFinishListener{
         }
         transaction.replace(R.id.GameContent, fragment, fragment.getClass().getName());
 
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     @Override

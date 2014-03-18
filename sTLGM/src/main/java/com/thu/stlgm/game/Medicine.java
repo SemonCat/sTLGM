@@ -19,6 +19,8 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.AnimationRes;
 
+import java.util.Random;
+
 /**
  * Created by SemonCat on 2014/2/20.
  */
@@ -46,6 +48,8 @@ public class Medicine extends BaseGame{
 
     private String mTargetSid;
 
+    private int[] Drawable = new int[]{R.drawable.grape,R.drawable.lemon,R.drawable.orange};
+
     @AfterViews
     void Init(){
         mHandler = new Handler();
@@ -65,7 +69,11 @@ public class Medicine extends BaseGame{
 
     private void setupMoveImageView(){
         mMoveImageView = new MoveImageView(getActivity());
-        mMoveImageView.setImageResource(R.drawable.medicion_1_y);
+
+
+        mMoveImageView.setImageResource(Drawable[new Random().nextInt(Drawable.length)]);
+
+
         container.addView(mMoveImageView,new RelativeLayout.LayoutParams(100,100));
 
 

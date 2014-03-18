@@ -251,7 +251,7 @@ public class Ball extends BaseGame{
     protected void GameOver(int score){
 
         mBallView.stop();
-        super.GameOver(score);
+        super.GameOver(OverType.Dead,score);
 
     }
 

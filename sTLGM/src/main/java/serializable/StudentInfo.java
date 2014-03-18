@@ -6,14 +6,17 @@ public class StudentInfo implements Serializable{
 
     private String sid, fb, name, dep, group, imgUrl;
 
+    private int coin;
+
     public StudentInfo(String id, String fb, String name, String dep,
-                       String group, String imgUrl) {
+                       String group, String imgUrl,int coin) {
         this.sid = id;
         this.fb = fb;
         this.name = name;
         this.dep = dep;
         this.group = group;
         this.imgUrl = imgUrl;
+        this.coin = coin;
     }
 
     public String getGid() {
@@ -39,4 +42,14 @@ public class StudentInfo implements Serializable{
     public String getImgUrl() {
         return this.imgUrl;
     }
+
+    public int getCoin() {
+        return coin;
+    }
+
+    public void setCoin(int coin) {
+        this.coin = coin;
+    }
+
+
 }

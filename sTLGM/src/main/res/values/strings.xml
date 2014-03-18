@@ -11,4 +11,10 @@
     <string name="new_account"><a href="com.thu.stlgm://www.sq.com.tw/new_account">沒有帳號？</a></string>
 
     <string name="fb_login"><a href="com.thu.stlgm://www.sq.com.tw/fb_login">Facebook 授權</a></string>
+
+
+    <string name="answer">0x54</string>
+    <string name="has_answer">0x55</string>
+    <string name="is_question">0x57</string>
+    <string name="has_view">0x58</string>
 </resources>

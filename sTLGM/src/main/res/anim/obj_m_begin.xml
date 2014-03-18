@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list   android:id="@+id/my_animation" android:oneshot="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/obj_m_begin_01" android:duration="75" />
+    <item android:drawable="@drawable/obj_m_begin_02" android:duration="75" />
+    <item android:drawable="@drawable/obj_m_begin_03" android:duration="75" />
+    <item android:drawable="@drawable/obj_m_begin_04" android:duration="800" />
+    <item android:drawable="@drawable/obj_m_begin_05" android:duration="200" />
+    <item android:drawable="@drawable/obj_m_begin_06" android:duration="800" />
+    <item android:drawable="@drawable/obj_m_begin_07" android:duration="200" />
+    <item android:drawable="@drawable/obj_m_begin_08" android:duration="800" />
+    <item android:drawable="@drawable/obj_m_begin_09" android:duration="200" />
+    <item android:drawable="@drawable/obj_m_begin_10" android:duration="800" />
+    <item android:drawable="@drawable/obj_m_begin_11" android:duration="75" />
+    <item android:drawable="@drawable/obj_m_begin_12" android:duration="65" />
+    <item android:drawable="@drawable/obj_m_begin_13" android:duration="60" />
+    <item android:drawable="@drawable/obj_m_begin_14" android:duration="55" />
+    <item android:drawable="@drawable/obj_m_begin_15" android:duration="50" />
+    <item android:drawable="@drawable/obj_m_begin_16" android:duration="40" />
+    <item android:drawable="@drawable/obj_m_begin_17" android:duration="30" />
+    <item android:drawable="@drawable/obj_m_begin_18" android:duration="20" />
+    <item android:drawable="@drawable/obj_m_begin_19" android:duration="10" />
+    <item android:drawable="@drawable/obj_m_begin_20" android:duration="25" />
+    <item android:drawable="@drawable/obj_m_begin_21" android:duration="50" />
+    <item android:drawable="@drawable/obj_m_begin_22" android:duration="75" />
+    <item android:drawable="@drawable/obj_m_begin_23" android:duration="800" />
+    <item android:drawable="@drawable/obj_m_begin_24" android:duration="75" />
+    <item android:drawable="@drawable/obj_m_begin_25" android:duration="75" />
+
+
+
+</animation-list>

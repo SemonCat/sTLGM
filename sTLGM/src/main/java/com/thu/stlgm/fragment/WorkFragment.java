@@ -54,7 +54,7 @@ public class WorkFragment extends BaseFragment implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUrl = ConstantUtil.Facebook +ConstantUtil.WeekAlbum;
+        mUrl = ConstantUtil.Facebook +ConstantUtil.GroupId;
 
         if (!mUrl.startsWith("http"))
             mUrl = "http://" + mUrl;
@@ -264,6 +264,8 @@ public class WorkFragment extends BaseFragment implements OnClickListener{
     }
 
     public void Finish(){
-        getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+        if (getActivity()!=null){
+            getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+        }
     }
 }

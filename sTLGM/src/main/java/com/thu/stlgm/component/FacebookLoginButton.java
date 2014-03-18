@@ -111,7 +111,7 @@ public class FacebookLoginButton extends GameTextureView{
 
         //Log.d(TAG, "mLoginBitmap:" + mLoginBitmap.getWidth()+","+mLoginBitmap.getHeight());
 
-        mFBLogoBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fb_logo);
+        mFBLogoBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.obj_s_fbicon);
         mFBLogoBitmap = Bitmap.createScaledBitmap(mFBLogoBitmap, mLoginBitmap.getHeight(), mLoginBitmap.getHeight(), false);
 
         //Log.d(TAG, "mFBLogoBitmap:" + mFBLogoBitmap.getWidth()+","+mFBLogoBitmap.getHeight());

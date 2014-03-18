@@ -85,7 +85,8 @@ public class BallsManager {
         BallObject mBallOBJ = (BallObject)ball.getTag();
         if (mBallOBJ.isAnswer()){
             if(Type==0){
-                ball.setBackgroundResource(picArrayTrue[new Random().nextInt(picArrayTrue.length)]);
+                ball.setImageResource(picArrayTrue[new Random().nextInt(picArrayTrue.length)]);
+                ball.setBackgroundResource(R.drawable.obj_m_planet01);
             }else if(Type==1){
                 ball.setImageResource(picArrayTrue[new Random().nextInt(picArrayTrue.length)]);
                 ball.setBackgroundResource(R.drawable.aerolite3);
@@ -94,7 +95,8 @@ public class BallsManager {
             //ball.setBackgroundColor(Color.GREEN);
         }else{
             if(Type==0){
-                ball.setBackgroundResource(picArrayFalse[new Random().nextInt(picArrayFalse.length)]);
+                ball.setImageResource(picArrayFalse[new Random().nextInt(picArrayFalse.length)]);
+                ball.setBackgroundResource(R.drawable.obj_m_planet01);
             }else if(Type==1){
                 ball.setImageResource(picArrayFalse[new Random().nextInt(picArrayFalse.length)]);
                 ball.setBackgroundResource(R.drawable.aerolite3);

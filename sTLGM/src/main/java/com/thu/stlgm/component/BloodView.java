@@ -51,7 +51,7 @@ public class BloodView extends TextView{
 
         final int addValue = Value- this.blood;
 
-        Log.d(TAG,"AddValue:"+addValue);
+        //Log.d(TAG,"AddValue:"+addValue);
 
         if (addValue >1 && anim){
             final int animDuration = 50;

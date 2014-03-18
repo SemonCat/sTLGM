@@ -65,6 +65,8 @@ public class FlippyBookFragment extends BaseGame {
 
     private long lastTime = System.currentTimeMillis();
 
+    private int maxScore = 5;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,8 +84,8 @@ public class FlippyBookFragment extends BaseGame {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         screenHeight = displaymetrics.heightPixels;
 
-        picArrayFalse=new int[]{R.drawable.m1_4_f1,R.drawable.m1_4_f2,R.drawable.m1_4_f3,R.drawable.m1_4_f4};
-        picArrayTrue=new int[]{R.drawable.m1_4_t1,R.drawable.m1_4_t2,R.drawable.m1_4_t3,R.drawable.m1_4_t4};
+        picArrayFalse=new int[]{R.drawable.opt_m22_f_01,R.drawable.opt_m22_f_02,R.drawable.opt_m22_f_03};
+        picArrayTrue=new int[]{R.drawable.opt_m22_t_01,R.drawable.opt_m22_t_02};
         book = (ImageView) getActivity().findViewById(R.id.flippyBook);
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) book.getLayoutParams();
         boxLeftMargin = rlp.leftMargin;
@@ -91,7 +93,6 @@ public class FlippyBookFragment extends BaseGame {
 
         mainLayout = (RelativeLayout) getActivity().findViewById(R.id.flippybook_main_lay);
 
-        mainLayout.setOnTouchListener(onTouchListener);
 
         pillarsManager = new PillarsManager(getActivity(), mainLayout,picArrayFalse,picArrayTrue);
 
@@ -107,6 +108,11 @@ public class FlippyBookFragment extends BaseGame {
 
 
 
+    }
+
+    @Override
+    public void StartGame(){
+        mainLayout.setOnTouchListener(onTouchListener);
     }
 
     @Override
@@ -129,8 +135,14 @@ public class FlippyBookFragment extends BaseGame {
         else if(score>=20){
             pillarMoveSpeed=2000;
         }
-        else if (score >= 10)
+        else if (score >= maxScore){
+            OnGameOver(OverType.Win);
             pillarMoveSpeed = 2400;
+        }
+
+        if (pillarMoveSpeed>1500){
+            pillarMoveSpeed -= 30;
+        }
 
         va.setInterpolator(linearInterpolator);
         va.addUpdateListener(new AnimatorUpdateListener() {
@@ -333,11 +345,11 @@ public class FlippyBookFragment extends BaseGame {
         //setBookColorChange();
     }
 
-    private void OnGameOver() {
+    private void OnGameOver(OverType mType) {
         handler.removeCallbacks(pillarGeneratorRunnable);
         pauseAllMoveAnim();
 
-        showGameOverEffect();
+        showGameOverEffect(mType);
 
     }
 
@@ -355,7 +367,7 @@ public class FlippyBookFragment extends BaseGame {
 
             book.setBackgroundDrawable(null);
 
-            OnGameOver();
+            OnGameOver(OverType.Dead);
         }else {
             if(System.currentTimeMillis()-lastTime>1000){
                 score++;
@@ -376,7 +388,7 @@ public class FlippyBookFragment extends BaseGame {
         moveAnimList.clear();
     }
 
-    private void showGameOverEffect(){
+    private void showGameOverEffect(final OverType mType){
         if (getActivity()==null) return;
 
         //閃爍
@@ -410,7 +422,7 @@ public class FlippyBookFragment extends BaseGame {
             @Override
             public void onAnimationEnd(Animation animation) {
                 mainLayout.removeView(mView);
-                GameOver(1);
+                GameOver(mType,1);
             }
 
             @Override

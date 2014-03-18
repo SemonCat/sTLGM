@@ -85,6 +85,10 @@ public class StudentBean extends AccountBean implements Runnable, Parcelable {
 
         Log.d(TAG, "startHpService,SID:"+getSID()+".Interval:" + time+", Blood:"+blood+",");
 
+        if (time<0){
+            return;
+        }
+
         setBlood(blood);
         pause = false;
         mFuture = scheduledThreadPool.scheduleAtFixedRate(this, time, time, TimeUnit.MILLISECONDS);

@@ -5,6 +5,8 @@ package com.thu.stlgm.util;
  */
 public class ConstantUtil {
 
+    public static final String BugSenseApiKey = "7918b35a";
+
     public static final String UpdateURL = "https://dl.dropboxusercontent.com/s/oh93vsbs23l62xv/updateinfo.json";
 
     public static final String clientID = "1417907878451151";
@@ -27,5 +29,8 @@ public class ConstantUtil {
 
     public static final String GroupId = "415585308579029";
 
-    public static final String WeekAlbum = "415593318578228";
+    public static final String WeekAlbum = "419644308173129";
+
+    public static final String WeekAlbum1 = "419644308173129";
+    public static final String WeekAlbum2 = "419648938172666";
 }

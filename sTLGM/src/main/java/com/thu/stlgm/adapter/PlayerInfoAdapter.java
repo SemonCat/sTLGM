@@ -1,6 +1,7 @@
 package com.thu.stlgm.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +43,7 @@ public class PlayerInfoAdapter extends BaseAdapter{
     private static final int TYPE_ITEM = -1;
     private static final int TYPE_LEADER = -2;
     private static final int TYPE_ITEM_LOGIN = 0;
-    private static final int TYPE_LEADER_LOGIN = 1;
+    public static final int TYPE_LEADER_LOGIN = 1;
     public static final int TYPE_ITEM_CHOISABLE = 3;
     private static final int TYPE_MAX_COUNT = 5;
 
@@ -213,7 +215,7 @@ public class PlayerInfoAdapter extends BaseAdapter{
             case TYPE_ITEM_LOGIN:
                 return TypeItemLogin(position,convertView,parent);
             case TYPE_ITEM_CHOISABLE:
-                return TypeItemChoisable(position, convertView, parent);
+                return TypeItemLogin(position,convertView,parent);
             case TYPE_LEADER:
                 return TypeLeader(position,convertView,parent);
             case TYPE_LEADER_LOGIN:
@@ -290,12 +292,17 @@ public class PlayerInfoAdapter extends BaseAdapter{
 
             holder = new ItemChoisableViewHolder();
             holder.Photo = (RoundedImageView) convertView.findViewById(R.id.Photo);
-            holder.SwitchLeader = (Button) convertView.findViewById(R.id.SwitchLeader);
+            holder.SwitchLeader = (ImageView) convertView.findViewById(R.id.SwitchLeader);
+
+            holder.SwitchLeader.setBackgroundResource(R.anim.btn_s_changeuser);
 
             convertView.setTag(holder);
         }else{
             holder = (ItemChoisableViewHolder) convertView.getTag();
         }
+
+        //播放切換使用者動畫
+        ((AnimationDrawable)holder.SwitchLeader.getBackground()).start();
 
         StudentBean mStudentBean = getItem(position);
 
@@ -542,7 +549,7 @@ public class PlayerInfoAdapter extends BaseAdapter{
 
     class ItemChoisableViewHolder{
         RoundedImageView Photo;
-        Button SwitchLeader;
+        ImageView SwitchLeader;
     }
 
     class LeaderViewHolder{
