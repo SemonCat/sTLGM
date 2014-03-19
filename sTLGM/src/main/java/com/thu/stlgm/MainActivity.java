@@ -62,4 +62,10 @@ public class MainActivity extends BaseActivity {
     }
 
 
+    public void goToGame(View mView){
+        Intent mIntent = new Intent(this, GameActivity_.class);
+
+        startActivity(mIntent);
+        finish();
+    }
 }

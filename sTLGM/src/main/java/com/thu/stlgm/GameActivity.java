@@ -1,6 +1,7 @@
 package com.thu.stlgm;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,6 +29,9 @@ import com.thu.stlgm.api.PollHandler;
 import com.thu.stlgm.api.SQService;
 import com.thu.stlgm.bean.Blood;
 import com.thu.stlgm.bean.StudentBean;
+import com.thu.stlgm.component.PinEntryDialogController;
+import com.thu.stlgm.component.UPinEntryDelegate;
+import com.thu.stlgm.dialog.AdminLoginDialog;
 import com.thu.stlgm.facebook.FBMultiAccountMgr;
 import com.thu.stlgm.fragment.GameFragmentMgr;
 import com.thu.stlgm.fragment.PhotoFragment;
@@ -45,11 +50,13 @@ import com.thu.stlgm.game.PuzzleFragment;
 import com.thu.stlgm.util.ConstantUtil;
 import com.thu.stlgm.util.MedicineValueUtil;
 import com.thu.stlgm.util.PlayStateMgr;
+import com.thu.stlgm.util.SharedPreferencesUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.ItemLongClick;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
@@ -58,6 +65,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -263,6 +271,87 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         }
     }
 
+    /**
+     * 管理者強制登入
+     * @param position
+     */
+    @ItemLongClick
+    public void ListViewPlayerInfoItemLongClicked(final int position) {
+
+        UPinEntryDelegate mUPinEntryDelegate = new UPinEntryDelegate();
+
+
+        final AlertDialog mPinEntryDialog =
+                PinEntryDialogController.getEntryDialog(this,mUPinEntryDelegate);
+
+        mUPinEntryDelegate.setListener(new UPinEntryDelegate.OnPinEntryListener() {
+            @Override
+            public void OnEnterCorrectPin() {
+                showToast("OnEnterCorrectPin");
+
+                SQService.getAllStudents(new SQService.OnAllStudentGetListener() {
+                    @Override
+                    public void OnAllStudentGetEvent(List<StudentBean> studentList) {
+                        AdminLoginDialog adminLoginDialog =
+                                new AdminLoginDialog(GameActivity.this,
+                                        studentList,
+                                        new AdminLoginDialog.OnLoginClickListener() {
+                                    @Override
+                                    public void OnLoginClickEvent(final StudentBean mStudent) {
+
+                                        SQService.StudentLogin(mStudent.getId(),new SQService.OnSQLoginFinish() {
+                                            @Override
+                                            public void OnSQLoginFinish(StudentBean mData) {
+
+                                                String accessToken = SharedPreferencesUtils.
+                                                        getFB_AccessToken(GameActivity.this,mData.getId());
+
+                                                if (accessToken==null) return;
+                                                mData.setName(mStudent.getName());
+                                                mData.setAccessToken(accessToken);
+
+                                                if (mPollHandler != null) {
+                                                    mPollHandler.addStudent(mData);
+                                                }else{
+                                                    initGroupData(mData);
+                                                }
+
+                                                mPlayerInfoAdapter.refreshData(position, mData);
+                                            }
+
+                                            @Override
+                                            public void OnSQLoginFail(String fid) {
+
+                                            }
+
+                                            @Override
+                                            public void OnSQLoginNetworkError(
+                                                    int statusCode, Header[] headers,
+                                                    byte[] responseBody, Throwable error) {
+
+                                            }
+                                        });
+
+
+                                    }
+                                });
+
+                        adminLoginDialog.show(getFragmentManager(),null);
+                    }
+                });
+
+                mPinEntryDialog.dismiss();
+            }
+
+            @Override
+            public void OnEnterFailPin() {
+                mPinEntryDialog.dismiss();
+            }
+        });
+
+        mPinEntryDialog.show();
+    }
+
     @ItemClick
     public void ListViewPlayerInfoItemClicked(final int position) {
         if (!mPlayerInfoAdapter.getItem(position).isLogin()) {
@@ -280,7 +369,10 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
                     if (mPollHandler != null) {
                         mPollHandler.addStudent(mData);
+                    }else{
+                        initGroupData(mData);
                     }
+
                     mPlayerInfoAdapter.refreshData(position, mData);
                 }
 

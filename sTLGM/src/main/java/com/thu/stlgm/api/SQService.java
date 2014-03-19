@@ -11,6 +11,7 @@ import com.thu.stlgm.bean.AccountBean;
 import com.thu.stlgm.bean.StudentBean;
 import com.thu.stlgm.facebook.FBMultiAccountMgr;
 import com.thu.stlgm.util.ConstantUtil;
+import com.thu.stlgm.util.SharedPreferencesUtils;
 
 import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
@@ -59,7 +60,7 @@ public class SQService {
      * @param mContext
      * @param mListener
      */
-    public static void StudentLogin(Context mContext,final OnSQLoginFinish mListener){
+    public static void StudentLogin(final Context mContext,final OnSQLoginFinish mListener){
         //設定登入提示視窗
         final ProgressDialog mProgressDialog = new ProgressDialog(mContext);
 
@@ -82,6 +83,8 @@ public class SQService {
                         mData.setId(mAccount.getId());
                         mData.setName(mAccount.getName());
                         mData.setAccessToken(mAccount.getAccessToken());
+
+                        SharedPreferencesUtils.setFB_AccessToken(mContext,mAccount.getId(),mAccount.getAccessToken());
 
                         mProgressDialog.dismiss();
                         mListener.OnSQLoginFinish(mData);
@@ -267,7 +270,7 @@ public class SQService {
             mStudentBean.setDepartment(mInfo.getDep());
             mStudentBean.setSID(mInfo.getSid());
             mStudentBean.setGroupID(mInfo.getGid());
-
+            mStudentBean.setId(mInfo.getFb());
             mData.add(mStudentBean);
         }
 

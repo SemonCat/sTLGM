@@ -81,6 +81,9 @@ public class MoveImageView extends ImageView implements Runnable{
             mTYPE = TYPE.TYPE2;
         }
 
+        if (parentWidth==0) parentWidth = 500;
+        if (parentHeight==0) parentHeight = 500;
+
         int randomLeft =new Random().nextInt(parentWidth)-getWidth();
         int randomTop =new Random().nextInt(parentHeight)-getHeight();
         if(randomLeft<0) randomLeft=0;
