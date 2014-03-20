@@ -83,6 +83,7 @@ public class GameFragmentMgr implements BaseGame.OnFragmentFinishListener{
         }
     }
 
+
     public void replaceFragment(Fragment fragment){
 
         if (mActivity==null) return;

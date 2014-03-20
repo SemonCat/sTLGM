@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.thu.stlgm.game.gallifrey.GallifreyFragment;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -156,12 +157,12 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
 
 
-        if (quizid.equals("0")) {
-            playPuzzle(0);
-        }else if (quizid.equals("1")) {
-            playFlappy(1);
-        }else if (quizid.equals("2")){
-            playGlowBall(2);
+        if (quizid.equals("21")) {
+            playPuzzle(21);
+        }else if (quizid.equals("22")) {
+            playFlappy(22);
+        }else if (quizid.equals("23")){
+            playGallifrey(23);
         }
 
     }
@@ -458,6 +459,10 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     void playGlowBall(int quizid){
         mGameMgr.PlayGame(quizid,new GlowBallFragment(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
     }
+
+    void playGallifrey(int quizid){
+        mGameMgr.PlayGame(quizid,new GallifreyFragment(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
+    }
     @Override
     public void OnGameStartEvent() {
         HideInfo();
@@ -470,17 +475,36 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
         mGameMgr.setIsRun(false);
 
+        /*
         if (IsWin) {
             SQService.addMoney(mPlayerInfoAdapter.getLeaderStudent().getGroupID());
         }
+        */
     }
 
     @Override
-    public void OnGameNextEvent(int round) {
+    public void OnGameNextEvent(boolean IsWin,int round) {
+
+
         if (round!=1){
             mPlayStateMgr.setPlayed(mPlayerInfoAdapter.getLeaderStudent().getSID());
+
+
         }
         ShowInfo();
+    }
+
+    @Override
+    public void OnGameFinishEvent(boolean IsWin, int round) {
+        Log.d(TAG,"Round:"+round+",IsWin:"+IsWin);
+
+        if (round!=0 && IsWin){
+                Log.d(TAG,"Win!!!");
+                SQService.AddStudentCoin(
+                        mPlayerInfoAdapter.getLeaderStudent().getSID(),
+                        ConstantUtil.WinCoin);
+
+        }
     }
 
     private void replaceFragment(BaseGame mFragment, String mFragmentTag) {

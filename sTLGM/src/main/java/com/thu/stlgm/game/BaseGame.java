@@ -23,6 +23,8 @@ import android.widget.RelativeLayout;
 import com.thu.stlgm.R;
 import com.thu.stlgm.util.UAnimDrawable;
 
+import java.lang.reflect.Field;
+
 /**
  * Created by SemonCat on 2014/3/2.
  */
@@ -127,18 +129,23 @@ public class BaseGame extends Fragment {
 
                     if (animationDrawable!=null){
                         animationDrawable.stop();
+                        mAnim.setBackgroundDrawable(null);
+
+                        while (animationDrawable.isRunning()){
+                            //wait
+                        }
                     }
 
+
+
                     mAnim.clearAnimation();
-
-
 
                     finishFragment();
                     if (mOnGameOverListener != null)
                         mOnGameOverListener.OnGameOverEvent(mType,score);
                 }
             }
-        }, 3000);
+        }, 3500);
 
     }
 
@@ -225,6 +232,22 @@ public class BaseGame extends Fragment {
         //manager.executePendingTransactions();
     }
 
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void setOnGameOverListener(OnGameOverListener mOnGameOverListener) {
         this.mOnGameOverListener = mOnGameOverListener;

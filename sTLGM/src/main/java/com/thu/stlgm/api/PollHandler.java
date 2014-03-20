@@ -140,7 +140,7 @@ public class PollHandler {
                             tmp += myMsg.get(i) + " ";
                         }
 
-                        //Log.d(TAG,"Message:"+tmp);
+                        Log.d(TAG,"Message:"+tmp);
                         //Log.d(TAG,"Key:"+key);
 
                     }

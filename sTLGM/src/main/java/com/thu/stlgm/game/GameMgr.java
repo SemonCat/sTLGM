@@ -22,7 +22,9 @@ public class GameMgr {
     public interface OnGameFinishListener {
         void OnGameStartEvent();
 
-        void OnGameNextEvent(int round);
+        void OnGameNextEvent(boolean IsWin,int round);
+
+        void OnGameFinishEvent(boolean IsWin,int round);
 
         void OnGameOverEvent(boolean IsWin);
     }
@@ -61,6 +63,8 @@ public class GameMgr {
             public void OnGameOverEvent(BaseGame.OverType mType,int score) {
 
                 if (mType== BaseGame.OverType.Win){ IsWin = true;}
+                if (mListener != null)
+                    mListener.OnGameFinishEvent(mType== BaseGame.OverType.Win,counter);
 
                 if (counter < max_counter-1) {
 
@@ -68,7 +72,7 @@ public class GameMgr {
 
                     PlayGame(quizId, game, tag, max_counter);
                     if (mListener != null)
-                        mListener.OnGameNextEvent(counter);
+                        mListener.OnGameNextEvent(mType== BaseGame.OverType.Win,counter);
                 } else {
                     resetCounter();
                     if (mListener != null)

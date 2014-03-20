@@ -200,6 +200,30 @@ public class SQService {
 
     }
 
+    public static void AddStudentCoin(String Sid,int coin){
+        String URL = ServerIP+"/AddStudentCoin?sid="+Sid+"&coin="+coin;
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(URL,new AsyncHttpResponseHandler(){
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String message = new String(responseBody);
+                if (message!=null){
+                    Log.d(TAG,"Message:"+message);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                if (error!=null) {
+                    Log.d(TAG, "Error Result:" + error.toString());
+                }
+            }
+        });
+    }
+
     public static void addMoney(String gid){
         String URL = ServerIP+"/CoinInterface?service=3&groupId=" + gid+"&coin=6";
         AsyncHttpClient client = new AsyncHttpClient();

@@ -19,7 +19,14 @@ public class MissionContentMgr {
     private static int normal = R.drawable.missionexplanation_2;
 
     public static int getMissionContent(int quizid){
-        return MissionContent[quizid];
+        if (quizid==21){
+            return R.drawable.top_m21;
+        }else if(quizid==22){
+            return R.drawable.top_m22;
+        }else if(quizid==23){
+            return R.drawable.top_m23;
+        }
+        return MissionContent[0];
     }
 
     public static int getNormal(){

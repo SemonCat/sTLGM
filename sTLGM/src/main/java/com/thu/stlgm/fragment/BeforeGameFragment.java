@@ -138,7 +138,7 @@ public class BeforeGameFragment extends BaseGame{
     private void setChangeTipVisible(boolean visible){
         if (visible){
             ChangeTip.setText(tips[new Random().nextInt(tips.length)]);
-            ChangeTip.setVisibility(View.VISIBLE);
+            ChangeTip.setVisibility(View.GONE);
         }else {
             ChangeTip.setVisibility(View.GONE);
         }

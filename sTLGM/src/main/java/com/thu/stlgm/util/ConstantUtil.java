@@ -5,6 +5,9 @@ package com.thu.stlgm.util;
  */
 public class ConstantUtil {
 
+    //一個任務可以獲得的金錢
+    public static final int WinCoin = 2;
+
     public static final String BugSenseApiKey = "7918b35a";
 
     public static final String UpdateURL = "https://dl.dropboxusercontent.com/s/oh93vsbs23l62xv/updateinfo.json";
