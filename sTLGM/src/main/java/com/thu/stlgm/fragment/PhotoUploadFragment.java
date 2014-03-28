@@ -9,6 +9,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -33,8 +35,15 @@ import java.io.FileInputStream;
 @EFragment(R.layout.fragment_photoupload)
 public class PhotoUploadFragment extends BaseFragment {
 
+    private static final String TAG = PhotoUploadFragment.class.getName();
+
+    @ViewById
+    RelativeLayout PhotoUploadMainLayout;
+
     @ViewById
     ImageView facebook;
+
+    Activity mActivity;
 
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
@@ -48,6 +57,7 @@ public class PhotoUploadFragment extends BaseFragment {
 
         super.onActivityCreated(savedInstanceState);
 
+        mActivity = getActivity();
 
     }
 
@@ -74,6 +84,7 @@ public class PhotoUploadFragment extends BaseFragment {
 
     void Upload(String album) {
 
+        ((GameActivity) mActivity).ShowCameraUploadProgress();
 
         File file = tmpPhotoPath;
         int size = (int) file.length();
@@ -92,13 +103,28 @@ public class PhotoUploadFragment extends BaseFragment {
         ((GameActivity) getActivity()).postPhoto(album,bytes, new Request.OnProgressCallback() {
             @Override
             public void onProgress(long current, long max) {
+                if (mActivity!=null){
+                    ((GameActivity) mActivity).showToast("上傳中："+current+"/"+max);
+                }
             }
 
             @Override
             public void onCompleted(Response response) {
                 //Log.d(TAG, "Result:" + response.toString());
+                if (mActivity!=null) {
+                    ((GameActivity) mActivity).HideCameraUploadProgress();
+                }
+
                 if (response.getError() == null) {
                     //facebook.setVisibility(View.VISIBLE);
+                    if (mActivity!=null){
+                        ((GameActivity) mActivity).showToast("上傳成功！");
+                    }
+                }else{
+                    Log.d(TAG,"Error:"+response.getError());
+                    if (mActivity!=null){
+                        ((GameActivity) mActivity).showToast("上傳失敗！");
+                    }
                 }
             }
         });
@@ -111,7 +137,7 @@ public class PhotoUploadFragment extends BaseFragment {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
-                //Upload();
+                PhotoUploadMainLayout.setVisibility(View.VISIBLE);
             }else{
                 finish();
             }

@@ -28,7 +28,7 @@ public class BaseActivity extends FragmentActivity {
         //getWindow().addFlags(0x80000000);
     }
 
-    protected void showToast(String Message){
+    public void showToast(String Message){
         if (mToast==null){
             mToast = Toast.makeText(this,Message,Toast.LENGTH_SHORT);
         }else{
@@ -73,4 +73,5 @@ public class BaseActivity extends FragmentActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }

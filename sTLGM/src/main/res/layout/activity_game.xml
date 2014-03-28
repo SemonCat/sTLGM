@@ -12,6 +12,15 @@
 
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/FBContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="250dp"
+        android:layout_marginBottom="100dp">
+
+    </FrameLayout>
+
     <ListView
         android:id="@+id/ListViewPlayerInfo"
         android:layout_width="210dp"
@@ -87,21 +96,33 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/camera"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/camera"
-            android:layout_margin="10dp"
-            android:clickable="true"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/camera"
+                android:layout_margin="10dp"
+                android:clickable="true"/>
+
+            <ProgressBar
+                android:id="@+id/UploadCameraProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleLarge"
+                android:visibility="gone"/>
+        </FrameLayout>
+
 
         <ImageView
             android:id="@+id/facebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/btn_s_fbalbumicon"
-            android:layout_margin="10dp"
-            android:visibility="gone"/>
+            android:layout_margin="10dp"/>
 
     </LinearLayout>
 

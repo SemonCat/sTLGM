@@ -237,6 +237,37 @@ public class FBMultiAccountMgr{
 
     }
 
+    public void likePhoto(StudentBean mAccount,long id,final Request.Callback mListener) {
+        Session mSession = SwitchAccount(mAccount);
+        if (mSession != null && mSession.isOpened()) {
+
+            new Request(mSession,
+                    "/"+id+"/likes",
+                    null,
+                    HttpMethod.POST,
+                    new Request.Callback() {
+                        @Override
+                        public void onCompleted(Response response) {
+
+                            if (response.getError()==null){
+
+
+                            }else{
+                                Log.d(TAG,"Get Error:"+response.getError().toString());
+                            }
+
+                            mListener.onCompleted(response);
+                        }
+                    }
+            ).executeAsync();
+        } else {
+            Log.d(TAG, "mSessionIsNull:" + String.valueOf(mSession == null));
+        }
+
+    }
+
+
+
     public void setListener(FBEventListener mListener) {
         this.mListener = mListener;
     }

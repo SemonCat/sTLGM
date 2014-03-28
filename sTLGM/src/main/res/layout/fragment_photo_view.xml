@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/PhotoViewContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <com.thu.stlgm.component.HackyViewPager
+        android:id="@+id/PhotoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <Button
+        android:id="@+id/ClosePhotoView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background_white"
+        android:text="返回"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="left|bottom"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="top|center"
+        android:orientation="vertical"
+        android:background="#30aaaaaa">
+
+        <TextView
+            android:id="@+id/PhotoTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="標題"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@android:color/darker_gray"/>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+
+            <ImageView
+                android:id="@+id/Like"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/btn_o_fblike"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="left|center"
+                android:clickable="true"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="right|center"
+                android:gravity="center|right">
+
+                <TextView
+                    android:id="@+id/PhotoLikeCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp"
+                    android:text="1 個讚"/>
+
+                <TextView
+                    android:id="@+id/PhotoCommentCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp"
+                    android:text="1 則留言"/>
+            </LinearLayout>
+        </FrameLayout>
+        </LinearLayout>
+
+</FrameLayout>

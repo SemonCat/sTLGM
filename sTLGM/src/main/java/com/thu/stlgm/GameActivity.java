@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.thu.stlgm.api.FacebookAlbumUtils;
+import com.thu.stlgm.bean.Photo;
+import com.thu.stlgm.fragment.AlbumFragment;
 import com.thu.stlgm.game.gallifrey.GallifreyFragment;
 
 import com.facebook.Request;
@@ -48,6 +53,7 @@ import com.thu.stlgm.game.GlowBallFragment;
 import com.thu.stlgm.game.Medicine;
 import com.thu.stlgm.game.Medicine_;
 import com.thu.stlgm.game.PuzzleFragment;
+import com.thu.stlgm.painter.PainterFragment;
 import com.thu.stlgm.util.ConstantUtil;
 import com.thu.stlgm.util.MedicineValueUtil;
 import com.thu.stlgm.util.PlayStateMgr;
@@ -97,6 +103,9 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     @ViewById
     ViewGroup MoneyInfo;
 
+    @ViewById
+    ProgressBar UploadCameraProgressBar;
+
     private PlayerInfoAdapter mPlayerInfoAdapter;
 
     private GameFragmentMgr mGameFragmentMgr;
@@ -109,12 +118,16 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
     private PlayerInfoAdapter.OnLeaderChangeListener mLeaderChangeListener;
 
+    private Handler mHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        FacebookAlbumUtils.LoadAlbumCache();
 
+        mHandler = new Handler();
     }
 
     @AfterViews
@@ -157,12 +170,15 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
 
 
+
         if (quizid.equals("21")) {
             playPuzzle(21);
         }else if (quizid.equals("22")) {
             playFlappy(22);
         }else if (quizid.equals("23")){
             playGallifrey(23);
+        }else if (taskid.equals("WhiteBoard")){
+            ShowWhiteBoard(quizid);
         }
 
     }
@@ -463,6 +479,19 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     void playGallifrey(int quizid){
         mGameMgr.PlayGame(quizid,new GallifreyFragment(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
     }
+
+    void ShowWhiteBoard(String Week){
+
+        HideCamera();
+
+        FragmentTransaction transaction =getFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.FBContent, new PainterFragment(Week), Fragment.class.getName());
+
+        transaction.commitAllowingStateLoss();
+
+        //replaceFragment(new PainterFragment(Week));
+    }
     @Override
     public void OnGameStartEvent() {
         HideInfo();
@@ -522,6 +551,16 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         mGameFragmentMgr.addFragmentQueue(mFragment);
     }
 
+    private void replaceFragment(Fragment mFragment){
+        FragmentTransaction transaction =getFragmentManager().beginTransaction();
+        Fragment findFragment = getFragmentManager().findFragmentByTag(Fragment.class.getName());
+        if (findFragment!=null){
+            return;
+        }
+        transaction.replace(R.id.FBContent, mFragment, Fragment.class.getName());
+
+        transaction.commit();
+    }
 
     public void addBlood(int blood) {
         mPlayerInfoAdapter.addLeaderBlood(blood);
@@ -566,6 +605,19 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         postPhoto(ConstantUtil.WeekAlbum,photo,mCallback);
     }
 
+    public void LikePhoto(final Photo mPhoto){
+        FBMultiAccountMgr multiAccountMgr = new FBMultiAccountMgr(this);
+        multiAccountMgr.likePhoto(mPlayerInfoAdapter.getLeaderStudent(),mPhoto.getId(),new Request.Callback() {
+            @Override
+            public void onCompleted(Response response) {
+                if (response.getError()==null){
+                    showToast("按讚成功！");
+                    mPhoto.setLike_count(mPhoto.getLike_count()+1);
+                }
+            }
+        });
+    }
+
     @Click
     void camera() {
 
@@ -583,7 +635,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     }
 
     boolean IsFbShow = false;
-    WorkFragment workFragment;
+    AlbumFragment workFragment;
 
     @Click
     void facebook() {
@@ -594,9 +646,9 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
             IsFbShow = false;
 
         }else{
-            workFragment = new WorkFragment();
+            workFragment = new AlbumFragment();
 
-            transaction.replace(R.id.GameContent, workFragment);
+            transaction.replace(R.id.FBContent, workFragment);
 
             transaction.commit();
 
@@ -680,8 +732,29 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         facebook.setVisibility(View.VISIBLE);
     }
 
+    public void ShowCameraUploadProgress(){
+        camera.setVisibility(View.GONE);
+        UploadCameraProgressBar.setVisibility(View.VISIBLE);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                HideCameraUploadProgress();
+            }
+        },10*1000);
+
+    }
+
+    public void HideCameraUploadProgress(){
+        camera.setVisibility(View.VISIBLE);
+        UploadCameraProgressBar.setVisibility(View.GONE);
+    }
+
     public boolean getPlayState(){
         return mPlayStateMgr.getPlayed(mPlayerInfoAdapter.getLeaderStudent().getSID());
+    }
+
+    public StudentBean getLeader(){
+        return mPlayerInfoAdapter.getLeaderStudent();
     }
 
     public void setLeaderChangeListener(PlayerInfoAdapter.OnLeaderChangeListener mLeaderChangeListener) {

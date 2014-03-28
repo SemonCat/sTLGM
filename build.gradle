@@ -18,5 +18,6 @@ allprojects {
         maven {
             url "http://mente.github.io/facebook-api-android-aar"
         }
+
     }
 }

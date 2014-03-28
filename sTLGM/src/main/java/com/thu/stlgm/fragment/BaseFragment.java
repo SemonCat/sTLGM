@@ -28,6 +28,22 @@ public class BaseFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        setupView();
+        setupAdapter();
+        setupEvent();
 
     }
+
+    protected void setupView(){
+
+    }
+
+    protected void setupAdapter(){
+
+    }
+
+    protected void setupEvent(){
+
+    }
+
 }

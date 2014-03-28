@@ -224,10 +224,15 @@ public class SQService {
         });
     }
 
-    public static void addMoney(String gid){
-        String URL = ServerIP+"/CoinInterface?service=3&groupId=" + gid+"&coin=6";
+    public static void addMoney(String gid,int coin){
+        String URL = ServerIP+"/CoinInterface?service=3&groupId=" + gid+"&coin="+coin;
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(URL,new AsyncHttpResponseHandler());
+
+    }
+
+    public static void addMoney(String gid){
+        addMoney(gid,6);
 
     }
 
