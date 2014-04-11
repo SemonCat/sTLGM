@@ -2,54 +2,52 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/game_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/bkg_m_09">
 
     <ImageView
         android:id="@+id/left"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="center"
-        android:src="@drawable/bkg_m21_left"
+        android:layout_width="450dp"
+        android:layout_height="450dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/obj_m_bigcircle"
         android:alpha="0" />
     <ImageView
         android:id="@+id/right"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="center"
-        android:src="@drawable/bkg_m21_right" 
-        android:alpha="0"/>
-    <ImageView
-        android:id="@+id/center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="center"
-        android:src="@drawable/bkg_m21_center" 
-        android:alpha="0"/>
-    <ImageView
-        android:id="@+id/under"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="center"
-        android:src="@drawable/bkg_m21_under" 
+        android:layout_width="340dp"
+        android:layout_height="340dp"
+        android:layout_alignTop="@id/left"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/obj_m_circleline"
         android:alpha="0"/>
 
-   <ImageView
-       android:id="@+id/words"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:scaleType="center"
-        android:src="@drawable/bkg_m21_words"
-        android:alpha="0" />
-    
     <FrameLayout
         android:id="@+id/A"
-        android:layout_width="80px"
-        android:layout_height="400px"
-        android:layout_alignBottom="@+id/G"
-        android:layout_toRightOf="@+id/G"
-        android:layout_marginLeft="350px"
-        android:background="@drawable/btn_m_puzzlefrag11"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+  	    android:layout_centerHorizontal="true"
+  	    android:layout_marginTop="5dp"
+        android:background="@drawable/obj_m_collectors"
+        android:alpha="0" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="#FF000000"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"/>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/B"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignTop="@+id/A"
+        android:layout_alignLeft="@+id/A"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/obj_m_trimmer"
         android:alpha="0" >
         <TextView
             android:layout_width="wrap_content"
@@ -63,13 +61,14 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/B"
-        android:layout_width="80px"
-        android:layout_height="400px"
-        android:layout_alignBottom="@+id/G"
-        android:layout_toLeftOf="@+id/G"
-        android:layout_marginRight="350px"
-        android:background="@drawable/btn_m_puzzlefrag11"
+        android:id="@+id/C"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignRight="@+id/B"
+        android:layout_alignTop="@+id/B"
+        android:layout_marginTop="120dp"
+        android:layout_marginRight="200dp"
+        android:background="@drawable/obj_m_lovers"
         android:alpha="0" >
         <TextView
             android:layout_width="wrap_content"
@@ -82,56 +81,18 @@
             android:scaleType="center"/>
     </FrameLayout>
 
-   <FrameLayout
-       android:id="@+id/G"
-       android:layout_width="150px"
-       android:layout_height="70px"
-  	   android:layout_centerHorizontal="true"
-  	   android:layout_marginTop="490px"
-        android:background="@drawable/btn_m_puzzlefrag11"
-       android:alpha="0" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="#FF000000"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"/>
-   </FrameLayout>
 
-   <FrameLayout
-       android:id="@+id/F"
-       android:layout_width="150px"
-       android:layout_height="70px"
-       android:layout_alignRight="@+id/G"
-       android:layout_alignBottom="@+id/G"
-       android:layout_marginBottom="150px"
-       android:layout_marginRight="80px"
-        android:background="@drawable/btn_m_puzzlefrag11"
-       android:alpha="0" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="#FF000000"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"/>
-   </FrameLayout>
 
-   <FrameLayout
-       android:id="@+id/C"
-       android:layout_width="150px"
-       android:layout_height="70px"
-       android:layout_alignBottom="@+id/G"
-       android:layout_alignRight="@+id/G"
-       android:layout_marginBottom="250px"
-       android:layout_marginRight="200px"
-        android:background="@drawable/btn_m_puzzlefrag11"
-       android:alpha="0" >
+    <FrameLayout
+        android:id="@+id/D"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignLeft="@+id/B"
+        android:layout_alignTop="@+id/B"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="200dp"
+        android:background="@drawable/obj_m_assailant"
+        android:alpha="0" >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -141,48 +102,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="center"/>
-   </FrameLayout>
+    </FrameLayout>
 
-   <FrameLayout
-       android:id="@+id/E"
-       android:layout_width="150px"
-       android:layout_height="70px"
-       android:layout_alignLeft="@+id/G"
-       android:layout_alignBottom="@+id/G"
-       android:layout_marginBottom="150px"
-       android:layout_marginLeft="80px"
-        android:background="@drawable/btn_m_puzzlefrag11"
-       android:alpha="0" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="#FF000000"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"/>
-   </FrameLayout>
 
-   <FrameLayout
-       android:id="@+id/D"
-       android:layout_width="150px"
-       android:layout_height="70px"
-       android:layout_alignBottom="@+id/G"
-       android:layout_alignLeft="@+id/G"
-       android:layout_marginBottom="250px"
-       android:layout_marginLeft="200px"
-        android:background="@drawable/btn_m_puzzlefrag11"
-       android:alpha="0" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="#FF000000"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"/>
-   </FrameLayout>
 
 </RelativeLayout>

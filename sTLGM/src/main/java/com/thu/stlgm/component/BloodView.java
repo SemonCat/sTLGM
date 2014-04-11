@@ -74,6 +74,12 @@ public class BloodView extends TextView{
         }
 
 
+        if (blood > 100){
+            blood = 100;
+        }else if (blood < 0){
+            blood = 0;
+        }
+
         setText(String.valueOf(blood));
     }
 

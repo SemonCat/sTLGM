@@ -88,9 +88,10 @@ public class BallView extends ImageView implements SensorEventListener{
         mGY = 2*mGY;
 
         //mGX = -mGX;
+        mGY = -mGY;
 
-        left -= mGX;
-        top += mGY;
+        left -= mGY;
+        top += mGX;
 
         if (left < 0) {
             left = 0;

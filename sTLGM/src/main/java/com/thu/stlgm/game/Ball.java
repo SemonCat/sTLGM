@@ -34,13 +34,14 @@ import org.androidannotations.annotations.res.AnimationRes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by SemonCat on 2014/2/21.
  */
 @EFragment(R.layout.fragment_ball)
-public class Ball extends BaseGame{
+public class Ball extends BaseGame {
 
     private static final String TAG = Ball.class.getName();
 
@@ -65,30 +66,38 @@ public class Ball extends BaseGame{
     @ViewById
     ImageView centerIcon;
 
-    private boolean[] answer = new boolean[]{true,true,true,false,false,true};
+    private boolean[] answer = new boolean[]{true, true, true, false, false, true};
     private boolean[] userAnswer = new boolean[5];
 
     private int bookdrawables[][] = new int[][]
-            {{R.drawable.book1,R.drawable.book1_g,R.drawable.book1_r},
-            {R.drawable.book2,R.drawable.book2_g,R.drawable.book2_r},
-            {R.drawable.book3,R.drawable.book3_g,R.drawable.book3_r},
-            {R.drawable.book4,R.drawable.book4_g,R.drawable.book4_r},
-            {R.drawable.book5,R.drawable.book5_g,R.drawable.book5_r},};
+            {{R.drawable.book1, R.drawable.book1_g, R.drawable.book1_r},
+                    {R.drawable.book2, R.drawable.book2_g, R.drawable.book2_r},
+                    {R.drawable.book3, R.drawable.book3_g, R.drawable.book3_r},
+                    {R.drawable.book4, R.drawable.book4_g, R.drawable.book4_r},
+                    {R.drawable.book5, R.drawable.book5_g, R.drawable.book5_r},};
 
     private int type1Drawale[][] = new int[][]
-            {{R.drawable.hp,R.drawable.ebay,R.drawable.google,R.drawable.intel,R.drawable.youtube},
-            {R.drawable.amazon,R.drawable.intel,R.drawable.hp,R.drawable.apple,R.drawable.youtube},
-            {R.drawable.google,R.drawable.apple,R.drawable.amazon,R.drawable.microsoft,R.drawable.youtube},
-            {R.drawable.ebay,R.drawable.hp,R.drawable.fb,R.drawable.intel,R.drawable.youtube},};
+            {{R.drawable.hp, R.drawable.ebay, R.drawable.google, R.drawable.intel, R.drawable.youtube},
+                    {R.drawable.amazon, R.drawable.intel, R.drawable.hp, R.drawable.apple, R.drawable.youtube},
+                    {R.drawable.google, R.drawable.apple, R.drawable.amazon, R.drawable.microsoft, R.drawable.youtube},
+                    {R.drawable.ebay, R.drawable.hp, R.drawable.fb, R.drawable.intel, R.drawable.youtube},};
 
     private int type1Logo[] = new int[]{
-            R.drawable.larryandsergey,R.drawable.jobs,R.drawable.bill,R.drawable.mark};
+            R.drawable.larryandsergey, R.drawable.jobs, R.drawable.bill, R.drawable.mark};
 
     private boolean type1answer[][] = new boolean[][]
-            {{false,false,true,false,false},
-            {false,false,false,true,false},
-            {false,false,false,true,false},
-            {false,false,true,false,false},};
+            {{false, false, true, false, false},
+                    {false, false, false, true, false},
+                    {false, false, false, true, false},
+                    {false, false, true, false, false},};
+
+    private int trueDrawble[] = new int[]{R.drawable.opt_m43_t_01,
+            R.drawable.opt_m43_t_02,
+            R.drawable.opt_m43_t_03};
+
+    private int falseDrawble[] = new int[]{R.drawable.opt_m43_f_01,
+            R.drawable.opt_m43_f_02,
+            R.drawable.opt_m43_f_03};
 
     @ViewById
     FrameLayout StartFrame;
@@ -100,6 +109,7 @@ public class Ball extends BaseGame{
 
     private int Type;
 
+    private int score = 0;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -109,10 +119,15 @@ public class Ball extends BaseGame{
 
     }
 
-    public void setupType(int type){
+    @Override
+    protected void StartGame() {
+        mBallView.start();
+    }
+
+    public void setupType(int type) {
         this.Type = type;
 
-        switch (type){
+        switch (type) {
             case 0:
 
                 ballview = R.drawable.ball2;
@@ -126,15 +141,15 @@ public class Ball extends BaseGame{
         }
     }
 
-    void Init(){
+    void Init() {
         mHandler = new Handler();
 
-        setupStart();
+        //setupStart();
 
 
-        ViewTreeObserver observer= container.getViewTreeObserver();
+        ViewTreeObserver observer = container.getViewTreeObserver();
 
-        if (observer!=null){
+        if (observer != null) {
             observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
@@ -152,34 +167,43 @@ public class Ball extends BaseGame{
         }
     }
 
-    private void setupBallView(){
+    private void setupBallView() {
         mBallView = new BallView(getActivity());
         mBallView.setImageResource(ballview);
         int BallWidth = 100;
         int BallHeight = 100;
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(BallWidth,BallHeight);
-        params.leftMargin = container.getWidth()/2-BallWidth/2;
-        params.topMargin = container.getHeight()/2-BallHeight/2;
-        container.addView(mBallView,params);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(BallWidth, BallHeight);
+        params.leftMargin = container.getWidth() / 2 - BallWidth / 2;
+        params.topMargin = container.getHeight() / 2 - BallHeight / 2;
+        container.addView(mBallView, params);
 
         StartFrame.bringToFront();
 
-        mBallView.setImageResource(R.anim.ball2);
-        AnimationDrawable frameAnimation =    (AnimationDrawable)mBallView.getDrawable();
+        mBallView.setImageResource(R.anim.obj_m_ball03);
+        AnimationDrawable frameAnimation = (AnimationDrawable) mBallView.getDrawable();
         frameAnimation.setCallback(mBallView);
         frameAnimation.setVisible(true, true);
 
         frameAnimation.start();
 
 
-
         mBallView.setListener(new BallView.OnObjectTouchEvent() {
             @Override
             public void OnObjectTouchEvent(BookView mView) {
-                if (mView.getQuestionAnswer()){
-                    mView.setBackgroundResource(R.drawable.green);
-                    OnGameOver(1);
-                }else{
+                if (mView.getQuestionAnswer()) {
+                    mView.setBackgroundResource(R.drawable.obj_m43_checkbg);
+
+                    Object mObject = mView.getTag();
+                    if (mObject==null){
+                        mView.setTag(score);
+                        score++;
+                    }
+
+                    if (score>=3){
+                        mBallView.stop();
+                        GameOver(OverType.Win,score);
+                    }
+                } else {
                     OnGameOver(0);
                 }
             }
@@ -233,7 +257,7 @@ public class Ball extends BaseGame{
 
     }
 
-    private void OnGameOver(final int score){
+    private void OnGameOver(final int score) {
         GameOver(score);
 
         /*
@@ -248,26 +272,46 @@ public class Ball extends BaseGame{
         */
     }
 
-    protected void GameOver(int score){
+    protected void GameOver(int score) {
 
         mBallView.stop();
-        super.GameOver(OverType.Dead,score);
+        super.GameOver(OverType.Dead, score);
 
     }
 
-    private void setupBookLayout(){
+    private void setupBookLayout() {
         List<BookView> mBooks = new ArrayList<BookView>();
 
-        Log.d(TAG,"Round:"+getRound());
 
+        int allCounter = trueDrawble.length+falseDrawble.length;
 
-        for (int i=0;i<type1Drawale[getRound()].length;i++){
+        int trueCounter = 0;
+        int falseCounter = 0;
+
+        for (int i = 0; i < allCounter; i++) {
             BookView book = new BookView(getActivity());
-            book.setTag(i);
-            book.setBookCover(type1Drawale[getRound()][i]);
-            book.setQuestionAnswer(type1answer[getRound()][i]);
+            //book.setTag(i);
+            if (i==0 || i==2|| i==3){
+                book.setImageResource(trueDrawble[trueCounter++]);
+                book.setBackgroundResource(R.drawable.obj_m43_optbg);
+                book.setQuestionAnswer(true);
+            }else{
+                book.setImageResource(falseDrawble[falseCounter++]);
+                book.setBackgroundResource(R.drawable.obj_m43_optbg);
+                book.setQuestionAnswer(false);
+            }
+
+            //book.setBookCover(type1Drawale[getRound()][i]);
+            //book.setQuestionAnswer(type1answer[getRound()][i]);
+
             mBooks.add(book);
-            BookLayout.addView(book);
+
+        }
+
+        Collections.shuffle(mBooks);
+
+        for (BookView mBook:mBooks){
+            BookLayout.addView(mBook);
         }
 
 
@@ -276,11 +320,11 @@ public class Ball extends BaseGame{
         mBallView.setBookViewList(mBooks);
     }
 
-    private void setupStart(){
+    private void setupStart() {
         Reciprocal.setImageResource(R.anim.reciprocal);
-        AnimationDrawable frameAnimation =    (AnimationDrawable)Reciprocal.getDrawable();
+        AnimationDrawable frameAnimation = (AnimationDrawable) Reciprocal.getDrawable();
 
-        if (frameAnimation!=null){
+        if (frameAnimation != null) {
             frameAnimation.setCallback(Reciprocal);
             frameAnimation.setVisible(true, true);
 
@@ -298,7 +342,7 @@ public class Ball extends BaseGame{
                     Reciprocal.setVisibility(View.GONE);
                     Start.startAnimation(push_right_to_left);
                 }
-            },iDuration);
+            }, iDuration);
         }
 
         push_right_to_left.setAnimationListener(new Animation.AnimationListener() {
@@ -320,7 +364,8 @@ public class Ball extends BaseGame{
     }
 
     private boolean resetAnswering = false;
-    private void resetAnswer(){
+
+    private void resetAnswer() {
         userAnswer = new boolean[5];
 
         /*
@@ -339,43 +384,43 @@ public class Ball extends BaseGame{
         */
     }
 
-    private void playVictory(){
+    private void playVictory() {
         View Victory = getActivity().findViewById(R.id.Victory);
-        if (Victory!=null)
+        if (Victory != null)
             Victory.setVisibility(View.VISIBLE);
         mBallView.stop();
     }
 
-    private boolean checkAnswer(){
+    private boolean checkAnswer() {
 
         return Arrays.equals(userAnswer, answer);
     }
 
     @Click
-    void reset(){
+    void reset() {
         mBallView.stop();
-        if (getActivity()!=null){
+        if (getActivity() != null) {
             getActivity().findViewById(R.id.Victory).setVisibility(View.GONE);
         }
         Reciprocal.setVisibility(View.VISIBLE);
         setupStart();
         resetAnswer();
 
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mBallView.getLayoutParams();
-        if (params!=null){
-            params.leftMargin = container.getWidth()/2-mBallView.getWidth()/2;
-            params.topMargin = container.getHeight()/2-mBallView.getHeight()/2;
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mBallView.getLayoutParams();
+        if (params != null) {
+            params.leftMargin = container.getWidth() / 2 - mBallView.getWidth() / 2;
+            params.topMargin = container.getHeight() / 2 - mBallView.getHeight() / 2;
             mBallView.setLayoutParams(params);
         }
     }
 
     @Override
-    protected void RestartFragment(int quizid,int counter, int container, FragmentManager manager, OnGameOverListener onGameOverListener) {
+    protected void RestartFragment(int quizid, int counter, int container, FragmentManager manager, OnGameOverListener onGameOverListener) {
 
         Ball_ ball_ = new Ball_();
         ball_.setupType(quizid);
 
-        addFragment(ball_,counter,container,manager,onGameOverListener);
+        addFragment(ball_, counter, container, manager, onGameOverListener);
     }
 }
 

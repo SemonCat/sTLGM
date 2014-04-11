@@ -177,6 +177,10 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
             playFlappy(22);
         }else if (quizid.equals("23")){
             playGallifrey(23);
+        }else if (quizid.equals("41")){
+            playPuzzle(41);
+        }else if (quizid.equals("43")){
+            playBall(43);
         }else if (taskid.equals("WhiteBoard")){
             ShowWhiteBoard(quizid);
         }
@@ -630,7 +634,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
         transaction.commit();
 
-        facebook.setVisibility(View.VISIBLE);
+        facebook.setVisibility(View.GONE);
 
     }
 
@@ -705,7 +709,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
             public void onCompleted(Response response) {
                 Log.d(TAG,"Result:"+response.toString());
                 if (response.getError()==null){
-                    facebook.setVisibility(View.VISIBLE);
+                    facebook.setVisibility(View.GONE);
                 }
             }
         });
@@ -729,7 +733,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
     public void ShowCamera(){
         camera.setVisibility(View.VISIBLE);
-        facebook.setVisibility(View.VISIBLE);
+        facebook.setVisibility(View.GONE);
     }
 
     public void ShowCameraUploadProgress(){
