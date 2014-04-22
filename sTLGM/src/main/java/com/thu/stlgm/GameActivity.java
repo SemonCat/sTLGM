@@ -122,7 +122,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         FacebookAlbumUtils.LoadAlbumCache();
