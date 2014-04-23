@@ -3,6 +3,7 @@ package com.thu.stlgm.dialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -55,6 +56,8 @@ public class AdminLoginDialog extends DialogFragment {
 
     private OnLoginClickListener mLoginListener;
 
+    private DialogInterface.OnDismissListener onDismissListener;
+
     public AdminLoginDialog(Context context,List<StudentBean> list,OnLoginClickListener mListener) {
         this.mContext = context;
         this.mStudentList = list;
@@ -81,6 +84,13 @@ public class AdminLoginDialog extends DialogFragment {
 
 
         return dialog;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        onDismissListener.onDismiss(dialog);
+        super.onDismiss(dialog);
+
     }
 
     private void setupAutoComplete(){
@@ -152,4 +162,7 @@ public class AdminLoginDialog extends DialogFragment {
     }
 
 
+    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+    }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -125,7 +126,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FacebookAlbumUtils.LoadAlbumCache();
+        //FacebookAlbumUtils.LoadAlbumCache();
 
         mHandler = new Handler();
     }
@@ -357,7 +358,14 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
                                     }
                                 });
 
+                        adminLoginDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                HideNaviBar();
+                            }
+                        });
                         adminLoginDialog.show(getFragmentManager(),null);
+
                     }
                 });
 
@@ -367,6 +375,9 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
             @Override
             public void OnEnterFailPin() {
                 mPinEntryDialog.dismiss();
+
+                HideNaviBar();
+
             }
         });
 
