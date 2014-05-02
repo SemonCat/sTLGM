@@ -4,15 +4,12 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,14 +21,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.thu.stlgm.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +47,8 @@ public class FlippyBookFragment extends BaseGame {
     private TextView gotScoreText;
 
     //圖片
-    private int picArrayFalse[] = new int[]{};
-    private int picArrayTrue[] = new int[]{};
+    private int picArrayFalse[]= new int[]{R.drawable.opt_m22_f_01,R.drawable.opt_m22_f_02,R.drawable.opt_m22_f_03};
+    private int picArrayTrue[]= new int[]{R.drawable.opt_m22_t_01,R.drawable.opt_m22_t_02};
     //分數
     private int score = 0;
     private int jumpRange = 200;
@@ -73,6 +67,13 @@ public class FlippyBookFragment extends BaseGame {
         return inflater.inflate(R.layout.flippybook, container, false);
     }
 
+    public void setupQuiz(int quiz){
+        if (quiz==55){
+            picArrayFalse= new int[]{R.drawable.opt_m55_f_01,R.drawable.opt_m55_f_02};
+            picArrayTrue= new int[]{R.drawable.opt_m55_t_01,R.drawable.opt_m55_t_02,R.drawable.opt_m55_t_03};
+        }
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -84,8 +85,7 @@ public class FlippyBookFragment extends BaseGame {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         screenHeight = displaymetrics.heightPixels;
 
-        picArrayFalse=new int[]{R.drawable.opt_m22_f_01,R.drawable.opt_m22_f_02,R.drawable.opt_m22_f_03};
-        picArrayTrue=new int[]{R.drawable.opt_m22_t_01,R.drawable.opt_m22_t_02};
+
         book = (ImageView) getActivity().findViewById(R.id.flippyBook);
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) book.getLayoutParams();
         boxLeftMargin = rlp.leftMargin;
@@ -481,6 +481,7 @@ public class FlippyBookFragment extends BaseGame {
     public void RestartFragment(int quizid,int counter,int container,FragmentManager manager,OnGameOverListener onGameOverListener) {
 
         FlippyBookFragment flippyBookFragment = new FlippyBookFragment();
+        flippyBookFragment.setupQuiz(quizid);
         flippyBookFragment.setOnGameOverListener(onGameOverListener);
 
 

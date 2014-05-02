@@ -1,32 +1,22 @@
 package com.thu.stlgm.game;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.thu.stlgm.R;
-import com.thu.stlgm.anim.AnimUtils;
 import com.thu.stlgm.component.BallView;
 import com.thu.stlgm.component.BookLayout;
 import com.thu.stlgm.component.BookView;
-import com.thu.stlgm.component.MoveImageView;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -91,11 +81,11 @@ public class Ball extends BaseGame {
                     {false, false, false, true, false},
                     {false, false, true, false, false},};
 
-    private int trueDrawble[] = new int[]{R.drawable.opt_m43_t_01,
+    private int trueDrawable[] = new int[]{R.drawable.opt_m43_t_01,
             R.drawable.opt_m43_t_02,
             R.drawable.opt_m43_t_03};
 
-    private int falseDrawble[] = new int[]{R.drawable.opt_m43_f_01,
+    private int falseDrawable[] = new int[]{R.drawable.opt_m43_f_01,
             R.drawable.opt_m43_f_02,
             R.drawable.opt_m43_f_03};
 
@@ -283,7 +273,7 @@ public class Ball extends BaseGame {
         List<BookView> mBooks = new ArrayList<BookView>();
 
 
-        int allCounter = trueDrawble.length+falseDrawble.length;
+        int allCounter = trueDrawable.length+ falseDrawable.length;
 
         int trueCounter = 0;
         int falseCounter = 0;
@@ -292,11 +282,11 @@ public class Ball extends BaseGame {
             BookView book = new BookView(getActivity());
             //book.setTag(i);
             if (i==0 || i==2|| i==3){
-                book.setImageResource(trueDrawble[trueCounter++]);
+                book.setImageResource(trueDrawable[trueCounter++]);
                 book.setBackgroundResource(R.drawable.obj_m43_optbg);
                 book.setQuestionAnswer(true);
             }else{
-                book.setImageResource(falseDrawble[falseCounter++]);
+                book.setImageResource(falseDrawable[falseCounter++]);
                 book.setBackgroundResource(R.drawable.obj_m43_optbg);
                 book.setQuestionAnswer(false);
             }

@@ -1,13 +1,18 @@
 package com.thu.stlgm.game;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -20,7 +25,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.bugsense.trace.BugSenseHandler;
+import com.thu.stlgm.GameActivity_;
 import com.thu.stlgm.R;
+import com.thu.stlgm.fragment.ExceptionFragment;
 import com.thu.stlgm.util.UAnimDrawable;
 
 import java.lang.reflect.Field;
@@ -66,6 +74,7 @@ public class BaseGame extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        //setupExceptionCatch();
         super.onActivityCreated(savedInstanceState);
         mActivity = getActivity();
         mHandler = new Handler();
@@ -255,5 +264,45 @@ public class BaseGame extends Fragment {
 
     public void setFragmentFinishListener(OnFragmentFinishListener listener) {
         this.mListener = listener;
+    }
+
+    private Thread.UncaughtExceptionHandler defaultUEH;
+    private FragmentManager fragmentManager;
+    private Context mContext;
+    private void setupExceptionCatch() {
+        defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
+        fragmentManager = getFragmentManager();
+        mContext = getActivity().getApplicationContext();
+        final AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
+
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, final Throwable ex) {
+                //BugSenseHandler.sendException(new Exception(ex));
+
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            /*
+                            fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.GameContent, new ExceptionFragment())
+                                    .commit();
+                                    */
+
+
+                            Looper.prepare();
+                            fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.GameContent, new ExceptionFragment())
+                                    .commit();
+                            Looper.loop();
+
+                        }
+                    }.start();
+
+
+            }
+        });
     }
 }

@@ -24,6 +24,22 @@ public class MissionContentMgr {
             return R.drawable.top_m41;
         }else if(quizid==43){
             return R.drawable.top_m43;
+        }else if(quizid==51){
+            return R.drawable.top_m51;
+        }else if(quizid==52){
+            return R.drawable.top_m52;
+        }else if(quizid==53){
+            return R.drawable.top_m53;
+        }else if(quizid==54){
+            return R.drawable.top_m54;
+        }else if(quizid==55){
+            return R.drawable.top_m55;
+        }else if(quizid==61){
+            return R.drawable.top_m61;
+        }else if(quizid==62){
+            return R.drawable.top_m62;
+        }else if(quizid==63){
+            return R.drawable.top_m63;
         }
         return R.drawable.top_m23;
     }

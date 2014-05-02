@@ -6,8 +6,6 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,16 +14,17 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.thu.stlgm.api.FacebookAlbumUtils;
 import com.thu.stlgm.bean.Photo;
 import com.thu.stlgm.fragment.AlbumFragment;
+import com.thu.stlgm.fragment.PersonaMakerFragment;
+import com.thu.stlgm.game.HeadBall_;
+import com.thu.stlgm.game.PuzzleFragment6;
+import com.thu.stlgm.game.digi256Game;
 import com.thu.stlgm.game.gallifrey.GallifreyFragment;
 
 import com.facebook.Request;
@@ -41,10 +40,7 @@ import com.thu.stlgm.component.UPinEntryDelegate;
 import com.thu.stlgm.dialog.AdminLoginDialog;
 import com.thu.stlgm.facebook.FBMultiAccountMgr;
 import com.thu.stlgm.fragment.GameFragmentMgr;
-import com.thu.stlgm.fragment.PhotoFragment;
-import com.thu.stlgm.fragment.PhotoFragment_;
 import com.thu.stlgm.fragment.PhotoUploadFragment_;
-import com.thu.stlgm.fragment.WorkFragment;
 import com.thu.stlgm.game.Ball;
 import com.thu.stlgm.game.Ball_;
 import com.thu.stlgm.game.BaseGame;
@@ -54,6 +50,8 @@ import com.thu.stlgm.game.GlowBallFragment;
 import com.thu.stlgm.game.Medicine;
 import com.thu.stlgm.game.Medicine_;
 import com.thu.stlgm.game.PuzzleFragment;
+import com.thu.stlgm.game.lineMatch;
+import com.thu.stlgm.game.tlgm2048Fragment;
 import com.thu.stlgm.painter.PainterFragment;
 import com.thu.stlgm.util.ConstantUtil;
 import com.thu.stlgm.util.MedicineValueUtil;
@@ -73,7 +71,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -182,6 +179,24 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
             playPuzzle(41);
         }else if (quizid.equals("43")){
             playBall(43);
+        }else if (quizid.equals("51")){
+            playDigi256(51);
+        }else if (quizid.equals("52")){
+            playHeadBall(52);
+        }else if (quizid.equals("53")){
+            playtlgm2048(53);
+        }else if (quizid.equals("54")){
+            playHeadBall(54);
+        }else if (quizid.equals("55")){
+            playFlappy(55);
+        }else if (quizid.equals("61")){
+            playlineMatch(61);
+        }else if (quizid.equals("62")){
+            playPuzzle6(62);
+        }else if (quizid.equals("63")){
+            playGlowBall(63);
+        }else if (quizid.equals("64")){
+            ShowPersonaMaker();
         }else if (taskid.equals("WhiteBoard")){
             ShowWhiteBoard(quizid);
         }
@@ -483,16 +498,40 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         mGameMgr.PlayGame(quizid,new PuzzleFragment(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
     }
 
+    void playPuzzle6(int quizid){
+        mGameMgr.PlayGame(quizid,new PuzzleFragment6(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
+    }
+
     void playFlappy(int quizid){
-        mGameMgr.PlayGame(quizid,new FlippyBookFragment(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
+        FlippyBookFragment flippyBookFragment = new FlippyBookFragment();
+        flippyBookFragment.setupQuiz(quizid);
+        mGameMgr.PlayGame(quizid,flippyBookFragment, Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
     }
 
     void playGlowBall(int quizid){
-        mGameMgr.PlayGame(quizid,new GlowBallFragment(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
+        mGameMgr.PlayGame(quizid,new GlowBallFragment(quizid), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
+    }
+
+    void playHeadBall(int quizid){
+        HeadBall_ mHeadBall_ = new HeadBall_();
+        mHeadBall_.setupType(quizid);
+        mGameMgr.PlayGame(quizid,mHeadBall_, Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
+    }
+
+    void playDigi256(int quizid){
+        mGameMgr.PlayGame(quizid,new digi256Game(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
+    }
+
+    void playtlgm2048(int quizid){
+        mGameMgr.PlayGame(quizid,new tlgm2048Fragment(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
     }
 
     void playGallifrey(int quizid){
         mGameMgr.PlayGame(quizid,new GallifreyFragment(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
+    }
+
+    void playlineMatch(int quizid){
+        mGameMgr.PlayGame(quizid,new lineMatch(), Ball.class.getName(), mPollHandler.getLoginStudentCounter()+1);
     }
 
     void ShowWhiteBoard(String Week){
@@ -507,6 +546,22 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
         //replaceFragment(new PainterFragment(Week));
     }
+
+    void ShowPersonaMaker(){
+
+        HideInfo();
+        HideCamera();
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.GameContent, new PersonaMakerFragment(), PersonaMakerFragment.class.getName());
+
+        transaction.commitAllowingStateLoss();
+
+        //replaceFragment(new PainterFragment(Week));
+    }
+
+
     @Override
     public void OnGameStartEvent() {
         HideInfo();

@@ -1,10 +1,12 @@
 package com.thu.stlgm;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
@@ -13,7 +15,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.facebook.Session;
+import com.google.android.gms.games.Game;
+import com.thu.stlgm.fragment.ExceptionFragment;
 import com.thu.stlgm.util.MusicManager;
 
 /**
@@ -24,18 +29,19 @@ public class BaseActivity extends GCMActivity {
     Toast mToast;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-        if(android.os.Build.VERSION.SDK_INT >= 19) {
+        if (android.os.Build.VERSION.SDK_INT >= 19) {
             HideNaviBar();
 
             getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
                 @Override
                 public void onSystemUiVisibilityChange(int visibility) {
-                    if(visibility == 0) {
+                    if (visibility == 0) {
                         HideNaviBar();
                     }
                 }
@@ -43,9 +49,13 @@ public class BaseActivity extends GCMActivity {
         }
 
         //getWindow().addFlags(0x80000000);
+
+
     }
 
-    public void HideNaviBar(){
+
+
+    public void HideNaviBar() {
 
         /*
         getWindow().getDecorView().setSystemUiVisibility(
@@ -59,10 +69,10 @@ public class BaseActivity extends GCMActivity {
 
     }
 
-    public void showToast(String Message){
-        if (mToast==null){
-            mToast = Toast.makeText(this,Message,Toast.LENGTH_SHORT);
-        }else{
+    public void showToast(String Message) {
+        if (mToast == null) {
+            mToast = Toast.makeText(this, Message, Toast.LENGTH_SHORT);
+        } else {
             mToast.setText(Message);
         }
         mToast.show();
@@ -90,16 +100,16 @@ public class BaseActivity extends GCMActivity {
         */
     }
 
-    public void HideSoftKeyBoard(){
+    public void HideSoftKeyBoard() {
         ((InputMethodManager) BaseActivity.this.
                 getSystemService(Context.INPUT_METHOD_SERVICE)).
                 hideSoftInputFromWindow(BaseActivity.this.getCurrentFocus().getWindowToken()
-                        ,InputMethodManager.HIDE_NOT_ALWAYS);
+                        , InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(KeyEvent.KEYCODE_POWER == event.getKeyCode()){
+        if (KeyEvent.KEYCODE_POWER == event.getKeyCode()) {
             return true;//If event is handled, falseif
         }
         return super.onKeyDown(keyCode, event);

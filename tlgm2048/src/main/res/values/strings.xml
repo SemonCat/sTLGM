@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">tlgm2048</string>
+    <string name="titleHeader">2048</string>
+    <string name="high_score">HIGH SCORE</string>
+    <string name="score">SCORE</string>
+    <string name="instructions">Swipe to move. %1$s + %1$s = %2$s.</string>
+    <string name="game_over">Game Over!</string>
+    <string name="game_win">You Win!</string>
+    <string name="redo">Redo(%1$d)</string>
+
+    <!-- Drawer -->
+    <string name="drawer_theme">Theme</string>
+    <string name="drawer_achievements">Achievements</string>
+    <string name="drawer_Leaderboards">Leaderboards</string>
+
+
+    <!-- Dialog -->
+    <string name="chose_theme">Theme Picker</string>
+
+    <!-- Theme -->
+    <string name="theme_base">Default</string>
+    <string name="theme_pink">Pink</string>
+    <string name="theme_dynasty">Chinese Dynasty</string>
+    <string name="theme_zodiac">Chinese Zodiac</string>
+    <string name="theme_periodic">Periodic Table</string>
+
+    <!-- Google Play Game Service -->
+    <string name="achievements_not_available">Please sign in to view achievements.</string>
+    <string name="leaderboards_not_available">Please sign in to view leaderboards.</string>
+</resources>

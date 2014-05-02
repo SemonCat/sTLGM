@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/DigiGameArea"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray">
+
+
+    <FrameLayout
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="資源載入失敗：（"
+            android:textSize="35dp"/>
+
+        <com.thu.digi256.View.MainView
+            android:id="@+id/GameView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </FrameLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="分數：0"
+        android:id="@+id/Score"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="63dp"
+        android:layout_marginTop="87dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="滑動你的手，\n來開始配對答案！"
+        android:textSize="20dp"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/Score"
+        android:layout_alignStart="@+id/Score"
+        android:textColor="@android:color/black"/>
+
+    <!--
+    <Button
+        android:id="@+id/ButtonRedo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="給個機會\n讓哥重來！"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="30dp"/>
+    -->
+
+    <ImageView
+        android:id="@+id/ButtonRedo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/btn_m51_restart"
+        android:layout_margin="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/PatternCode"
+        android:layout_below="@+id/Score"
+        android:layout_alignLeft="@+id/Score"
+        android:layout_alignStart="@+id/Score"
+        android:layout_marginTop="44dp"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/qrcode_2048s"
+        android:layout_margin="30dp"/>
+
+</RelativeLayout>

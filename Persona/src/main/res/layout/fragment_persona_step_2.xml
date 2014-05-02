@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.thu.persona.WizardPager.component.PersonaPreview
+            android:id="@+id/PersonaPreviewStep2"
+            android:layout_width="240dp"
+            android:layout_height="150dp"
+            android:layout_margin="30dp"/>
+
+        <TextView style="@style/WizardPageTitle"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="Behavior\n主要行為"/>
+
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="請想一句適合這個對象的 SLOGAN，並描述他的主要行為。"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/WizardPageContainer"
+            android:focusableInTouchMode="true">
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView style="@style/WizardFormLabel"
+                        android:text="大標題" />
+
+                    <EditText android:id="@+id/PersonaTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:singleLine="true"
+                        android:hint="你只能打 20 個字。"
+                        android:maxLength="20"
+                        android:layout_marginBottom="16dp" />
+
+                    <TextView style="@style/WizardFormLabel"
+                        android:text="敘述" />
+
+                    <EditText android:id="@+id/PersonaContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:maxLength="300"
+                        android:hint="說明一下你的角色吧！"
+                        android:layout_marginBottom="16dp"/>
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

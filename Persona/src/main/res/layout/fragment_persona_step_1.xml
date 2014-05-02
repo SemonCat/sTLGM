@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.thu.persona.WizardPager.component.PersonaPreview
+            android:id="@+id/PersonaPreviewStep1"
+            android:layout_width="240dp"
+            android:layout_height="150dp"
+            android:layout_margin="30dp"/>
+
+
+        <TextView style="@style/WizardPageTitle"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="Picture &amp; Basic information\n大頭貼 &amp; 基本資料"/>
+
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="請嘗試描繪出他or她的樣子。並輸入簡單的基本資料。"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <FrameLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/CleanAllPaint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="給我一張新的吧！"
+                android:background="@drawable/button_style"
+                android:textColor="@drawable/button_style"
+                android:padding="10dp"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="30dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="↑給你畫大頭貼用的↑"
+                android:layout_gravity="bottom|center"
+                android:textSize="20dp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="100dp"/>
+
+
+            <FrameLayout
+                android:id="@+id/Icon"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"/>
+
+                <com.thu.persona.WizardPager.component.DrawingView
+                    android:id="@+id/PersonaDrawingView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:layout_margin="3dp"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/ColorPickerButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_style"
+                        android:textColor="@drawable/button_style"
+                        android:padding="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="改顏色"/>
+                    <Button
+                        android:id="@+id/EraseButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_style"
+                        android:textColor="@drawable/button_style"
+                        android:padding="10dp"
+                        android:text="橡皮擦"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我想粗一點"/>
+
+                    <SeekBar
+                        android:id="@+id/PaintSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:max="20"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+        </FrameLayout>
+
+        <LinearLayout
+            style="@style/WizardPageContainer"
+            android:focusableInTouchMode="true">
+
+
+            <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView style="@style/WizardFormLabel"
+                        android:text="名字" />
+
+                    <EditText android:id="@+id/Name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:singleLine="true"
+                        android:maxLength="3"
+                        android:hint="給個名字，例如周星星之類的，中文，3 個字"
+                        android:layout_marginBottom="16dp" />
+
+                    <TextView style="@style/WizardFormLabel"
+                        android:text="性別" />
+
+                    <EditText android:id="@+id/Gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:singleLine="true"
+                        android:maxLength="1"
+                        android:hint="就性別，你只有一個字可以填，男或女。"
+                        android:layout_marginBottom="16dp"/>
+
+                    <TextView style="@style/WizardFormLabel"
+                        android:text="年齡" />
+
+                    <EditText android:id="@+id/Age"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:maxLength="2"
+                        android:hint="安安幾歲。"
+                        android:layout_marginBottom="16dp"/>
+
+                    <TextView style="@style/WizardFormLabel"
+                        android:text="職業" />
+
+                    <EditText android:id="@+id/Job"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:singleLine="true"
+                        android:maxLength="7"
+                        android:hint="在做什麼工作，你只能打 7 個字 :("
+                        android:layout_marginBottom="16dp"/>
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

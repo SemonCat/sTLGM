@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.thu.persona.WizardPager.component.PersonaPreview
+            android:id="@+id/PersonaPreviewStep5"
+            android:layout_width="240dp"
+            android:layout_height="150dp"
+            android:layout_margin="30dp"/>
+
+        <TextView style="@style/WizardPageTitle"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="Key attributes\n關鍵屬性"/>
+
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="有甚麼關鍵的屬性，而他又擁有幾分？"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/WizardPageContainer"
+            android:focusableInTouchMode="true">
+
+
+            <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/PersonaBackground"
+                        android:layout_width="400dp"
+                        android:layout_height="400dp"
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp">
+
+                            <View
+                                android:layout_width="150dp"
+                                android:layout_height="match_parent" />
+
+                            <FrameLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                                <TextView style="@style/WizardPageTitle"
+                                    android:text="Low"
+                                    android:gravity="center|left"/>
+
+                                <TextView style="@style/WizardPageTitle"
+                                    android:text="High"
+                                    android:gravity="center|right"/>
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/Attr_Title01"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:saveEnabled="false"
+                                android:singleLine="true"
+                                android:maxLength="7"
+                                android:hint="7 個字。"
+                                android:layout_marginBottom="16dp" />
+
+                            <SeekBar
+                                android:id="@+id/Attr_Value01"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:progress="50"
+                                android:layout_marginLeft="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/Attr_Title02"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:saveEnabled="false"
+                                android:singleLine="true"
+                                android:maxLength="7"
+                                android:layout_marginBottom="16dp" />
+
+                            <SeekBar
+                                android:id="@+id/Attr_Value02"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:progress="50"
+                                android:layout_marginLeft="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/Attr_Title03"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:saveEnabled="false"
+                                android:singleLine="true"
+                                android:maxLength="7"
+                                android:layout_marginBottom="16dp" />
+
+                            <SeekBar
+                                android:id="@+id/Attr_Value03"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:progress="50"
+                                android:layout_marginLeft="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/Attr_Title04"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:saveEnabled="false"
+                                android:singleLine="true"
+                                android:maxLength="7"
+                                android:layout_marginBottom="16dp" />
+
+                            <SeekBar
+                                android:id="@+id/Attr_Value04"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:progress="50"
+                                android:layout_marginLeft="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/Attr_Title05"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:saveEnabled="false"
+                                android:singleLine="true"
+                                android:maxLength="7"
+                                android:layout_marginBottom="16dp" />
+
+                            <SeekBar
+                                android:id="@+id/Attr_Value05"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:progress="50"
+                                android:layout_marginLeft="10dp"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </FrameLayout>
+
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

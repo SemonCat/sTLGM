@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.thu.persona.WizardPager.component.PersonaPreview
+            android:id="@+id/PersonaPreviewStep4"
+            android:layout_width="240dp"
+            android:layout_height="150dp"
+            android:layout_margin="30dp"/>
+
+        <TextView style="@style/WizardPageTitle"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="Needs\n衍生需求"/>
+
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="依照對象的主要行為，覺得他會有甚麼需求？"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/WizardPageContainer"
+            android:focusableInTouchMode="true">
+
+
+            <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView style="@style/WizardFormLabel"
+                        android:text="1." />
+
+                    <EditText android:id="@+id/Need01"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:singleLine="true"
+                        android:maxLength="10"
+                        android:hint="10 個字，我沒梗了。"
+                        android:layout_marginBottom="16dp" />
+
+                    <TextView style="@style/WizardFormLabel"
+                        android:text="2." />
+
+                    <EditText android:id="@+id/Need02"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:singleLine="true"
+                        android:maxLength="10"
+                        android:layout_marginBottom="16dp"/>
+
+                    <TextView style="@style/WizardFormLabel"
+                        android:text="3." />
+
+                    <EditText android:id="@+id/Need03"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:singleLine="true"
+                        android:maxLength="10"
+                        android:layout_marginBottom="16dp"/>
+
+                    <TextView style="@style/WizardFormLabel"
+                        android:text="4." />
+
+                    <EditText android:id="@+id/Need04"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:singleLine="true"
+                        android:maxLength="10"
+                        android:layout_marginBottom="16dp"/>
+
+                    <TextView style="@style/WizardFormLabel"
+                        android:text="5." />
+
+                    <EditText android:id="@+id/Need05"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:singleLine="true"
+                        android:maxLength="10"
+                        android:layout_marginBottom="16dp"/>
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

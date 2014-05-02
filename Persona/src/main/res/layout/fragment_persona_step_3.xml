@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.thu.persona.WizardPager.component.PersonaPreview
+            android:id="@+id/PersonaPreviewStep3"
+            android:layout_width="240dp"
+            android:layout_height="150dp"
+            android:layout_margin="30dp"/>
+
+        <TextView style="@style/WizardPageTitle"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="Ideal features &amp; Frustrations\n期待 &amp; 挫折"/>
+
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="這個對象會有甚麼期待，又會遇到什麼樣的挫折？"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/WizardPageContainer"
+            android:focusableInTouchMode="true">
+
+
+            <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginRight="10dp">
+
+                        <TextView style="@style/WizardPageTitle"
+                            android:text="期待"/>
+
+                        <TextView style="@style/WizardFormLabel"
+                            android:text="1." />
+
+                        <EditText android:id="@+id/GoodThings01"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:saveEnabled="false"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:hint="臍帶，只能打 20 字"
+                            android:layout_marginBottom="16dp" />
+
+                        <TextView style="@style/WizardFormLabel"
+                            android:text="2." />
+
+                        <EditText android:id="@+id/GoodThings02"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:saveEnabled="false"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:layout_marginBottom="16dp"/>
+
+                        <TextView style="@style/WizardFormLabel"
+                            android:text="3." />
+
+                        <EditText android:id="@+id/GoodThings03"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:saveEnabled="false"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:layout_marginBottom="16dp"/>
+
+                        <TextView style="@style/WizardFormLabel"
+                            android:text="4." />
+
+                        <EditText android:id="@+id/GoodThings04"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:saveEnabled="false"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:layout_marginBottom="16dp"/>
+
+                        <TextView style="@style/WizardFormLabel"
+                            android:text="5." />
+
+                        <EditText android:id="@+id/GoodThings05"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:saveEnabled="false"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:layout_marginBottom="16dp"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/darker_gray"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="10dp">
+
+                        <TextView style="@style/WizardPageTitle"
+                            android:text="挫折"/>
+
+                        <TextView style="@style/WizardFormLabel"
+                            android:text="1." />
+
+                        <EditText android:id="@+id/BadThings01"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:saveEnabled="false"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:hint="20 字，Tardis"
+                            android:layout_marginBottom="16dp" />
+
+                        <TextView style="@style/WizardFormLabel"
+                            android:text="2." />
+
+                        <EditText android:id="@+id/BadThings02"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:saveEnabled="false"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:layout_marginBottom="16dp"/>
+
+                        <TextView style="@style/WizardFormLabel"
+                            android:text="3." />
+
+                        <EditText android:id="@+id/BadThings03"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:saveEnabled="false"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:layout_marginBottom="16dp"/>
+
+                        <TextView style="@style/WizardFormLabel"
+                            android:text="4." />
+
+                        <EditText android:id="@+id/BadThings04"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:saveEnabled="false"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:layout_marginBottom="16dp"/>
+
+                        <TextView style="@style/WizardFormLabel"
+                            android:text="5." />
+
+                        <EditText android:id="@+id/BadThings05"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:saveEnabled="false"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:layout_marginBottom="16dp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

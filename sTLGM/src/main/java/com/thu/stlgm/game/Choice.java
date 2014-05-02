@@ -1,11 +1,6 @@
 package com.thu.stlgm.game;
 
-import android.content.Context;
-import android.app.Fragment;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.GridView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.thu.stlgm.R;
@@ -16,7 +11,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

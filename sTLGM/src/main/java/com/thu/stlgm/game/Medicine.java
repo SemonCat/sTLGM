@@ -1,20 +1,16 @@
 package com.thu.stlgm.game;
 
-import android.app.Fragment;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 
-import com.thu.stlgm.GameActivity;
 import com.thu.stlgm.R;
 import com.thu.stlgm.component.MoveImageView;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.AnimationRes;

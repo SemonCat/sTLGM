@@ -1,0 +1,133 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.semoncat.tlgm2048.tlgm2048Fragment"
+    android:background="@android:color/white">
+
+    <FrameLayout
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_margin="30dp"
+        android:layout_gravity="right|center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="收集完成，\n現在請在左方選擇正確答案！\n\n 〈——————"
+            android:layout_gravity="center"
+            android:textColor="@android:color/black"/>
+
+        <com.semoncat.tlgm2048.View.View2048
+            android:id="@+id/GameArea_2048"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="無 -> 不 -> 在 -> 社 -> 所 -> 群"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="30dp"
+        android:textColor="@android:color/black"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="270dp">
+
+
+        <ImageView
+            android:id="@+id/Question"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/opt_m52_q_01"
+            android:layout_gravity="center|top"
+            android:layout_margin="30dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="bottom">
+
+            <FrameLayout
+                android:id="@+id/Button1"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="@drawable/background_rectangle"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:clickable="true">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="30dp">
+
+                    <TextView
+                        android:id="@+id/Button1TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="35dp"
+                        android:text="無所不在"
+                        android:textColor="@android:color/black"/>
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/Button2"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="@drawable/background_rectangle"
+                android:layout_margin="30dp"
+                android:clickable="true">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="30dp">
+
+                    <TextView
+                        android:id="@+id/Button2TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="35dp"
+                        android:text="社群"
+                        android:textColor="@android:color/black"/>
+
+                </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="滑動以融合，\n請融合出所有必要元素！\n\n融合完成以後，\n點擊按鈕，\n選擇正確的答案。"
+        android:layout_gravity="left|top"
+        android:textSize="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="200dp"
+        android:textColor="@android:color/black"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/qrcode_2048s"
+        android:layout_gravity="bottom"
+        android:layout_margin="30dp"/>
+
+
+</FrameLayout>

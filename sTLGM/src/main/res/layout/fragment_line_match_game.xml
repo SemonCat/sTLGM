@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.linematch.app.MainActivity$PlaceholderFragment"
+    android:background="@drawable/bkg_m_11"
+    android:id="@+id/lineMatch">
+
+    <lineMatch.lineMatchView
+        android:id="@+id/drawingView"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:layout_centerInParent="true"
+        android:background="#ff87decd"
+        />
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:text="送出"
+        android:textSize="25dp"
+        android:enabled="false"
+        android:background="@drawable/submit_button_style"
+        />
+
+
+</RelativeLayout>

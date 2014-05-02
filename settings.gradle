@@ -1,1 +1,1 @@
-include ':sTLGM'
+include ':sTLGM', ':digi256', ':tlgm2048', ':Persona'  ,':lineMatch'

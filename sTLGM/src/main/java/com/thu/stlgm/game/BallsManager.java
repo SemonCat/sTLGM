@@ -20,8 +20,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.thu.stlgm.R;
 
 public class BallsManager {
-	public static final int boxWidth=130;
-	public static final int boxHeight=130;
+	public static final int boxWidth=300;
+	public static final int boxHeight=300;
 	private ArrayList<ImageView> restoredViewList;
 	private Context context;
 	private ViewGroup container;
@@ -32,7 +32,7 @@ public class BallsManager {
     private int picArrayTrue[]=new int[]{};
     private int picArrayFalse[]=new int[]{};
 
-    private boolean answer[] = new boolean[]{true,true,false,true,true,true,false};
+    private boolean answer[] = new boolean[]{true,true,false,false,false,false,false};
 
 
 	public ColorGenerator colorGenerator;
@@ -84,21 +84,22 @@ public class BallsManager {
 
         BallObject mBallOBJ = (BallObject)ball.getTag();
         if (mBallOBJ.isAnswer()){
+            ball.setImageResource(picArrayTrue[new Random().nextInt(picArrayTrue.length)]);
             if(Type==0){
-                ball.setImageResource(picArrayTrue[new Random().nextInt(picArrayTrue.length)]);
+
                 ball.setBackgroundResource(R.drawable.obj_m_planet01);
             }else if(Type==1){
-                ball.setImageResource(picArrayTrue[new Random().nextInt(picArrayTrue.length)]);
+
                 ball.setBackgroundResource(R.drawable.aerolite3);
             }
 
             //ball.setBackgroundColor(Color.GREEN);
         }else{
+            ball.setImageResource(picArrayFalse[new Random().nextInt(picArrayFalse.length)]);
             if(Type==0){
-                ball.setImageResource(picArrayFalse[new Random().nextInt(picArrayFalse.length)]);
+
                 ball.setBackgroundResource(R.drawable.obj_m_planet01);
             }else if(Type==1){
-                ball.setImageResource(picArrayFalse[new Random().nextInt(picArrayFalse.length)]);
                 ball.setBackgroundResource(R.drawable.aerolite3);
             }
             //ball.setBackgroundColor(Color.RED);

@@ -2,13 +2,11 @@ package com.thu.stlgm.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Handler;
 
 import com.thu.stlgm.R;
 import com.thu.stlgm.game.BaseGame;
-import com.thu.stlgm.game.Medicine;
 import com.thu.stlgm.game.Medicine_;
 
 import java.util.ArrayList;

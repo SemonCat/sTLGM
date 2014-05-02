@@ -1,15 +1,11 @@
 package com.thu.stlgm.game;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Handler;
 import android.util.Log;
 
 import com.thu.stlgm.GameActivity;
-import com.thu.stlgm.R;
-import com.thu.stlgm.fragment.BaseFragment;
-import com.thu.stlgm.fragment.BeforeGameFragment;
 import com.thu.stlgm.fragment.BeforeGameFragment_;
 
 /**
@@ -75,6 +71,7 @@ public class GameMgr {
                         mListener.OnGameNextEvent(mType== BaseGame.OverType.Win,counter);
                 } else {
                     resetCounter();
+                    System.gc();
                     if (mListener != null)
                         mListener.OnGameOverEvent(IsWin);
                 }

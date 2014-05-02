@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.thu.stlgm.R;
-import com.thu.stlgm.game.GlowBallFragment;
 import com.thu.stlgm.game.gallifrey.view.BoardView;
 import com.thu.stlgm.game.BaseGame;
 

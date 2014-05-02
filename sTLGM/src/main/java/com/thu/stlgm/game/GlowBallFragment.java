@@ -7,20 +7,15 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -88,20 +83,28 @@ public class GlowBallFragment extends BaseGame {
                 underline2 = -1;
 
                 break;
-            case 1:
+            case 63:
+                picArrayFalse=new int[]{R.drawable.opt_m63_f_01,R.drawable.opt_m63_f_02,R.drawable.opt_m63_f_03,R.drawable.opt_m63_f_04};
+                picArrayTrue=new int[]{R.drawable.opt_m63_t_01,R.drawable.opt_m63_t_02,R.drawable.opt_m63_t_03,R.drawable.opt_m63_t_04,R.drawable.opt_m63_t_05};
 
-                picArrayFalse=new int[]{R.drawable.m2_4_f1,R.drawable.m2_4_f2,R.drawable.m2_4_f3,R.drawable.m2_4_f4};
-                picArrayTrue=new int[]{R.drawable.m2_4_t1,R.drawable.m2_4_t2,R.drawable.m2_4_t3,R.drawable.m2_4_t4};
-
-                containerBackground = R.drawable.bg9;
-                animResource = R.anim.confirm;
-                underline2 = R.drawable.checklinebar;
-
-
-
-
+                containerBackground = R.drawable.bkg_m_12;
+                animResource = R.anim.obj_m_checkline01;
+                underline2 = -1;
 
                 break;
+
+            default:
+                picArrayFalse=new int[]{R.drawable.opt_m23_f_01,R.drawable.opt_m23_f_02,
+                        R.drawable.opt_m23_f_03,R.drawable.opt_m23_f_04};
+                picArrayTrue=new int[]{R.drawable.opt_m23_t_01,R.drawable.opt_m23_t_02,
+                        R.drawable.opt_m23_t_03};
+
+                containerBackground = R.drawable.bkg_m_03;
+                animResource = R.anim.obj_m_checkline01;
+                underline2 = -1;
+
+                break;
+
         }
     }
 
@@ -254,7 +257,10 @@ public class GlowBallFragment extends BaseGame {
 					if (mBallOBJ.isAnswer()) {// the same color
 
                         if (!closeThread){
-                            onGameOver(score,OverType.Dead);
+                            score -= 1;
+                            if (score<=-5){
+                                onGameOver(score,OverType.Dead);
+                            }
                         }
                         //對的答案觸控
 					} else {// not the same color
@@ -279,7 +285,10 @@ public class GlowBallFragment extends BaseGame {
 						//score += 1;
                         //錯的答案掉落
                         if (!closeThread){
-                            onGameOver(score,OverType.Dead);
+                            score -= 1;
+                            if (score<=-5){
+                                onGameOver(score,OverType.Dead);
+                            }
                         }
 					}
 				}
@@ -404,7 +413,7 @@ public class GlowBallFragment extends BaseGame {
     @Override
     protected void RestartFragment(int quizid,int counter, int container, FragmentManager manager, OnGameOverListener onGameOverListener) {
 
-        GlowBallFragment glowBallFragment = new GlowBallFragment();
+        GlowBallFragment glowBallFragment = new GlowBallFragment(quizid);
         glowBallFragment.setOnGameOverListener(onGameOverListener);
 
         addFragment(glowBallFragment,counter,container,manager,onGameOverListener);
