@@ -69,7 +69,8 @@ public class BaseGame extends Fragment {
 
     public enum OverType{
         Win,
-        Dead
+        Dead,
+        Vote
     }
 
     @Override
@@ -129,7 +130,7 @@ public class BaseGame extends Fragment {
             @Override
             public void run() {
 
-                ((AnimationDrawable) mAnim.getBackground()).stop();
+
                 mAnim.setVisibility(View.GONE);
 
 
@@ -188,8 +189,11 @@ public class BaseGame extends Fragment {
                 }else if (mType == OverType.Win){
                     mAnim.setBackgroundResource(R.anim.obj_s_winner);
                 }
-                mAnim.setVisibility(View.VISIBLE);
-                ((AnimationDrawable) mAnim.getBackground()).start();
+
+                if (mType!=OverType.Vote){
+                    mAnim.setVisibility(View.VISIBLE);
+                    ((AnimationDrawable) mAnim.getBackground()).start();
+                }
             }
 
             @Override

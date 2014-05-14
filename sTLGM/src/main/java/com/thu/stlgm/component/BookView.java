@@ -13,6 +13,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class BookView extends ImageView {
 
+    private int id;
+
     private boolean QuestionAnswer = false;
 
     private boolean Answered = false;
@@ -76,6 +78,13 @@ public class BookView extends ImageView {
     }
 
 
+    public int getBookId() {
+        return id;
+    }
+
+    public void setBookId(int id) {
+        this.id = id;
+    }
 
     public boolean getQuestionAnswer(){
         return QuestionAnswer;

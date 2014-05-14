@@ -12,7 +12,13 @@ import android.widget.Toast;
  */
 public class BaseFragment extends Fragment {
 
+    public interface OnFragmentFinishEvent{
+        void OnFragmentFinish();
+    }
+
     Toast mToast;
+
+    private OnFragmentFinishEvent mListener;
 
     protected void showToast(String Message){
         if (mToast==null){
@@ -46,4 +52,16 @@ public class BaseFragment extends Fragment {
 
     }
 
+    public void finishFragment(){
+        if (getFragmentManager()!=null){
+            getFragmentManager().beginTransaction().remove(this).commit();
+
+            if (mListener!=null)
+                mListener.OnFragmentFinish();
+        }
+    }
+
+    public void setOnFragmentFinishListener(OnFragmentFinishEvent mListener) {
+        this.mListener = mListener;
+    }
 }

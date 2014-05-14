@@ -91,19 +91,12 @@ android {
 }
 
 repositories {
-    maven { url 'https://github.com/bsphere/aws-android-sdk-mvn-repo/raw/master/releases' }
     mavenCentral()
 }
 
 
 dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
-    compile 'com.github.snowdream.android.app:updater:1.0@aar'
-    compile 'com.github.snowdream.android.util:log:1.0.4'
-    compile 'com.github.snowdream.android.app:downloader:1.0'
-    compile 'com.github.snowdream.android.util.concurrent:multithread:0.0.7'
-    compile 'com.github.kevinsawicki:http-request:5.5'
-    compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.github.chrisbanes.photoview:library:1.2.2'
     compile 'com.android.support:support-v4:19.+'
     compile 'com.facebook:facebook-android-sdk:3.7@aar'
@@ -112,9 +105,9 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.1@jar'
     compile 'com.etsy.android.grid:library:1.0.4'
     compile 'org.jsoup:jsoup:1.7.1@jar'
-    compile 'com.google.android.gms:play-services:+'
-    compile 'com.amazonaws:android-sdk-core:1.7.0'
-    compile 'com.amazonaws:android-sdk-s3:1.7.0'
+    compile files('libs/aws-android-sdk-1.7.1.1-core.jar')
+    compile files('libs/aws-android-sdk-1.7.1.1-s3.jar')
+    compile 'com.google.code.gson:gson:+'
     compile files('libs/androidannotations-3.0.1.jar')
     compile files('libs/android-gif-drawable-1.0.4.jar')
     compile files('libs/bugsense-3.6.1.jar')

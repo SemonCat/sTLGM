@@ -30,7 +30,7 @@ public class BookLayout extends ViewGroup {
     /**
      * children will be set the same size.
      */
-    private int mChildSize = 44;
+    private int mChildSize = 60;
 
     private int mChildPadding = 5;
 

@@ -5,9 +5,11 @@ import android.content.Context;
 import android.nfc.Tag;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.thu.stlgm.bean.AccountBean;
+import com.thu.stlgm.bean.Student;
 import com.thu.stlgm.bean.StudentBean;
 import com.thu.stlgm.facebook.FBMultiAccountMgr;
 import com.thu.stlgm.util.ConstantUtil;
@@ -45,6 +47,10 @@ public class SQService {
 
     public interface OnAllStudentGetListener{
         void OnAllStudentGetEvent(List<StudentBean> mStudentList);
+    }
+
+    public interface OnAllTeachStudentGetListener{
+        void OnAllStudentGetEvent(List<Student> mStudentList);
     }
 
     public interface OnMedicineGetSuccess{
@@ -116,7 +122,7 @@ public class SQService {
     @Deprecated
     public static void StudentLogin(final String fid,final OnSQLoginFinish mListener){
 
-        String URL = ServerIP+"/StudentLogin?fid=" + fid;
+        String URL = ServerIP+"/StudentLogin?fid=" + fid+"&getGson=true";
         client.get(URL,new AsyncHttpResponseHandler(){
 
             @Override
@@ -124,7 +130,8 @@ public class SQService {
                 String message = new String(responseBody);
                 Log.d(TAG,"Result:"+message);
 
-                StudentBean mStudentBean = BeanTranslate.toStudent(fid,message);
+                StudentBean mStudentBean = BeanTranslate.Json2Student(message);
+
                 if (mStudentBean!=null)
                     mListener.OnSQLoginFinish(mStudentBean);
                 else
@@ -288,6 +295,45 @@ public class SQService {
         client.get(URL,mHandler);
     }
 
+    private static AsyncHttpClient StudentHttpClient;
+    public static void getAllStudents(final OnAllTeachStudentGetListener mListener){
+        String URL = ServerIP+"/TeacherQuery?service=3";
+        if (StudentHttpClient==null){
+            StudentHttpClient = new AsyncHttpClient();
+        }
+
+        StudentHttpClient.get(URL,new AsyncHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    ObjectInputStream objIn = new ObjectInputStream(new ByteArrayInputStream(responseBody));
+
+                    StudentInfoMap infoMap = (StudentInfoMap) objIn.readObject();
+
+                    List<Student> mData = transStudentInfoMap2Student(infoMap);
+
+                    if (mListener!=null)
+                        mListener.OnAllStudentGetEvent(mData);
+
+
+
+                }catch (IOException mIOException){
+                    mIOException.printStackTrace();
+                }catch (ClassNotFoundException mClassNotFoundException){
+                    mClassNotFoundException.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                //Log.d(TAG,"Error:"+new String(responseBody));
+            }
+        });
+
+    }
+
+
     public static List<StudentBean> transStudentInfoMap2StudentBean(StudentInfoMap infoMap){
         List<StudentBean> mData = new ArrayList<StudentBean>();
         Map<String, StudentInfo> map = infoMap.getStudentMap();
@@ -301,6 +347,17 @@ public class SQService {
             mStudentBean.setGroupID(mInfo.getGid());
             mStudentBean.setId(mInfo.getFb());
             mData.add(mStudentBean);
+        }
+
+        return mData;
+    }
+
+    public static List<Student> transStudentInfoMap2Student(StudentInfoMap infoMap){
+        List<Student> mData = new ArrayList<Student>();
+        Map<String, StudentInfo> map = infoMap.getStudentMap();
+        for (String key:map.keySet()){
+            StudentInfo mInfo = map.get(key);
+            mData.add(Student.toStudent(mInfo));
         }
 
         return mData;

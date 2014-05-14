@@ -17,14 +17,13 @@ import android.widget.Toast;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.facebook.Session;
-import com.google.android.gms.games.Game;
 import com.thu.stlgm.fragment.ExceptionFragment;
 import com.thu.stlgm.util.MusicManager;
 
 /**
  * Created by SemonCat on 2014/1/28.
  */
-public class BaseActivity extends GCMActivity {
+public class BaseActivity extends Activity {
 
     Toast mToast;
 

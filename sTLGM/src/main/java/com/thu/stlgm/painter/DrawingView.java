@@ -46,7 +46,7 @@ public class DrawingView extends View {
 	//drawing and canvas paint
 	private Paint drawPaint, canvasPaint;
 	//initial color
-	private int paintColor = 0xFF660000;
+	private int paintColor = Color.RED;
 	//canvas
 	private Canvas drawCanvas;
 	//canvas bitmap
@@ -89,7 +89,7 @@ public class DrawingView extends View {
     //setup drawing
 	private void setupDrawing(){
 		//prepare for drawing and setup paint stroke properties
-		brushSize = 10;
+		brushSize = 5;
 		lastBrushSize = brushSize;
 		drawPath = new Path();
 		drawPaint = new Paint();

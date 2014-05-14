@@ -26,6 +26,8 @@ import android.widget.Toast;
 import com.thu.stlgm.GameActivity;
 import com.thu.stlgm.R;
 import com.thu.stlgm.api.SQService;
+import com.thu.stlgm.bean.StudentBean;
+import com.thu.stlgm.fragment.BaseFragment;
 
 import org.w3c.dom.Text;
 
@@ -41,7 +43,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class PainterFragment extends Fragment implements View.OnClickListener {
+public class PainterFragment extends BaseFragment implements View.OnClickListener {
     private DrawingView drawView;
     //buttons
     private ImageButton currPaint, eraseBtn, newBtn, saveBtn,small_Brush,medium_Brush,large_Brush;
@@ -72,12 +74,12 @@ public class PainterFragment extends Fragment implements View.OnClickListener {
 
         //get drawing view
         drawView = (DrawingView)getActivity().findViewById(R.id.drawing);
+
         closeWhiteBoard = (ImageView) getActivity().findViewById(R.id.closeWhiteBoard);
         closeWhiteBoard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().remove(PainterFragment.this).commit();
-                ((GameActivity)getActivity()).ShowCamera();
+                finishFragment();
             }
         });
 
@@ -120,9 +122,9 @@ public class PainterFragment extends Fragment implements View.OnClickListener {
         currPaint.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
 
         //sizes from dimensions
-        smallBrush = 10;
-        mediumBrush = 20;
-        largeBrush =30;
+        smallBrush = 5;
+        mediumBrush = 10;
+        largeBrush =20;
 
         //draw button
         small_Brush = (ImageButton)getActivity().findViewById(R.id.small_brush);
@@ -268,7 +270,16 @@ public class PainterFragment extends Fragment implements View.OnClickListener {
             if (drawView.getPaintPath().size()>0){
                 drawView.setmPath(pathString);
                 drawView.moveToOriginPoint();
-                drawView.transBitmapToPng(((GameActivity)getActivity()).getLeader().getGroupID());
+
+                StudentBean mLeader = ((GameActivity)getActivity()).getLeader();
+
+                String FileName  = "Default";
+
+                if (mLeader!=null){
+                    FileName = mLeader.getName()+"_"+mLeader.getDepartment();
+                }
+
+                drawView.transBitmapToPng(FileName);
                 drawView.startNew();
                 drawView.cleanPath();
                 //drawView.reDrawPath(drawView.getPaintPath());

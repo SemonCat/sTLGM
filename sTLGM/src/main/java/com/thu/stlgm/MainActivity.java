@@ -19,13 +19,6 @@ import android.view.ViewGroup;
 import android.os.Build;
 
 import com.facebook.Session;
-import com.github.snowdream.android.app.AbstractUpdateListener;
-import com.github.snowdream.android.app.DownloadTask;
-import com.github.snowdream.android.app.UpdateFormat;
-import com.github.snowdream.android.app.UpdateInfo;
-import com.github.snowdream.android.app.UpdateManager;
-import com.github.snowdream.android.app.UpdateOptions;
-import com.github.snowdream.android.app.UpdatePeriod;
 import com.thu.stlgm.fragment.LoginFragment_;
 import com.thu.stlgm.util.ConstantUtil;
 

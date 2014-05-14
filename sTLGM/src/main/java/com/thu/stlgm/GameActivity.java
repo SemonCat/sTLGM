@@ -21,9 +21,14 @@ import android.widget.TextView;
 
 import com.thu.stlgm.bean.Photo;
 import com.thu.stlgm.fragment.AlbumFragment;
+import com.thu.stlgm.fragment.BaseFragment;
+import com.thu.stlgm.fragment.GroupGameFragment;
+import com.thu.stlgm.fragment.ImageFragment;
 import com.thu.stlgm.fragment.PersonaMakerFragment;
 import com.thu.stlgm.game.HeadBall_;
 import com.thu.stlgm.game.PuzzleFragment6;
+import com.thu.stlgm.game.VoteBall;
+import com.thu.stlgm.game.VoteBall_;
 import com.thu.stlgm.game.digi256Game;
 import com.thu.stlgm.game.gallifrey.GallifreyFragment;
 
@@ -86,6 +91,8 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
     private PollHandler mPollHandler;
 
+    private static final int defaultLoginCounter = 1;
+
     @ViewById
     ListView ListViewPlayerInfo;
 
@@ -135,6 +142,22 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         mGameMgr.setListener(this);
         initAdapter();
 
+        Bundle mBundle = getIntent().getExtras();
+        if (mBundle != null) {
+            boolean StartGroupGame = mBundle.getBoolean("StartGroupGame");
+            if (StartGroupGame){
+
+                GroupGameFragment mGroupGameFragment = new GroupGameFragment();
+
+                FragmentTransaction transaction =getFragmentManager().beginTransaction();
+
+
+                transaction.replace(R.id.GameContent, mGroupGameFragment, GroupGameFragment.class.getName());
+
+                transaction.commitAllowingStateLoss();
+
+            }
+        }
 
 
     }
@@ -201,6 +224,21 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
             ShowWhiteBoard(quizid);
         }
 
+        if (quizid.equals("i01")){
+            playImage("i01");
+        }else if (quizid.equals("i02")){
+            playImage("i02");
+        }else if (quizid.equals("i03")){
+            playImage("i03");
+        }else if (quizid.equals("i04")){
+            playImage("i04");
+        }
+
+        if (quizid.equals("g01")){
+            playVoteBall("g01");
+        }else if (quizid.equals("g02")){
+            ShowWhiteBoard("vote01");
+        }
     }
 
     @Override
@@ -246,7 +284,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     @UiThread
     public void getAdditional(StudentBean mTarget, int blood) {
         Log.d(TAG, "getAdditional:" + blood);
-        playMedicine(mTarget.getSID(), blood, this);
+        //playMedicine(mTarget.getSID(), blood, this);
     }
 
     @Override
@@ -287,14 +325,14 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
                     if (counter > 0) {
                         mPlayerInfoAdapter.setupMemberCounter(counter);
                     }else{
-                        mPlayerInfoAdapter.setupMemberCounter(5);
+                        mPlayerInfoAdapter.setupMemberCounter(defaultLoginCounter);
                     }
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                     error.printStackTrace();
-                    mPlayerInfoAdapter.setupMemberCounter(5);
+                    mPlayerInfoAdapter.setupMemberCounter(defaultLoginCounter);
                 }
             });
 
@@ -487,6 +525,49 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
         //playFlappy(0);
     }
 
+    void playVoteBall(String quizid){
+        final VoteBall_ mBall = new VoteBall_();
+        HideInfo();
+        mBall.setOnGameOverListener(new BaseGame.OnGameOverListener() {
+            @Override
+            public void OnGameOverEvent(BaseGame.OverType mOverType, int score) {
+                SQService.AddStudentCoin(mPlayerInfoAdapter.getLeaderStudent().getSID(),score);
+                ShowInfo();
+            }
+        });
+
+
+        FragmentTransaction transaction =getFragmentManager().beginTransaction();
+
+        Fragment findFragment = getFragmentManager().findFragmentByTag("Vote");
+        if (findFragment != null) {
+            return;
+        }
+
+        transaction.replace(R.id.GameContent, mBall, "Vote");
+
+        transaction.commitAllowingStateLoss();
+    }
+
+    void playImage(String quizid){
+
+
+        ImageFragment imageFragment = new ImageFragment(quizid);
+
+        FragmentTransaction transaction =getFragmentManager().beginTransaction();
+
+        Fragment findFragment = getFragmentManager().findFragmentByTag("Vote");
+        if (findFragment != null) {
+            return;
+        }
+
+        ShowInfo();
+
+        transaction.replace(R.id.GameContent, imageFragment, ImageFragment.class.getName());
+
+        transaction.commitAllowingStateLoss();
+    }
+
     void playBall(int quizid){
         Ball_ ball_ = new Ball_();
         ball_.setupType(quizid);
@@ -536,11 +617,21 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
     void ShowWhiteBoard(String Week){
 
-        HideCamera();
+        HideInfo();
 
         FragmentTransaction transaction =getFragmentManager().beginTransaction();
 
-        transaction.replace(R.id.FBContent, new PainterFragment(Week), Fragment.class.getName());
+        PainterFragment painterFragment = new PainterFragment(Week);
+
+        painterFragment.setOnFragmentFinishListener(new BaseFragment.OnFragmentFinishEvent() {
+            @Override
+            public void OnFragmentFinish() {
+                ShowInfo();
+            }
+        });
+
+
+        transaction.replace(R.id.GameContent, painterFragment, Fragment.class.getName());
 
         transaction.commitAllowingStateLoss();
 
@@ -789,7 +880,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
     public void ShowInfo(){
         ListViewPlayerInfo.setVisibility(View.VISIBLE);
-        MoneyInfo.setVisibility(View.VISIBLE);
+        MoneyInfo.setVisibility(View.GONE);
     }
 
     public void HideCamera(){
@@ -798,7 +889,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     }
 
     public void ShowCamera(){
-        camera.setVisibility(View.VISIBLE);
+        camera.setVisibility(View.GONE);
         facebook.setVisibility(View.GONE);
     }
 

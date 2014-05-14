@@ -2,7 +2,12 @@ package com.thu.stlgm.api;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.thu.stlgm.bean.StudentBean;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by SemonCat on 2014/2/19.
@@ -37,5 +42,25 @@ public class BeanTranslate {
         }
 
         return null;
+    }
+
+    public static StudentBean Json2Student(String result){
+
+        StudentBean mStudent = new StudentBean();
+
+        try{
+            JSONObject mJsonObj = new JSONObject(result);
+            mStudent.setSID(mJsonObj.getString("sid"));
+            mStudent.setGroupID(mJsonObj.getString("group"));
+            mStudent.setId(mJsonObj.getString("fb"));
+            mStudent.setImgUrl(mJsonObj.getString("imgUrl"));
+            mStudent.setName(mJsonObj.getString("name"));
+            mStudent.setDepartment(mJsonObj.getString("dep"));
+
+        }catch (JSONException e){
+            return null;
+        }
+
+        return mStudent;
     }
 }

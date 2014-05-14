@@ -14,13 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.snowdream.android.app.AbstractUpdateListener;
-import com.github.snowdream.android.app.DownloadTask;
-import com.github.snowdream.android.app.UpdateFormat;
-import com.github.snowdream.android.app.UpdateInfo;
-import com.github.snowdream.android.app.UpdateManager;
-import com.github.snowdream.android.app.UpdateOptions;
-import com.github.snowdream.android.app.UpdatePeriod;
 import com.thu.stlgm.GameActivity;
 import com.thu.stlgm.GameActivity_;
 import com.thu.stlgm.R;
@@ -86,7 +79,6 @@ public class LoginFragment extends BaseFragment implements SQService.OnSQLoginFi
 
         packageVersionName.setText(getVersion());
 
-        checkUpdate();
     }
 
     @Click(R.id.FBLoginButton)
@@ -136,60 +128,5 @@ public class LoginFragment extends BaseFragment implements SQService.OnSQLoginFi
         return version;
     }
 
-    private ProgressDialog mDialog;
-    private void checkUpdate() {
 
-        UpdateManager manager = new UpdateManager(getActivity());
-
-        UpdateOptions options = new UpdateOptions.Builder(getActivity())
-                .checkUrl(ConstantUtil.UpdateURL)
-                .updateFormat(UpdateFormat.JSON)
-                .updatePeriod(new UpdatePeriod(UpdatePeriod.EACH_TIME))
-                .checkPackageName(false)
-                .build();
-
-        manager.check(getActivity(), options,new AbstractUpdateListener() {
-            @Override
-            public void onShowUpdateUI(UpdateInfo updateInfo) {
-
-            }
-
-            @Override
-            public void onShowNoUpdateUI() {
-
-            }
-
-            @Override
-            public void onShowUpdateProgressUI(UpdateInfo updateInfo, DownloadTask downloadTask, int i) {
-                if (mDialog==null && i==0){
-                    mDialog = new ProgressDialog(getActivity());
-                    mDialog.setMessage("更新中，請聯絡助教協助更新！");
-                    mDialog.setTitle("檢測到新版本！");
-                    mDialog.show();
-                }
-
-                else if (mDialog!=null){
-                    mDialog.setProgress(i);
-                }
-                //packageVersionName.setText("檢測到新版本！更新中，下載進度："+i+"%，請聯絡助教協助更新！");
-            }
-
-            /**
-             * hide the checking dialog
-             */
-            @Override
-            public void onFinish() {
-                super.onFinish();
-                if (mDialog!=null){
-                    mDialog.dismiss();
-                }
-            }
-
-            @Override
-            public void ExitApp() {
-
-            }
-        });
-
-    }
 }
