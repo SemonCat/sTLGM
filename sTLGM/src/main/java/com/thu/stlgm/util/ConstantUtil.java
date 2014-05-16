@@ -37,6 +37,6 @@ public class ConstantUtil {
 
     public static final String WeekAlbum = "419644308173129";
 
-    public static final String WeekAlbum1 = "426370727500487";
+    public static final String WeekAlbum1 = "451658241638402";
     public static final String WeekAlbum2 = "426370804167146";
 }

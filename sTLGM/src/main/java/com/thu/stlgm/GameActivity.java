@@ -880,7 +880,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
 
     public void ShowInfo(){
         ListViewPlayerInfo.setVisibility(View.VISIBLE);
-        MoneyInfo.setVisibility(View.GONE);
+        MoneyInfo.setVisibility(View.VISIBLE);
     }
 
     public void HideCamera(){
@@ -889,7 +889,7 @@ public class GameActivity extends BaseActivity implements GameMgr.OnGameFinishLi
     }
 
     public void ShowCamera(){
-        camera.setVisibility(View.GONE);
+        camera.setVisibility(View.VISIBLE);
         facebook.setVisibility(View.GONE);
     }
 
