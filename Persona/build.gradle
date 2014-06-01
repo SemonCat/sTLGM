@@ -25,4 +25,8 @@ dependencies {
     compile 'com.android.support:support-v13:+'
     compile 'com.larswerkman:HoloColorPicker:1.4'
     compile 'com.github.chrisbanes.photoview:library:1.2.2'
+    compile 'com.squareup.picasso:picasso:+'
+    compile 'com.loopj.android:android-async-http:+'
+    compile 'com.jpardogo.googleprogressbar:library:+'
+    compile "com.github.semoncat.wizzardpager:library:+"
 }

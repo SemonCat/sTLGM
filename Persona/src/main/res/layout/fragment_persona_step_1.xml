@@ -39,6 +39,14 @@
             android:layout_height="match_parent">
 
             <Button
+                android:id="@+id/WebImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我不想自己畫。"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="20dp"/>
+
+            <Button
                 android:id="@+id/CleanAllPaint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

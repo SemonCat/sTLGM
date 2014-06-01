@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.semoncat.wizzardpager.model.Page;
 import com.thu.persona.R;
 import com.thu.persona.WizardPager.component.PersonaPreview;
-import com.thu.persona.WizardPager.model.Page;
 
 /**
  * Created by SemonCat on 2014/4/30.

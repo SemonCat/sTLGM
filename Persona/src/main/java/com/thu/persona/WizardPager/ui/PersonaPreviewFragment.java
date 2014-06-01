@@ -15,13 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.semoncat.wizzardpager.model.AbstractWizardModel;
+import com.semoncat.wizzardpager.model.ModelCallbacks;
+import com.semoncat.wizzardpager.model.Page;
 import com.thu.persona.R;
 import com.thu.persona.WizardPager.PersonaGenerator;
 import com.thu.persona.WizardPager.bean.PersonaData;
-import com.thu.persona.WizardPager.model.AbstractWizardModel;
-import com.thu.persona.WizardPager.model.ModelCallbacks;
-import com.thu.persona.WizardPager.model.Page;
-
 import uk.co.senab.photoview.PhotoView;
 
 /**

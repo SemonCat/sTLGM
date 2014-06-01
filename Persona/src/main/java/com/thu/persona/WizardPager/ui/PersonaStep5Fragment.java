@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
+import com.semoncat.wizzardpager.model.Page;
 import com.thu.persona.R;
 import com.thu.persona.WizardPager.PersonaGenerator;
 import com.thu.persona.WizardPager.component.PersonaPreview;
-import com.thu.persona.WizardPager.model.Page;
 
 import org.w3c.dom.Text;
 

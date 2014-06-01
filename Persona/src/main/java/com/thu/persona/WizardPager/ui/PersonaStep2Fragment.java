@@ -14,11 +14,11 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
+import com.semoncat.wizzardpager.model.Page;
 import com.thu.persona.R;
 import com.thu.persona.WizardPager.component.DrawingView;
 import com.thu.persona.WizardPager.component.PersonaPreview;
 import com.thu.persona.WizardPager.dialog.ColorPickerDialog;
-import com.thu.persona.WizardPager.model.Page;
 
 /**
  * Created by SemonCat on 2014/4/30.

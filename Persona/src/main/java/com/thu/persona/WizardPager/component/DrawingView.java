@@ -14,6 +14,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 
 import java.io.File;
@@ -23,7 +24,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawingView extends View {
+public class DrawingView extends ImageView {
 
 	//drawing path
 	private Path drawPath;
@@ -91,6 +92,7 @@ public class DrawingView extends View {
 	//draw the view - will be called after touch event
 	@Override
 	protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
 		canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
 		canvas.drawPath(drawPath, drawPaint);
 

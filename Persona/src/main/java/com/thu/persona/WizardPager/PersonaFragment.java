@@ -10,22 +10,21 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.semoncat.wizzardpager.model.AbstractWizardModel;
+import com.semoncat.wizzardpager.model.ModelCallbacks;
+import com.semoncat.wizzardpager.model.Page;
+import com.semoncat.wizzardpager.ui.PageFragmentCallbacks;
+import com.semoncat.wizzardpager.ui.ReviewFragment;
+import com.semoncat.wizzardpager.ui.StepPagerStrip;
 import com.thu.persona.R;
 import com.thu.persona.WizardPager.component.HackyViewPager;
-import com.thu.persona.WizardPager.model.AbstractWizardModel;
-import com.thu.persona.WizardPager.model.ModelCallbacks;
-import com.thu.persona.WizardPager.model.Page;
-import com.thu.persona.WizardPager.ui.PageFragmentCallbacks;
 import com.thu.persona.WizardPager.ui.PersonaPreviewFragment;
-import com.thu.persona.WizardPager.ui.ReviewFragment;
-import com.thu.persona.WizardPager.ui.StepPagerStrip;
 
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class PersonaFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mWizardModel = new SandwichWizardModel(this,getActivity());
+        mWizardModel = new PersonaWizardModel(this,getActivity());
 
         if (savedInstanceState != null) {
             mWizardModel.load(savedInstanceState.getBundle("model"));

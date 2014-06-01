@@ -23,26 +23,29 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
+import com.semoncat.wizzardpager.model.Page;
+import com.squareup.picasso.Picasso;
 import com.thu.persona.R;
 import com.thu.persona.WizardPager.PersonaGenerator;
 import com.thu.persona.WizardPager.component.DrawingView;
 import com.thu.persona.WizardPager.component.PathObject;
 import com.thu.persona.WizardPager.component.PersonaPreview;
 import com.thu.persona.WizardPager.dialog.ColorPickerDialog;
-import com.thu.persona.WizardPager.model.Page;
+import com.thu.persona.WizardPager.dialog.ImagePickerDialog;
 import com.thu.persona.WizardPager.model.PersonaStep1;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by SemonCat on 2014/4/30.
  */
-public class PersonaStep1Fragment extends Fragment implements ColorPicker.OnColorChangedListener {
+public class PersonaStep1Fragment extends Fragment implements ColorPicker.OnColorChangedListener,ImagePickerDialog.OnPictureSelectListener {
 
     private Page mPage;
 
-    private Button ColorPickerButton,EraseButton,CleanAllButton;
+    private Button ColorPickerButton,EraseButton,CleanAllButton,WebImageButton;
     private EditText Name,Gender,Age,Job;
     private DrawingView mDrawingView;
 
@@ -123,6 +126,13 @@ public class PersonaStep1Fragment extends Fragment implements ColorPicker.OnColo
     }
 
     private void setupEvent() {
+        WebImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ImagePickerDialog().setListener(PersonaStep1Fragment.this).show(getFragmentManager(), null);
+            }
+        });
+
         ColorPickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,6 +257,17 @@ public class PersonaStep1Fragment extends Fragment implements ColorPicker.OnColo
         });
     }
 
+
+    @Override
+    public void OnLocalPictureSelected(File mFile) {
+        Picasso.with(getActivity()).load(mFile).resize(200,200).into(mDrawingView);
+    }
+
+    @Override
+    public void OnWebPictureSelected(String Url) {
+        Picasso.with(getActivity()).load(Url).resize(200,200).into(mDrawingView);
+    }
+
     @Override
     public void onColorChanged(int i) {
         mDrawingView.setErase(false);
@@ -265,6 +286,8 @@ public class PersonaStep1Fragment extends Fragment implements ColorPicker.OnColo
         View rootView = localInflater.inflate(R.layout.fragment_persona_step_1, container, false);
 
         Icon = (ViewGroup) rootView.findViewById(R.id.Icon);
+
+        WebImageButton = (Button) rootView.findViewById(R.id.WebImageButton);
 
         ColorPickerButton = (Button) rootView.findViewById(R.id.ColorPickerButton);
         EraseButton = (Button) rootView.findViewById(R.id.EraseButton);
