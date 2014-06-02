@@ -41,7 +41,7 @@ import java.util.ArrayList;
 /**
  * Created by SemonCat on 2014/4/30.
  */
-public class PersonaStep1Fragment extends Fragment implements ColorPicker.OnColorChangedListener,ImagePickerDialog.OnPictureSelectListener {
+public class PersonaStep1Fragment extends TextSaverFragment implements ColorPicker.OnColorChangedListener,ImagePickerDialog.OnPictureSelectListener {
 
     private Page mPage;
 
@@ -79,6 +79,12 @@ public class PersonaStep1Fragment extends Fragment implements ColorPicker.OnColo
         super.onActivityCreated(savedInstanceState);
         setupView();
         setupEvent();
+
+        addEditTextToSave("Name",Name);
+        addEditTextToSave("Gender",Gender);
+        addEditTextToSave("Age",Age);
+        addEditTextToSave("Job",Job);
+
 
         if (savedInstanceState!=null){
             final ArrayList<PathObject> mData = savedInstanceState.getParcelableArrayList("mDrawingView");

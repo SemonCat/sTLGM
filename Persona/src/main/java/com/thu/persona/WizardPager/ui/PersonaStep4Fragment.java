@@ -18,7 +18,7 @@ import com.thu.persona.WizardPager.component.PersonaPreview;
 /**
  * Created by SemonCat on 2014/4/30.
  */
-public class PersonaStep4Fragment extends Fragment{
+public class PersonaStep4Fragment extends TextSaverFragment{
 
     private Page mPage;
 
@@ -35,6 +35,12 @@ public class PersonaStep4Fragment extends Fragment{
         super.onActivityCreated(savedInstanceState);
         setupView();
         setupEvent();
+
+        addEditTextToSave("Need01",Need01);
+        addEditTextToSave("Need02",Need02);
+        addEditTextToSave("Need03",Need03);
+        addEditTextToSave("Need04",Need04);
+        addEditTextToSave("Need05",Need05);
 
     }
 

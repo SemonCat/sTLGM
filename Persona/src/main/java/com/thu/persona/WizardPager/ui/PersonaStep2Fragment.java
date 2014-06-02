@@ -23,7 +23,7 @@ import com.thu.persona.WizardPager.dialog.ColorPickerDialog;
 /**
  * Created by SemonCat on 2014/4/30.
  */
-public class PersonaStep2Fragment extends Fragment{
+public class PersonaStep2Fragment extends TextSaverFragment{
 
     private Page mPage;
 
@@ -41,6 +41,8 @@ public class PersonaStep2Fragment extends Fragment{
         setupView();
         setupEvent();
 
+        addEditTextToSave("PersonaTitle",PersonaTitle);
+        addEditTextToSave("PersonaContent",PersonaContent);
     }
 
     private void setupView(){

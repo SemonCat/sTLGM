@@ -1,1 +1,1 @@
-include ':sTLGM', ':digi256', ':tlgm2048', ':Persona'  ,':lineMatch'
+include ':sTLGM', ':digi256', ':tlgm2048', ':Persona', ':PersonaApp',':lineMatch', ':BMC', ':BMCApp'

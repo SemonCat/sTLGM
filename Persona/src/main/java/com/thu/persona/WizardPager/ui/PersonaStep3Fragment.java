@@ -17,7 +17,7 @@ import com.thu.persona.WizardPager.component.PersonaPreview;
 /**
  * Created by SemonCat on 2014/4/30.
  */
-public class PersonaStep3Fragment extends Fragment{
+public class PersonaStep3Fragment extends TextSaverFragment{
 
     private Page mPage;
 
@@ -36,6 +36,17 @@ public class PersonaStep3Fragment extends Fragment{
         setupView();
         setupEvent();
 
+        addEditTextToSave("GoodThings01",GoodThings01);
+        addEditTextToSave("GoodThings02",GoodThings02);
+        addEditTextToSave("GoodThings03",GoodThings03);
+        addEditTextToSave("GoodThings04",GoodThings04);
+        addEditTextToSave("GoodThings05",GoodThings05);
+
+        addEditTextToSave("BadThings01",BadThings01);
+        addEditTextToSave("BadThings02",BadThings02);
+        addEditTextToSave("BadThings03",BadThings03);
+        addEditTextToSave("BadThings04",BadThings04);
+        addEditTextToSave("BadThings05",BadThings05);
     }
 
     private void setupView(){

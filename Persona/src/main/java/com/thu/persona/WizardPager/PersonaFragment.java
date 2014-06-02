@@ -104,8 +104,15 @@ public class PersonaFragment extends Fragment implements
                         public Dialog onCreateDialog(Bundle savedInstanceState) {
                             return new AlertDialog.Builder(getActivity())
                                     .setMessage("確定送出嗎？")
+                                    .setNeutralButton("發布",new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            OnDataRelease(mWizardModel.findByKey("Step5").getData().getByteArray("Result"));
+
+                                        }
+                                    })
                                     .setPositiveButton(
-                                            "送出",
+                                            "上傳",
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -294,6 +301,11 @@ public class PersonaFragment extends Fragment implements
 
     protected void OnDataSubmit(byte[] mResult){
 
+    }
+
+    protected void OnDataRelease(byte[] mResult){
+        getActivity().getSharedPreferences("TextSaver", Context.MODE_PRIVATE)
+                .edit().clear().commit();
     }
 
     @Override

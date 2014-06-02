@@ -24,7 +24,7 @@ import org.w3c.dom.Text;
 /**
  * Created by SemonCat on 2014/4/30.
  */
-public class PersonaStep5Fragment extends Fragment{
+public class PersonaStep5Fragment extends TextSaverFragment{
 
     private Page mPage;
 
@@ -62,6 +62,12 @@ public class PersonaStep5Fragment extends Fragment{
         super.onActivityCreated(savedInstanceState);
         setupView();
         setupEvent();
+
+        addEditTextToSave("Attr_Title01",Attr_Title01);
+        addEditTextToSave("Attr_Title02",Attr_Title02);
+        addEditTextToSave("Attr_Title03",Attr_Title03);
+        addEditTextToSave("Attr_Title04",Attr_Title04);
+        addEditTextToSave("Attr_Title05",Attr_Title05);
 
     }
 
