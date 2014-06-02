@@ -52,21 +52,24 @@ public class PersonaPreview extends View{
 
         mPaint.setColor(Color.BLACK);
         mPaint.setStrokeWidth(LineWidth);
-        //畫邊框
-        canvas.drawLine(LineWidth,0,LineWidth,canvas.getHeight(),mPaint);
-        canvas.drawLine(canvas.getWidth()-LineWidth,0,canvas.getWidth()-LineWidth,canvas.getHeight(),mPaint);
+        float centerLineWidth = LineWidth/2f;
 
-        canvas.drawLine(0,LineWidth,canvas.getWidth(),LineWidth,mPaint);
-        canvas.drawLine(0,canvas.getHeight()-LineWidth,canvas.getWidth(),canvas.getHeight()-LineWidth,mPaint);
+
+        //畫邊框
+        canvas.drawLine(centerLineWidth,0,centerLineWidth,canvas.getHeight(),mPaint);
+        canvas.drawLine(canvas.getWidth()-centerLineWidth,0,canvas.getWidth()-centerLineWidth,canvas.getHeight(),mPaint);
+
+        canvas.drawLine(0,centerLineWidth,canvas.getWidth(),centerLineWidth,mPaint);
+        canvas.drawLine(0,canvas.getHeight()-centerLineWidth,canvas.getWidth(),canvas.getHeight()-centerLineWidth,mPaint);
 
         //畫區隔
         //上
-        canvas.drawLine(0,canvas.getHeight()/2,canvas.getWidth(),canvas.getHeight()/2,mPaint);
-        canvas.drawLine(canvas.getWidth()/4,0,canvas.getWidth()/4,canvas.getHeight()/2,mPaint);
-        canvas.drawLine(canvas.getWidth()*3/4,0,canvas.getWidth()*3/4,canvas.getHeight()/2,mPaint);
+        canvas.drawLine(0,canvas.getHeight()/2f,canvas.getWidth(),canvas.getHeight()/2f,mPaint);
+        canvas.drawLine(canvas.getWidth()/4f,0,canvas.getWidth()/4,canvas.getHeight()/2f,mPaint);
+        canvas.drawLine(canvas.getWidth()*3/4f,0,canvas.getWidth()*3/4f,canvas.getHeight()/2f,mPaint);
         //下
-        canvas.drawLine(canvas.getWidth()*3/8,canvas.getHeight()/2,canvas.getWidth()*3/8,canvas.getHeight(),mPaint);
-        canvas.drawLine(canvas.getWidth()*6/8,canvas.getHeight()/2,canvas.getWidth()*6/8,canvas.getHeight(),mPaint);
+        canvas.drawLine(canvas.getWidth()*3/8f,canvas.getHeight()/2f,canvas.getWidth()*3/8f,canvas.getHeight(),mPaint);
+        canvas.drawLine(canvas.getWidth()*6/8f,canvas.getHeight()/2f,canvas.getWidth()*6/8f,canvas.getHeight(),mPaint);
     }
 
     private void drawHighLight(Canvas canvas){
