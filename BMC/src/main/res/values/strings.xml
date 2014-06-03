@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BMC</string>
+
+    <string name="BMC_KeyPartners_Label">Key Partners</string>
 </resources>

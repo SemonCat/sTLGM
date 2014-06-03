@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal" android:layout_width="match_parent"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@android:color/background_light">
 
@@ -11,15 +12,16 @@
         android:orientation="vertical">
 
         <com.semoncat.bmc.component.BMCPreview
-            android:id="@+id/PersonaPreviewStep2"
+            android:id="@+id/BMCPreview"
             android:layout_width="240dp"
             android:layout_height="150dp"
             android:layout_margin="30dp"/>
 
-        <TextView style="@style/WizardPageTitle"
-                  android:gravity="center"
-                  android:textSize="20dp"
-                  android:text="Behavior\n主要行為"/>
+        <TextView
+            style="@style/WizardPageTitle"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="@string/BMC_KeyPartners_Label"/>
 
         <TextView
             android:layout_width="240dp"
@@ -42,38 +44,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <TextView style="@style/WizardFormLabel"
-                              android:text="大標題" />
+                    <TextView
+                        style="@style/WizardFormLabel"
+                        android:text="@string/BMC_KeyPartners_Label"/>
 
-                    <EditText android:id="@+id/PersonaTitle"
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:saveEnabled="false"
-                              android:singleLine="true"
-                              android:hint="你只能打 20 個字。"
-                              android:maxLength="20"
-                              android:layout_marginBottom="16dp" />
+                    <com.semoncat.bmc.component.UEditText
+                        android:id="@+id/BMC_KeyPartners "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:saveEnabled="false"
+                        android:singleLine="false"
+                        android:layout_marginBottom="16dp"/>
 
-                    <TextView style="@style/WizardFormLabel"
-                              android:text="敘述" />
-
-                    <EditText android:id="@+id/PersonaContent"
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:saveEnabled="false"
-                              android:maxLength="300"
-                              android:hint="說明一下你的角色吧！"
-                              android:layout_marginBottom="16dp"/>
 
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
     </LinearLayout>
-
 
 
 </LinearLayout>

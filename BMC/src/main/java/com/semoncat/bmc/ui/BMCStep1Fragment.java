@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.semoncat.bmc.R;
+import com.semoncat.bmc.component.BMCPreview;
 import com.semoncat.wizzardpager.model.Page;
 
 /**
@@ -14,13 +15,16 @@ public class BMCStep1Fragment extends StepFragment{
 
     private static final String TAG = BMCStep1Fragment.class.getName();
 
+    private BMCPreview mBMCPreview;
+
     public BMCStep1Fragment(Page mPage) {
         super(mPage);
     }
 
     @Override
     protected void setupView(View rootView) {
-
+        mBMCPreview = (BMCPreview) rootView.findViewById(R.id.BMCPreview);
+        mBMCPreview.setHighLight(0,true);
     }
 
     @Override

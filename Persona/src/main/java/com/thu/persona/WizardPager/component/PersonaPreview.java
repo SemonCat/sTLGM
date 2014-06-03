@@ -65,7 +65,7 @@ public class PersonaPreview extends View{
         //畫區隔
         //上
         canvas.drawLine(0,canvas.getHeight()/2f,canvas.getWidth(),canvas.getHeight()/2f,mPaint);
-        canvas.drawLine(canvas.getWidth()/4f,0,canvas.getWidth()/4,canvas.getHeight()/2f,mPaint);
+        canvas.drawLine(canvas.getWidth()/4f,0,canvas.getWidth()/4f,canvas.getHeight()/2f,mPaint);
         canvas.drawLine(canvas.getWidth()*3/4f,0,canvas.getWidth()*3/4f,canvas.getHeight()/2f,mPaint);
         //下
         canvas.drawLine(canvas.getWidth()*3/8f,canvas.getHeight()/2f,canvas.getWidth()*3/8f,canvas.getHeight(),mPaint);
