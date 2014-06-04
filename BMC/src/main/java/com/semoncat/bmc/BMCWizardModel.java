@@ -17,22 +17,30 @@
 package com.semoncat.bmc;
 
 import android.content.Context;
-import com.semoncat.bmc.model.BMCStep1;
+import com.semoncat.bmc.model.*;
 import com.semoncat.wizzardpager.model.AbstractWizardModel;
 import com.semoncat.wizzardpager.model.PageList;
 import com.semoncat.wizzardpager.ui.PageFragmentCallbacks;
 
 public class BMCWizardModel extends AbstractWizardModel {
-	public BMCWizardModel(PageFragmentCallbacks mPageFragmentCallbacks, Context context) {
-		super(mPageFragmentCallbacks,context);
+    public BMCWizardModel(PageFragmentCallbacks mPageFragmentCallbacks, Context context) {
+        super(mPageFragmentCallbacks, context);
 
-	}
+    }
 
-	@Override
-	protected PageList onNewRootPageList() {
+    @Override
+    protected PageList onNewRootPageList() {
 
-		return new PageList(
-                new BMCStep1(getPageFragmentCallbacks(),this,"Step1")
-                );
-	}
+        return new PageList(
+                new BMCStep1(getPageFragmentCallbacks(), this, "Step1"),
+                new BMCStep2(getPageFragmentCallbacks(), this, "Step2"),
+                new BMCStep3(getPageFragmentCallbacks(), this, "Step3"),
+                new BMCStep4(getPageFragmentCallbacks(), this, "Step4"),
+                new BMCStep5(getPageFragmentCallbacks(), this, "Step5"),
+                new BMCStep6(getPageFragmentCallbacks(), this, "Step6"),
+                new BMCStep7(getPageFragmentCallbacks(), this, "Step7"),
+                new BMCStep8(getPageFragmentCallbacks(), this, "Step8"),
+                new BMCStep9(getPageFragmentCallbacks(), this, "Step9")
+        );
+    }
 }

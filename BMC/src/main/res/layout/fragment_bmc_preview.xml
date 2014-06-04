@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/background_light">
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text=""
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+
+    <uk.co.senab.photoview.PhotoView
+        android:id="@+id/BMC"
+        android:layout_width="640dp"
+        android:layout_height="400dp"
+        android:maxWidth="640dp"
+        android:maxHeight="400dp"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

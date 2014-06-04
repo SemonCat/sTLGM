@@ -12,15 +12,15 @@ import java.util.ArrayList;
 /**
  * Created by SemonCat on 2014/4/30.
  */
-public class BMCStep1 extends Page {
+public class BMCStep7 extends Page {
 
-    public BMCStep1(PageFragmentCallbacks mPageFragmentCallbacks, ModelCallbacks callbacks, String title) {
+    public BMCStep7(PageFragmentCallbacks mPageFragmentCallbacks, ModelCallbacks callbacks, String title) {
         super(mPageFragmentCallbacks, callbacks, title);
     }
 
     @Override
     public Fragment createFragment() {
-        return new BMCStepFragment(this).setupStep(1);
+        return new BMCStepFragment(this).setupStep(7);
     }
 
     @Override

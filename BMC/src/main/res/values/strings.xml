@@ -2,4 +2,32 @@
     <string name="app_name">BMC</string>
 
     <string name="BMC_KeyPartners_Label">Key Partners</string>
+    <string name="BMC_KeyPartners_Content">誰是關鍵供應商和夥伴？</string>
+
+    <string name="BMC_KeyActivities_Label">Key Activities</string>
+    <string name="BMC_KeyActivities_Content">營運的必辦事項有哪些？</string>
+
+
+    <string name="BMC_KeyResources_Label">Key Resources</string>
+    <string name="BMC_KeyResources_Content">需要什麼資產和資源？</string>
+
+    <string name="BMC_ValueProposition_Label">Value Proposition</string>
+    <string name="BMC_ValueProposition_Content">我們為顧客解決了什麼問題？</string>
+
+    <string name="BMC_CustomerRelationships_Label">Customer Relationships</string>
+    <string name="BMC_CustomerRelationships_Content">如何與顧客建立關係？</string>
+
+    <string name="BMC_Channels_Label">Channels</string>
+    <string name="BMC_Channels_Content">如何有效接觸顧客？</string>
+
+    <string name="BMC_CustomerSegments_Label">Customer Segments</string>
+    <string name="BMC_CustomerSegments_Content">誰是最重要的顧客？</string>
+
+    <string name="BMC_CostStructure_Label">Cost Structure</string>
+    <string name="BMC_CostStructure_Content">既定成本、最昂貴的活動有哪些？</string>
+
+    <string name="BMC_RevenueStreams_Label">Revenue Streams</string>
+    <string name="BMC_RevenueStreams_Content">顧客付錢購買何價值、如何付費？</string>
+
+
 </resources>

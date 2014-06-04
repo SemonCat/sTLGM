@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 /**
+ * 這是一個客製化的 EditText ，當使用者按下換行鍵時，會自動加上 ● ，
+ * 刪除到 ● 時，會自動刪除一整行，一個簡單的 ul li 實現。
  * Created by SemonCat on 2014/6/3.
  */
 public class UEditText extends EditText {
@@ -103,13 +105,11 @@ public class UEditText extends EditText {
                     int startIndex = endIndex - li.length() - 1;
 
                     String lastWord = getText().subSequence(startIndex, endIndex).toString();
-                    Log.d(TAG, "LastWord:" + lastWord);
                     if (lastWord.equals("\n" + li)) {
-                        Log.d(TAG, "Equals");
                         getText().delete(startIndex, endIndex);
                         return true;
                     }
-                }else{
+                } else {
                     return true;
                 }
 

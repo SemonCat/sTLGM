@@ -109,7 +109,7 @@ public class BMCFragment extends Fragment implements
                                     .setNeutralButton("發布",new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-
+                                            finish();
 
                                         }
                                     })
@@ -298,6 +298,10 @@ public class BMCFragment extends Fragment implements
     public void onDestroy() {
         super.onDestroy();
         mWizardModel.unregisterListener(this);
+    }
+
+    protected void finish(){
+
     }
 
     @Override

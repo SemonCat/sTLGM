@@ -18,16 +18,18 @@
             android:layout_margin="30dp"/>
 
         <TextView
+            android:id="@+id/PageTitle"
             style="@style/WizardPageTitle"
             android:gravity="center"
             android:textSize="20dp"
             android:text="@string/BMC_KeyPartners_Label"/>
 
         <TextView
+            android:id="@+id/PageContent"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
-            android:text="請想一句適合這個對象的 SLOGAN，並描述他的主要行為。"/>
+            android:text="@string/BMC_KeyPartners_Content"/>
     </LinearLayout>
 
     <LinearLayout
@@ -50,11 +52,12 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/PageSmallTitle"
                         style="@style/WizardFormLabel"
                         android:text="@string/BMC_KeyPartners_Label"/>
 
                     <com.semoncat.bmc.component.UEditText
-                        android:id="@+id/BMC_KeyPartners "
+                        android:id="@+id/PageEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:saveEnabled="false"

@@ -17,7 +17,7 @@ android {
     buildToolsVersion "19.1.0"
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
@@ -34,4 +34,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v13:+'
     compile "com.github.semoncat.wizzardpager:library:+"
+    compile 'com.github.chrisbanes.photoview:library:+'
 }
